@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>test.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <servlet-class>by.epamtc.poliukov.controller.DispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <url-pattern>/DispatcherServlet</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <description>Force the request character encoding to UTF-8</description>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>by.epamtc.poliukov.controller.filter.EncodingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/DispatcherServlet</url-pattern>
+  </filter-mapping>
+
+      <listener>
+          <listener-class>by.epamtc.poliukov.controller.listener.ConnectionPoolListener</listener-class>
+      </listener>
+
+      <error-page>
+          <location>/error.jsp</location>
+      </error-page>
+
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+  </jsp-config>
+</web-app>

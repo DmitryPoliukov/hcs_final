@@ -1,0 +1,22 @@
+package by.epamtc.poliukov.dao;
+
+import by.epamtc.poliukov.entity.Subquery;
+import by.epamtc.poliukov.entity.WorkRequest;
+import by.epamtc.poliukov.exception.DaoException;
+
+import java.util.List;
+
+public interface WorkRequestDao {
+
+    boolean addWorkRequest(WorkRequest request) throws DaoException;
+
+    boolean addSubqueries(Subquery subquery, int requestID) throws DaoException;
+
+    List<Subquery> getAllSubqueriesForRequest(int requestId) throws DaoException;
+
+    List<WorkRequest> getAllRequestForTenantByLogin(String login) throws DaoException;
+
+    List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws DaoException;
+
+    boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws DaoException;
+}

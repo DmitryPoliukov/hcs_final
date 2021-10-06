@@ -1,0 +1,281 @@
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Poliukov_fin</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">HOME</a>
+    <div class="collapse navbar-collapse" id="myNavbar">
+    <ul class="nav navbar-nav navbar-right">
+    <c:if test="${sessionScope.get('user') == null}">
+        <li class="sign-up">
+        <a data-toggle="modal" data-target="#register" href="#">
+        <span class="glyphicon glyphicon-user"> </span>
+        | SIGN UP |</a>
+        </li>
+        <li><a data-toggle="modal" data-target="#login" href="#">
+        <span class="glyphicon glyphicon-log-in"></span>
+        |LOGIN |</a>
+        </li>
+    </c:if>
+        <c:if test="${sessionScope.get('user') != null}">
+           <li class="sign-up">
+               <a href="DispatcherServlet?command=view-user&username=${sessionScope.get('user').login}">
+                    <span class="glyphicon glyphicon-user"></span> ${sessionScope.get('user').login}</a>
+            </li>
+            <li><a href="DispatcherServlet?command=log-out">
+                <span class="glyphicon glyphicon-log-out"></span>|LOG OUT |</a>
+            </li>
+            <li> <a href="DispatcherServlet?command=add-tenant"> MAKE WORK REQUEST |</a>
+
+            </li>
+        </c:if>
+
+
+<%--    <li><a href="DispatcherServlet?command=change-language&language=en">| English |</a></li>--%>
+<%--    <li><a href="DispatcherServlet?command=change-language&language=ru">| Русский |</a></li>--%>
+    </ul>
+    </div>
+    </div>
+    </nav>
+
+
+
+<div id="login" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+                <h4 class="modal-title">SIGN IN</h4>
+            </div>
+            <div class="modal-body text-center">
+                <form name="loginForm" class="form-horizontal" method="post" action="DispatcherServlet" onsubmit="return validateForm();">
+                    <input type="hidden" name="command" value="login"/>
+                    <span id="unameDemo" class="red"></span>
+                    <div class="form-group">
+                        <label for="username" class="col-sm-3 control-label">username</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="username" placeholder="username"
+                                   name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password3" class="col-sm-3 control-label">username</label>
+                        <span id="pswDemo" class="red"></span>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="password3" placeholder="username"
+                                   name="pass" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-7">
+                            <button type="submit" class="btn btn-primary">signIn</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+    function validateForm() {
+    let uname, psw;
+    let unameText, pswText;
+    let result = true;
+    uname = document.forms["loginForm"]["username"].value;
+        psw = document.forms["loginForm"]["pass"].value;
+    const unamePattern = /[a-zA-Z_0-9]{3,16}/;
+    if (!unamePattern.test(uname)) {
+            unameText = "Username should contain only latin symbols, digits and _";
+            document.getElementById("unameDemo").innerHTML = unameText;
+            result = false;
+        } else if (uname.length < 3) {
+            unameText = "Nickname should be at least 3 symbols.";
+            document.getElementById("unameDemo").innerHTML = unameText;
+            result = false;
+        } else if (uname.length > 14) {
+            unameText = "Username should be less then 15 symbols.";
+            document.getElementById("unameDemo").innerHTML = unameText;
+            result = false;
+        } else {
+            unameText = "";
+            document.getElementById("unameDemo").innerHTML = unameText;
+        }
+    const passPattern = /[a-zA-Z0-9_]{6,32}/;
+    if (psw.length < 4) {
+            pswText = "Password should be at least 4 symbols";
+            document.getElementById("pswDemo").innerHTML = pswText;
+            result = false;
+        } else if (!passPattern.test(psw)) {
+            pswText = "Password should contain only latin symbols, digits and _";
+            document.getElementById("pswDemo").innerHTML = pswText;
+            result = false;
+        } else if (psw.length > 32) {
+            pswText = "Password should be less then 32 symbols";
+            document.getElementById("pswDemo").innerHTML = pswText;
+            result = false;
+        }
+        return result;
+    }
+</script>
+
+<div id="register" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+                <h4 class="modal-title" id="myModalLabel">register</h4>
+            </div>
+            <div class="modal-body text-center">
+                <form name="registerForm" class="form-horizontal" method="post" action="DispatcherServlet"  onsubmit="return validateReg();">
+                    <input type="hidden" name="command" value="register"/>
+                    <div class="form-group">
+                        <label for="inputUsername" class="col-sm-3 control-label">username</label>
+                        <span id="unameDemo2" class="red"></span>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputUsername" placeholder="username"
+                                   name="login" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label">email</label>
+                        <span id="emailDemo2" class="red"></span>
+                        <div class="col-sm-7">
+                            <input type="email" class="form-control" id="email" placeholder="email"
+                                   name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">name</label>
+                        <div class="col-sm-7">
+                            <input type="name" class="form-control" id="name" placeholder="name"
+                                   name="name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="surname" class="col-sm-3 control-label">surname</label>
+                        <div class="col-sm-7">
+                            <input type="surname" class="form-control" id="surname" placeholder="surname"
+                                   name="surname" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="second_name" class="col-sm-3 control-label">secondName</label>
+                        <div class="col-sm-7">
+                            <input type="second_name" class="form-control" id="second_name" placeholder="second_name"
+                                   name="second_name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-3 control-label">phone</label>
+                        <div class="col-sm-7">
+                            <input type="phone" class="form-control" id="phone" placeholder="phone"
+                                   name="phone" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">password</label>
+                        <span id="pswDemo2" class="red"></span>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="inputPassword3" placeholder="password"
+                                   name="password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword4" class="col-sm-3 control-label">repeatPassword</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="inputPassword4" placeholder="repeatPassword"
+                                   name="password2" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-7">
+                            <button type="submit" class="btn btn-primary">register</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script  language="javascript">
+    function validateReg() {
+    let uname, email, psw, psw2;
+    let unameText, emailText, pswText;
+    let result = true;
+    uname = document.forms["registerForm"]["username"].value;
+        email = document.forms["registerForm"]["email"].value;
+        psw = document.forms["registerForm"]["pass"].value;
+        psw2 = document.forms["registerForm"]["pass2"].value;
+    const unamePattern = /[a-zA-Z_0-9]{3,15}/;
+    if (!unamePattern.test(uname)) {
+            unameText = "Username should contain only latin symbols, digits and _";
+            document.getElementById("unameDemo2").innerHTML = unameText;
+            result = false;
+        } else if (uname.length < 3) {
+            unameText = "Username should be at least 3 symbols.";
+            document.getElementById("unameDemo2").innerHTML = unameText;
+            result = false;
+        } else if (uname.length > 14) {
+            unameText = "Username should be less then 15 symbols.";
+            document.getElementById("unameDemo2").innerHTML = unameText;
+            result = false;
+        } else {
+            unameText = "";
+            document.getElementById("unameDemo2").innerHTML = unameText;
+        }
+    const emailPattern = /[a-zA-Z0-9_]+@[A-Za-z0-9].+/;
+    if (!emailPattern.test(email)) {
+            emailText = "Email should contain latin symbols, @, digits, . and _";
+            document.getElementById("emailDemo2").innerHTML = emailText;
+            return false;
+        } else {
+            unameText = "";
+            document.getElementById("emailDemo2").innerHTML = unameText;
+        }
+    const passPattern = /[a-zA-Z0-9_]{6,32}/;
+    if (psw.length < 6) {
+            pswText = "Password should be at least 6 symbols";
+            document.getElementById("pswDemo2").innerHTML = pswText;
+            result = false;
+        } else if (!passPattern.test(psw)) {
+            pswText = "Password should contain only latin symbols, digits and _";
+            document.getElementById("pswDemo2").innerHTML = pswText;
+            result = false;
+        } else if (psw.length > 32) {
+            pswText = "Password should be less then 32 symbols";
+            document.getElementById("pswDemo2").innerHTML = pswText;
+            result = false;
+        } else if (psw !== psw2) {
+            pswText = "Passwords should be the same";
+            document.getElementById("pswDemo2").innerHTML = pswText;
+            result = false;
+        } else {
+            unameText = "";
+            document.getElementById("pswDemo2").innerHTML = unameText;
+        }
+        return result;
+    }
+</script>
+
+
+
