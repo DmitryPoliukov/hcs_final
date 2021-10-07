@@ -19,4 +19,6 @@ public interface UtilDao {
     Integer takeRequestStatusIdByStatusName(String statusName) throws DaoException;
 
     boolean updateUserRole(String login, Integer roleId) throws DaoException;
+
+   // не надо  List<String> takeTenantInfo(String login) throws DaoException;
 }

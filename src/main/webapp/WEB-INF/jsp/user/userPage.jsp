@@ -2,6 +2,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
+<jsp:useBean id="tenant" class="by.epamtc.poliukov.entity.Tenant" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <fmt:setLocale value="${sessionScope.language}"/>
@@ -70,6 +71,9 @@
                             <td>${user.phone}</td>
 
                         </tr>
+<c:if test='${sessionScope.get("user").role eq "tenant"}'>
+
+
                         </tbody>
                     </table>
                 </div>

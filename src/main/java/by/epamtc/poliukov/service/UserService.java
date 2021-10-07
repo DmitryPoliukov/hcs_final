@@ -19,9 +19,9 @@ public interface UserService {
 
     User authorise(String login, byte[] password) throws ServiceException, ServiceAuthorizationException;
 
-    List<Tenant> getAllTenants() throws ServiceException;
+  //  List<Tenant> getAllTenants() throws ServiceException;
 
-    List<Employee> getAllEmployee() throws ServiceException;
+  //  List<Employee> getAllEmployee() throws ServiceException;
 
     User getUserByLogin(String login) throws ServiceException, ServiceAuthorizationException;
 
@@ -29,4 +29,5 @@ public interface UserService {
 
     void updateBlockingEmployee(String login, boolean isBlocked) throws ServiceException, ServiceAuthorizationException;
 
+  //  List<String> getTenantInfo(String login) throws ServiceException, ServiceAuthorizationException;
 }

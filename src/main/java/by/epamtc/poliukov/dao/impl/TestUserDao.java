@@ -41,6 +41,16 @@ public class TestUserDao {
         }
 
  */
+        /*
+        try {
+            List<String> list = utilDao.takeTenantInfo(29);
+            System.out.println(list.toString());
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+
+         */
+
 
 
 
@@ -89,7 +99,7 @@ public class TestUserDao {
             System.out.println("delete error");
         }
 */
-
+/*
 
         User getByLoginUser = null;
         try {
@@ -98,6 +108,8 @@ public class TestUserDao {
             e.printStackTrace();
         }
         System.out.println(getByLoginUser);
+
+ */
 
 
 

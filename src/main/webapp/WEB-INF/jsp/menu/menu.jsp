@@ -21,7 +21,7 @@
         </li>
         <li><a data-toggle="modal" data-target="#login" href="#">
         <span class="glyphicon glyphicon-log-in"></span>
-        |LOGIN |</a>
+        | LOGIN |</a>
         </li>
     </c:if>
         <c:if test="${sessionScope.get('user') != null}">
@@ -30,12 +30,15 @@
                     <span class="glyphicon glyphicon-user"></span> ${sessionScope.get('user').login}</a>
             </li>
             <li><a href="DispatcherServlet?command=log-out">
-                <span class="glyphicon glyphicon-log-out"></span>|LOG OUT |</a>
+                <span class="glyphicon glyphicon-log-out"></span>| LOG OUT |</a>
             </li>
-            <li> <a href="DispatcherServlet?command=add-tenant"> MAKE WORK REQUEST |</a>
+            <li> <a href="DispatcherServlet?command=add-tenant">| MAKE WORK REQUEST |</a>
 
             </li>
         </c:if>
+    <li> <a href="DispatcherServlet?command=show-employee">| OUR EMPLOYEES |</a>
+
+    </li>
 
 
 <%--    <li><a href="DispatcherServlet?command=change-language&language=en">| English |</a></li>--%>

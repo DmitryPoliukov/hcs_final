@@ -1,6 +1,7 @@
 package by.epamtc.poliukov.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class User implements Serializable {
@@ -15,6 +16,68 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String role;
+
+
+
+    private String city;
+    private String address;
+
+    private int valuePersonHour;
+    private String information;
+    private boolean isBlocked;
+    private List<String> employeeWorkTypeName;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getValuePersonHour() {
+        return valuePersonHour;
+    }
+
+    public void setValuePersonHour(int valuePersonHour) {
+        this.valuePersonHour = valuePersonHour;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public List<String> getEmployeeWorkTypeName() {
+        return employeeWorkTypeName;
+    }
+
+    public void setEmployeeWorkTypeName(List<String> employeeWorkTypeName) {
+        this.employeeWorkTypeName = employeeWorkTypeName;
+    }
 
     public String getRole() {
         return role;
@@ -88,31 +151,36 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User that = (User) o;
-        return userId == that.userId &&
-                Objects.equals(role, that.role) &&
-                Objects.equals(login, that.login) &&
-                Objects.equals(password, that.password) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(secondName, that.secondName) &&
-                Objects.equals(surname, that.surname) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(phone, that.phone);
+        User user = (User) o;
+        return userId == user.userId &&
+                valuePersonHour == user.valuePersonHour &&
+                isBlocked == user.isBlocked &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(secondName, user.secondName) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(phone, user.phone) &&
+                Objects.equals(role, user.role) &&
+                Objects.equals(city, user.city) &&
+                Objects.equals(address, user.address) &&
+                Objects.equals(information, user.information) &&
+                Objects.equals(employeeWorkTypeName, user.employeeWorkTypeName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, login, password, name, secondName, surname, email, phone, role);
+        return Objects.hash(userId, login, password, name, secondName, surname, email, phone, role, city, address, valuePersonHour, information, isBlocked, employeeWorkTypeName);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() +"{" +
+        return "User{" +
                 "userId=" + userId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
@@ -121,7 +189,13 @@ public class User implements Serializable {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", role=" + role +
-                '}' + System.lineSeparator();
+                ", role='" + role + '\'' +
+                ", city='" + city + '\'' +
+                ", address='" + address + '\'' +
+                ", valuePersonHour=" + valuePersonHour +
+                ", information='" + information + '\'' +
+                ", isBlocked=" + isBlocked +
+                ", employeeWorkTypeName=" + employeeWorkTypeName +
+                '}';
     }
 }

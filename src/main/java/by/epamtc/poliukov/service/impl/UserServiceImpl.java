@@ -3,8 +3,6 @@ package by.epamtc.poliukov.service.impl;
 import by.epamtc.poliukov.dao.DaoFactory;
 import by.epamtc.poliukov.dao.UserDao;
 import by.epamtc.poliukov.dao.UtilDao;
-import by.epamtc.poliukov.entity.Employee;
-import by.epamtc.poliukov.entity.Tenant;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
@@ -17,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 import static by.epamtc.poliukov.dao.ColumnName.*;
 
@@ -91,7 +88,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = daoUser.getUserByLogin(login);
             utilDao.updateUserRole(login, 2); //roleId for tenant = 2
-            daoUser.addTenant(user.getUserId(), city, address);
+            daoUser.addTenantInfo(user.getUserId(), city, address);
         } catch (DaoException e) {
             throw new ServiceException("Error in source", e);
         }
@@ -119,7 +116,7 @@ public class UserServiceImpl implements UserService {
         logger.info(user.toString() + "was authorised");
         return user;
     }
-
+/*
     @Override
     public List<Tenant> getAllTenants() throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
@@ -158,6 +155,8 @@ public class UserServiceImpl implements UserService {
         }
         return employees;
     }
+
+ */
 
     @Override
     public User getUserByLogin(String login) throws ServiceException, ServiceAuthorizationException {
@@ -203,7 +202,22 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Failed update employee status", e);
         }
     }
+/*
+    @Override
+    public List<String> getTenantInfo(String login) throws ServiceException, ServiceAuthorizationException {
+        if(!Validator.validate(login)) {
+            throw new ServiceAuthorizationException("Wrong login");
+        }
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        List<String> result;
+        try {
+            result = utilDao.takeTenantInfo(login);
+        } catch (DaoException e) {
+            throw new ServiceException("Error in source!", e);
+        }
+        return result;
+    }
 
-
-
+ */
 }

@@ -43,6 +43,7 @@ public class UtilDaoImpl implements UtilDao {
     private final static String SQL_UPDATE_ROLE_BY_LOGIN = "UPDATE users SET role_id_fk = ? WHERE login = ?";
 
 
+
     @Override
     public String takeRoleIdByRoleName(String role) throws DaoException {
         String roleId = null;
@@ -214,4 +215,35 @@ public class UtilDaoImpl implements UtilDao {
             ConnectionPool.closeResource(connection, st);
         }
     }
+
+
+    /*
+    @Override
+    public List<String> takeTenantInfo(String login) throws DaoException {
+        List<String> tenantInfo = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_TENANT_INFO);
+            st.setString(1, login);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                tenantInfo.add(rs.getString(ColumnName.CITY));
+                tenantInfo.add(rs.getString(ColumnName.ADDRESS));
+
+            }
+            return tenantInfo;
+
+        } catch (SQLException e) {
+            throw new DaoException("sql error", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("pool connection error");
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
+ */
 }

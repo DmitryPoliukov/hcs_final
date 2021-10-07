@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Employee extends User {
     private int valuePersonHour;
     private String information;
-    //private String[] images;
+
     private boolean isBlocked;
     private List<String> employeeWorkTypeName;
 

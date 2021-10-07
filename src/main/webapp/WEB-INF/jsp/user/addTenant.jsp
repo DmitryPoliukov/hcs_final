@@ -29,20 +29,31 @@
 
 <div class="container">
     <h2>Please, enter additional information</h2>
-    <form action="DispatcherServlet" method="post">
-        <label><input type="radio" name="command" value="add-tenant" checked/>add tenant</label>
 
-        <input type="hidden" name="login" value="${user.login}"/>
+<c:if test="${requestScope.get('successMessage')==null}">
+    <form action="DispatcherServlet" method="post">
+        <p>
+            <label><input type="radio" name="command" value="add-tenant" checked/>add tenant</label>
+        </p>
+        <label for="login">login<br></label>
+        <input id="login" class="form-control" type="text" name="login" required/>
+        <br/>
+
         <label for="city">city<br></label>
-        <input id="city" class="form-control" type="text" name="city"/>
+        <input id="city" class="form-control" type="text" name="city" required/>
         <br/>
         <label for="address">address<br></label>
         <input id="address" class="form-control" type="text" name="address" required/>
         <br/>
 
-
         <button type="submit" class="btn btn-primary">submit</button>
     </form>
+</c:if>
+    <c:if test="${requestScope.get('successMessage')!=null}">
+        <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
+        <c:remove var="successMessage" scope="request"/>
+    </c:if>
+
 
 
 
