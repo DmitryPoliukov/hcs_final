@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>${allEmployees}</title>
+    <title>Our employees</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -20,32 +20,40 @@
 <body onload="active()">
 
 <c:import url="../menu/menu.jsp"/>
-<script language="javascript">
-    function active() {
-        document.getElementById("employees-page").className = "active";
-    }
-</script>
+
+
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <%-- <c:import url="../menu/adminMenu.jsp"/> --%>
-    <div class="col-sm-8 text-left mainContent">
-        <h1>${allParticipantsList}</h1>
+    <div class="col text-center mainContent">
+        <h1>Our employees</h1>
 
-
-        <table class="table table-stripped">
+        <table class="table table-hover">
             <thead>
-            <tr class="thead-dark">
-                <th>${name}</th>
-                <th>${surname}</th>
-                <th>${second_name}</th>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Second name</th>
+                <th>Surname</th>
+                <th>email</th>
+                <th>Phone</th>
+                <th>Cost per person hour</th>
+                <th>Other information</th>
+                <th>Specialization</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="employee" items="${requestScope.all_employees}">
                 <tr>
-                        <c:out value="${employee.name}"/> </a></td>
-                    <td>${employee.surname}</td>
+                    <td>${employee.login}</td>
+                    <td>${employee.name}</td>
                     <td>${employee.secondName}</td>
+                    <td>${employee.surname}</td>
+                    <td>${employee.email}</td>
+                    <td>${employee.phone}</td>
+                    <td>${employee.valuePersonHour}</td>
+                    <td>${employee.information}</td>
+                    <td>${employee.employeeWorkTypeName}</td>
                 </tr>
             </c:forEach>
             </tbody>

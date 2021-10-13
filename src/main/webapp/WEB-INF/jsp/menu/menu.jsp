@@ -209,7 +209,7 @@
                                    name="password2" required>
                         </div>
                     </div>
-    </div>
+
     <div class="form-check">
     <input class="form-check-input" type="radio" name="role_name" id="role_name1" value="tenant" checked>
     <label class="form-check-label" for="role_name1">
