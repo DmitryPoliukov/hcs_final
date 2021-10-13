@@ -207,6 +207,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllEmployee(int offset, int recordsPerPage, String workType) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        List<User> employees;
+        List<String> employeeWorkTypes;
+        try {
+            int typeId = utilDao.takeWorkTypeIdByName(workType);
+            employees = dao.getAllEmployee(offset, recordsPerPage, typeId);
+            for (User employee: employees) {
+                employeeWorkTypes = utilDao.takeEmployeeWorkType(employee.getLogin());
+                employee.setEmployeeWorkTypeName(employeeWorkTypes);
+            }
+
+            if (employees == null || employees.size() == 0) {
+                throw new ServiceException("No employees matching your query");
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Error in source!", e);
+        }
+        return employees;
+    }
+
+    @Override
     public int allEmployeesCount() throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         UserDao dao = daoFactory.getUserDao();

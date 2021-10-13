@@ -36,6 +36,8 @@ public class CommandProvider {
         guestCommands.put(CommandList.REGISTER, new Register());
         guestCommands.put(CommandList.LOG_OUT, new Logout());
         guestCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
+        guestCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
+        guestCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
 
 
 
@@ -43,11 +45,13 @@ public class CommandProvider {
         userCommands.put(CommandList.VIEW_USER, new ViewUser());
         userCommands.put(CommandList.LOG_OUT, new Logout());
         userCommands.put(CommandList.ADD_TENANT, new AddTenant());
+        userCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
 
 
         tenantCommands.put(CommandList.VIEW_USER, new ViewUser());
         tenantCommands.put(CommandList.LOG_OUT, new Logout());
         tenantCommands.put(CommandList.ADD_TENANT, new AddTenant());
+        tenantCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
 
 
     }

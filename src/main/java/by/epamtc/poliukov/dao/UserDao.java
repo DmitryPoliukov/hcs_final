@@ -1,8 +1,6 @@
 package by.epamtc.poliukov.dao;
 
 import by.epamtc.poliukov.exception.DaoException;
-import by.epamtc.poliukov.entity.Employee;
-import by.epamtc.poliukov.entity.Tenant;
 import by.epamtc.poliukov.entity.User;
 
 import java.util.List;
@@ -18,6 +16,8 @@ public interface UserDao {
     List<User> getAllEmployee() throws DaoException; // ок
 
     List<User> getAllEmployee(int offset, int noOfRecords) throws DaoException;
+
+    public List<User> getAllEmployee(int offset, int noOfRecords, int typeID) throws DaoException;
 
     public int allEmployeesCount() throws DaoException;
 

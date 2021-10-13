@@ -3,12 +3,10 @@ package by.epamtc.poliukov.dao.impl;
 import by.epamtc.poliukov.dao.DaoFactory;
 import by.epamtc.poliukov.dao.UserDao;
 import by.epamtc.poliukov.dao.UtilDao;
-import by.epamtc.poliukov.entity.Employee;
-import by.epamtc.poliukov.entity.Tenant;
-import by.epamtc.poliukov.exception.ConnectionPoolException;
-import by.epamtc.poliukov.exception.DaoException;
-import by.epamtc.poliukov.dao.pool.ConnectionPool;
 import by.epamtc.poliukov.entity.User;
+import by.epamtc.poliukov.exception.ConnectionPoolException;
+import by.epamtc.poliukov.dao.pool.ConnectionPool;
+import by.epamtc.poliukov.exception.DaoException;
 
 import java.util.List;
 
@@ -50,15 +48,17 @@ public class TestUserDao {
         }
 
          */
-        /*
+/*
         try {
-            List<User> userList = dao.getAllEmployee(2, 2);
+            List<User> userList = dao.getAllEmployee(0, 5, 1);
             System.out.println(userList);
         } catch (DaoException e) {
             System.out.println("no");
         }
 
-         */
+ */
+
+
 
 
 

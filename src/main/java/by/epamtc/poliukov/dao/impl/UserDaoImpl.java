@@ -5,7 +5,6 @@ import by.epamtc.poliukov.dao.UserDao;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
-import by.epamtc.poliukov.entity.Employee;
 import by.epamtc.poliukov.entity.Tenant;
 import by.epamtc.poliukov.entity.User;
 import org.apache.logging.log4j.Level;
@@ -39,9 +38,16 @@ public class UserDaoImpl implements UserDao {
                     "JOIN roles on users.role_id_fk = roles.role_id ";
     private final static String SQL_VIEW_ALL_EMPLOYEE_PAGINATION =
             "SELECT * FROM users JOIN users_part_employee upe on users.user_id = upe.part_user_id " +
-                    "JOIN roles on users.role_id_fk = roles.role_id ORDER BY upe.part_user_id DESC LIMIT ?, ?";
+                    "JOIN roles on users.role_id_fk = roles.role_id WHERE upe.is_blocked = 0 ORDER BY upe.part_user_id DESC LIMIT ?, ?";
 
-    private static final String COUNT_ALL_EMPLOYEES = "SELECT COUNT(part_user_id) AS amount FROM users_part_employee";
+    private final static String SQL_VIEW_ALL_EMPLOYEE_PAGINATION_BY_TYPE =
+            "SELECT * FROM users JOIN users_part_employee upe on users.user_id = upe.part_user_id " +
+                    "JOIN roles on users.role_id_fk = roles.role_id " +
+                    "JOIN employee_work_types ewt ON users.user_id = ewt_user_id_fk " +
+                    "WHERE upe.is_blocked = 0 AND ewt_work_type_id = ? ORDER BY upe.part_user_id DESC LIMIT ?, ?";
+
+    private static final String COUNT_ALL_EMPLOYEES = "SELECT COUNT(part_user_id) AS amount FROM users_part_employee " +
+            "WHERE is_blocked = 0 ";
 
     private static final String SQL_DELETE_BY_USERNAME =
             "DELETE FROM users WHERE login = ?";
@@ -222,6 +228,49 @@ public class UserDaoImpl implements UserDao {
             st = connection.prepareStatement(SQL_VIEW_ALL_EMPLOYEE_PAGINATION);
             st.setInt(1, offset);
             st.setInt(2, noOfRecords);
+            rs = st.executeQuery();
+            List<User> allEmployees = new ArrayList<>();
+            User user;
+            while (rs.next()) {
+                user = new User();
+                user.setUserId(rs.getInt(ColumnName.USER_ID));
+                user.setLogin(rs.getString(ColumnName.USERNAME));
+                user.setPassword(rs.getString(ColumnName.PASSWORD));
+                user.setName(rs.getString(ColumnName.NAME));
+                user.setSecondName(rs.getString(ColumnName.SECOND_NAME));
+                user.setSurname(rs.getString(ColumnName.SURNAME));
+                user.setEmail(rs.getString(ColumnName.EMAIL));
+                user.setPhone(rs.getString(ColumnName.PHONE));
+                user.setRole(rs.getString(ColumnName.ROLE_NAME));
+                user.setValuePersonHour(rs.getInt(ColumnName.VALUE_PERSON_HOUR));
+                user.setInformation(rs.getString(ColumnName.INFORMATION));
+                user.setBlocked(rs.getInt(ColumnName.IS_BLOCKED) == 1);
+
+                allEmployees.add(user);
+            }
+            return allEmployees;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception ", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
+    @Override
+    public List<User> getAllEmployee(int offset, int noOfRecords, int typeID) throws DaoException {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection connection = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_VIEW_ALL_EMPLOYEE_PAGINATION_BY_TYPE);
+            st.setInt(1, typeID);
+            st.setInt(2, offset);
+            st.setInt(3, noOfRecords);
             rs = st.executeQuery();
             List<User> allEmployees = new ArrayList<>();
             User user;

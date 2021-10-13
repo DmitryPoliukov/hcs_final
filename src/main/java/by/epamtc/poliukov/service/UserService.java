@@ -1,7 +1,5 @@
 package by.epamtc.poliukov.service;
 
-import by.epamtc.poliukov.entity.Employee;
-import by.epamtc.poliukov.entity.Tenant;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
@@ -30,6 +28,8 @@ public interface UserService {
     List<User> getAllEmployee(int offset, int recordsPerPage) throws ServiceException;
 
     int allEmployeesCount() throws ServiceException;
+
+    List<User> getAllEmployee(int offset, int recordsPerPage, String workType) throws ServiceException;
 
     // boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException;
 

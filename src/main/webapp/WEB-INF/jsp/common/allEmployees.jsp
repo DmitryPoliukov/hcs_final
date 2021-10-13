@@ -88,7 +88,7 @@
             <ul class="pagination">
                 <c:if test="${requestScope.currentPage > 1}">
                     <li>
-                        <a href="DispatcherServlet?command=${param.command}&page=${requestScope.currentPage - 1}">${previous}</a>
+                        <a href="DispatcherServlet?command=${param.command}&page=${requestScope.currentPage - 1}"> previous </a>
                     </li>
 
                 </c:if>
@@ -111,7 +111,7 @@
                 <%--For displaying Next link --%>
                 <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
                     <li>
-                        <a href="DispatcherServlet?command=${param.command}&page=${requestScope.currentPage + 1}">${next}</a>
+                        <a href="DispatcherServlet?command=${param.command}&page=${requestScope.currentPage + 1}">next</a>
                     </li>
                 </c:if>
 
