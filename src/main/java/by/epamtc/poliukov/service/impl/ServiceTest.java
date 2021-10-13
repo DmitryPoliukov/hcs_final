@@ -8,6 +8,7 @@ import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.UserService;
 import by.epamtc.poliukov.service.WorkRequestService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceTest {
@@ -122,6 +123,34 @@ public class ServiceTest {
         }
 
  */
+/*
+        try {
+            List<User> userList = userService.getAllEmployee(0, 5);
+            System.out.println(userList.toString());
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
+ */
+
+
+
+        int page = 1;
+        List<User> employees;
+
+        try {
+            employees = userService.getAllEmployee((page - 1) * 5, 5);
+            int numberOfParticipants = userService.allEmployeesCount();
+            int noOfPages = (int) Math.ceil(numberOfParticipants * 1.0 / 5);
+            System.out.println(employees.toString());
+        } catch (ServiceException e) {
+            System.out.println("no1");
+        }
+
+
+
+
+
 
 
 

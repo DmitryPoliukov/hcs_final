@@ -60,7 +60,7 @@ public class Employee extends User {
         int result = Objects.hash(super.hashCode(), valuePersonHour, information, isBlocked);
         return result;
     }
-
+/*
     @Override
     public String toString() {
         return "Employee{" +
@@ -71,4 +71,6 @@ public class Employee extends User {
                 ", employeeWorkTypeName=" + employeeWorkTypeName.toString() +
                 '}'+ System.lineSeparator();
     }
+
+ */
 }

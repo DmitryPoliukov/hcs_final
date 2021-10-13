@@ -20,11 +20,13 @@ public class ColumnName {
     public static final String USER_ROLE_ID = "role_id_fk";
 
     //tenant
+    public static final String TENANT = "tenant";
     public static final String TENANT_ID = "part_user_id";
     public static final String CITY = "city";
     public static final String ADDRESS = "address";
 
     //employee
+    public static final String EMPLOYEE = "employee";
     public static final String EMPLOYEE_ID = "part_user_id";
     public static final String VALUE_PERSON_HOUR = "value_person_hour";
     public static final String RATING = "rating";

@@ -37,6 +37,12 @@ public class UserDaoImpl implements UserDao {
     private final static String SQL_VIEW_ALL_EMPLOYEE =
             "SELECT * FROM users JOIN users_part_employee upe on users.user_id = upe.part_user_id " +
                     "JOIN roles on users.role_id_fk = roles.role_id ";
+    private final static String SQL_VIEW_ALL_EMPLOYEE_PAGINATION =
+            "SELECT * FROM users JOIN users_part_employee upe on users.user_id = upe.part_user_id " +
+                    "JOIN roles on users.role_id_fk = roles.role_id ORDER BY upe.part_user_id DESC LIMIT ?, ?";
+
+    private static final String COUNT_ALL_EMPLOYEES = "SELECT COUNT(part_user_id) AS amount FROM users_part_employee";
+
     private static final String SQL_DELETE_BY_USERNAME =
             "DELETE FROM users WHERE login = ?";
     private final static String SQL_GET_USER_BY_USERNAME =
@@ -56,6 +62,7 @@ public class UserDaoImpl implements UserDao {
             "(part_user_id, value_person_hour, information) VALUES (?, ?, ?)";
 
     private final static String SQL_GET_EMPLOYEE_INFO = "SELECT * FROM users_part_employee WHERE part_user_id = ?";
+    private final static String AMOUNT = "amount";
 
     private final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
@@ -177,7 +184,7 @@ public class UserDaoImpl implements UserDao {
             List<User> allEmployees = new ArrayList<>();
             User user;
             while (rs.next()) {
-                user = new Employee();
+                user = new User();
                 user.setUserId(rs.getInt(ColumnName.USER_ID));
                 user.setLogin(rs.getString(ColumnName.USERNAME));
                 user.setPassword(rs.getString(ColumnName.PASSWORD));
@@ -202,6 +209,74 @@ public class UserDaoImpl implements UserDao {
             ConnectionPool.closeResource(connection, st);
         }
     }
+
+    @Override
+    public List<User> getAllEmployee(int offset, int noOfRecords) throws DaoException {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection connection = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_VIEW_ALL_EMPLOYEE_PAGINATION);
+            st.setInt(1, offset);
+            st.setInt(2, noOfRecords);
+            rs = st.executeQuery();
+            List<User> allEmployees = new ArrayList<>();
+            User user;
+            while (rs.next()) {
+                user = new User();
+                user.setUserId(rs.getInt(ColumnName.USER_ID));
+                user.setLogin(rs.getString(ColumnName.USERNAME));
+                user.setPassword(rs.getString(ColumnName.PASSWORD));
+                user.setName(rs.getString(ColumnName.NAME));
+                user.setSecondName(rs.getString(ColumnName.SECOND_NAME));
+                user.setSurname(rs.getString(ColumnName.SURNAME));
+                user.setEmail(rs.getString(ColumnName.EMAIL));
+                user.setPhone(rs.getString(ColumnName.PHONE));
+                user.setRole(rs.getString(ColumnName.ROLE_NAME));
+                user.setValuePersonHour(rs.getInt(ColumnName.VALUE_PERSON_HOUR));
+                user.setInformation(rs.getString(ColumnName.INFORMATION));
+                user.setBlocked(rs.getInt(ColumnName.IS_BLOCKED) == 1);
+
+                allEmployees.add(user);
+            }
+            return allEmployees;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception ", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
+    public int allEmployeesCount() throws DaoException {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectionPool.getInstance().takeConnection();
+
+            st = con.prepareStatement(COUNT_ALL_EMPLOYEES);
+            int amount = 0;
+            rs = st.executeQuery();
+            if (rs.next()) {
+                amount = rs.getInt(AMOUNT);
+            }
+            return amount;
+
+        } catch (SQLException e) {
+            throw new DaoException("Employee sql error", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection error", e);
+        } finally {
+            ConnectionPool.closeResource(con, st, rs);
+        }
+    }
+
+
 
     @Override
     public User getUserByLogin(String login) throws DaoException {

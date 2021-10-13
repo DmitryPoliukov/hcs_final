@@ -50,10 +50,10 @@ public class AddTenant implements Command {
             HttpSession session = request.getSession(true);
             if (login == null && city == null && address == null) {
                 request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
-            } else {
+            } /*else {
                 try {
 
-                    user = userService.addTenant(login, city, address);
+        //            user = userService.addTenant(login, city, address);
                     tenant.setAddress(address);
                     tenant.setCity(city);
                     session.setAttribute(TENANT, tenant);
@@ -62,7 +62,8 @@ public class AddTenant implements Command {
                 }  catch (ServiceException e) {
                     e.printStackTrace();
                 }
-            }
+
+            }*/
 
 
     }

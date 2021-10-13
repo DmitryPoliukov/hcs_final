@@ -15,19 +15,22 @@ public interface UserService {
 
     User addUser(User user) throws ServiceException, ServiceAuthorizationException;
 
-    User addTenant(String login, String city, String address) throws ServiceException;
-
     User authorise(String login, byte[] password) throws ServiceException, ServiceAuthorizationException;
 
-  //  List<Tenant> getAllTenants() throws ServiceException;
-
-  //  List<Employee> getAllEmployee() throws ServiceException;
-
     User getUserByLogin(String login) throws ServiceException, ServiceAuthorizationException;
-
-    boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException;
 
     void updateBlockingEmployee(String login, boolean isBlocked) throws ServiceException, ServiceAuthorizationException;
 
   //  List<String> getTenantInfo(String login) throws ServiceException, ServiceAuthorizationException;
+    // User addTenant(String login, String city, String address) throws ServiceException;
+  //  List<User> getAllTenants() throws ServiceException;
+
+    List<User> getAllEmployee() throws ServiceException;
+
+    List<User> getAllEmployee(int offset, int recordsPerPage) throws ServiceException;
+
+    int allEmployeesCount() throws ServiceException;
+
+    // boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException;
+
 }

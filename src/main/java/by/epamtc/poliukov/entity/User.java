@@ -196,6 +196,6 @@ public class User implements Serializable {
                 ", information='" + information + '\'' +
                 ", isBlocked=" + isBlocked +
                 ", employeeWorkTypeName=" + employeeWorkTypeName +
-                '}';
+                '}' + System.lineSeparator();
     }
 }

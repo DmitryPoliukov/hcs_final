@@ -2,6 +2,7 @@ package by.epamtc.poliukov.comand.impl.guest;
 
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.CommandHelper;
+import by.epamtc.poliukov.entity.Tenant;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
+
+import static by.epamtc.poliukov.dao.ColumnName.ADDRESS;
+import static by.epamtc.poliukov.dao.ColumnName.CITY;
 
 
 public class Register implements Command {
@@ -34,6 +38,8 @@ public class Register implements Command {
     private static final String MESSAGE_OF_ERROR_1 = "All fields should be filled";
     private static final String MESSAGE_OF_ERROR_2 = "User with such email or login is already exist";
     private static final String MESSAGE_OF_ERROR_3 = "Login and password should be at least 6 characters";
+    private static final String SUCCESS = "successMessage";
+    private static final String MESSAGE_OF_SUCCESS = "Tenant information added";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -49,5 +55,19 @@ public class Register implements Command {
             service.addUser(user);
             session.setAttribute(USER, user);
             response.sendRedirect(previousQuery);
+
+
+         /*
+        if (user.getRole().equals("tenant")) {
+            String login = request.getParameter(LOGIN);
+            String city = request.getParameter(CITY);
+            String address = request.getParameter(ADDRESS);
+            if (login == null && city == null && address == null) {
+                request.getRequestDispatcher(JSP_ADD_TENANT).forward(request, response);
+            }
+            System.out.println(city);
+        }
+
+          */
     }
 }

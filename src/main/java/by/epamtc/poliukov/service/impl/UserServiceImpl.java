@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 import static by.epamtc.poliukov.dao.ColumnName.*;
 
 public class UserServiceImpl implements UserService {
@@ -29,6 +31,22 @@ public class UserServiceImpl implements UserService {
         String secondName = request.getParameter(SECOND_NAME);
         String surName = request.getParameter(SURNAME);
         String phone = request.getParameter(PHONE);
+        String role = request.getParameter(ROLE_NAME);
+        /*
+        String city = null;
+        String address = null;
+        String valuePersonHour = null;
+        String information = null;
+
+        if (role.equals(TENANT)) {
+            city = request.getParameter(CITY);
+            address = request.getParameter(ADDRESS);
+        } else if (role.equals(EMPLOYEE)) {
+            valuePersonHour = request.getParameter(VALUE_PERSON_HOUR);
+            information = request.getParameter(INFORMATION);
+        }
+
+         */
 
         byte[] password = request.getParameter(PASSWORD).getBytes();
         byte[] password2 = request.getParameter("password2").getBytes();
@@ -51,13 +69,23 @@ public class UserServiceImpl implements UserService {
         user.setSurname(surName);
         user.setEmail(email);
         user.setPhone(phone);
-        user.setRole("user");
+        user.setRole(role);
+        /*
+        if (role.equals(TENANT)) {
+            user.setCity(city);
+            user.setAddress(address);
+        } else if (role.equals(EMPLOYEE)) {
+            user.setValuePersonHour(Integer.parseInt(valuePersonHour));
+            user.setInformation(information);
+        }
+
+         */
         return user;
     }
 
     @Override
     public User addUser(User user) throws ServiceException, ServiceAuthorizationException {
-        boolean isAdded = false;
+        boolean isAdded;
         //if(!Validator.validate(user)) {
           //  throw new ServiceAuthorizationException("incorrect user data");
         //}
@@ -76,7 +104,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Failed to add user", e);
         }
     }
-
+/*
     @Override
     public User addTenant(String login, String city, String address) throws ServiceException {
         //проверить
@@ -95,6 +123,8 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+ */
+
     @Override
     public User authorise(String login, byte[] password) throws ServiceException, ServiceAuthorizationException {
         User user = null;
@@ -103,15 +133,11 @@ public class UserServiceImpl implements UserService {
             throw new ServiceAuthorizationException("Wrong login or password");
         }
         String pass =  new String(password);
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        UserDao dao = daoFactory.getUserDao();
-        try {
-            user = dao.getUserByLogin(login);
-            if (user == null || !Encryption.isMatch(pass , user.getPassword())) {
+
+        user = getUserByLogin(login);
+
+        if (user == null || !Encryption.isMatch(pass , user.getPassword())) {
                 throw new ServiceAuthorizationException("Wrong login or password!");
-            }
-        } catch (DaoException e) {
-            throw new ServiceException("Error in source", e);
         }
         logger.info(user.toString() + "was authorised");
         return user;
@@ -132,17 +158,18 @@ public class UserServiceImpl implements UserService {
         }
         return tenants;
     }
+    */
 
     @Override
-    public List<Employee> getAllEmployee() throws ServiceException {
+    public List<User> getAllEmployee() throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         UserDao dao = daoFactory.getUserDao();
         UtilDao utilDao = daoFactory.getUtilDao();
-        List<Employee> employees;
+        List<User> employees;
         List<String> employeeWorkTypes;
         try {
             employees = dao.getAllEmployee();
-            for (Employee employee: employees) {
+            for (User employee: employees) {
                 employeeWorkTypes = utilDao.takeEmployeeWorkType(employee.getLogin());
                 employee.setEmployeeWorkTypeName(employeeWorkTypes);
             }
@@ -156,7 +183,46 @@ public class UserServiceImpl implements UserService {
         return employees;
     }
 
- */
+    @Override
+    public List<User> getAllEmployee(int offset, int recordsPerPage) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        List<User> employees;
+        List<String> employeeWorkTypes;
+        try {
+            employees = dao.getAllEmployee(offset, recordsPerPage);
+            for (User employee: employees) {
+                employeeWorkTypes = utilDao.takeEmployeeWorkType(employee.getLogin());
+                employee.setEmployeeWorkTypeName(employeeWorkTypes);
+            }
+
+            if (employees == null || employees.size() == 0) {
+                throw new ServiceException("No employees matching your query");
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Error in source!", e);
+        }
+        return employees;
+    }
+
+    @Override
+    public int allEmployeesCount() throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        int amount;
+        try {
+            amount = dao.allEmployeesCount();
+            if (amount == 0) {
+                throw new ServiceException("No employees matching your query");
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Error in source!", e);
+        }
+        return amount;
+    }
+
+
 
     @Override
     public User getUserByLogin(String login) throws ServiceException, ServiceAuthorizationException {
@@ -174,7 +240,7 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
-
+/*
     @Override
     public boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException {
         if(!Validator.validate(login)) {
@@ -188,6 +254,8 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Error in source!", e);
         }
     }
+
+ */
 
     public void updateBlockingEmployee(String login, boolean isBlocked) throws ServiceException, ServiceAuthorizationException {
         if(!Validator.validate(login)) {

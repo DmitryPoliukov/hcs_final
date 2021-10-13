@@ -71,7 +71,11 @@
                             <td>${user.phone}</td>
 
                         </tr>
-<c:if test='${sessionScope.get("user").role eq "tenant"}'>
+                        <tr>
+                            <td>Role</td>
+                            <td>${user.role}</td>
+
+                        </tr>
 
 
                         </tbody>
@@ -84,7 +88,6 @@
 
 </div>
 
-    <a href="DispatcherServlet?command=add-tenant" class="btn btn-info" role="button">Link Button</a>
 
 <div class="footer">
     <jsp:include page="../menu/footer.jsp"/>

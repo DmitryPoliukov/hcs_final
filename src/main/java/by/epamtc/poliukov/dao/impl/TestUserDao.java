@@ -50,6 +50,16 @@ public class TestUserDao {
         }
 
          */
+        /*
+        try {
+            List<User> userList = dao.getAllEmployee(2, 2);
+            System.out.println(userList);
+        } catch (DaoException e) {
+            System.out.println("no");
+        }
+
+         */
+
 
 
 
