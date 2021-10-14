@@ -19,9 +19,11 @@ public interface UserService {
 
     void updateBlockingEmployee(String login, boolean isBlocked) throws ServiceException, ServiceAuthorizationException;
 
-  //  List<String> getTenantInfo(String login) throws ServiceException, ServiceAuthorizationException;
-    // User addTenant(String login, String city, String address) throws ServiceException;
-  //  List<User> getAllTenants() throws ServiceException;
+    //List<String> getTenantInfo(String login) throws ServiceException, ServiceAuthorizationException;
+
+    User addTenantInfo(String login, String city, String address) throws ServiceException;
+
+    //  List<User> getAllTenants() throws ServiceException;
 
     List<User> getAllEmployee() throws ServiceException;
 

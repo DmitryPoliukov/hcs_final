@@ -38,32 +38,26 @@ public class AddTenant implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //CommandHelper.saveCurrentQueryToSession(request);
-
-
             User user;
-            Tenant tenant = new Tenant();
             UserService userService = ServiceFactory.getInstance().getUserService();
-            String login = request.getParameter(LOGIN);
+            //String login = request.getParameter(LOGIN);
             String city = request.getParameter(CITY);
             String address = request.getParameter(ADDRESS);
             HttpSession session = request.getSession(true);
-            if (login == null && city == null && address == null) {
+            user = (User) session.getAttribute("user");
+            String login = user.getLogin();
+
+            try {
+                user = userService.addTenantInfo(login, city, address);
+                request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
                 request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
-            } /*else {
-                try {
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
 
-        //            user = userService.addTenant(login, city, address);
-                    tenant.setAddress(address);
-                    tenant.setCity(city);
-                    session.setAttribute(TENANT, tenant);
-                    request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
-                    request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
-                }  catch (ServiceException e) {
-                    e.printStackTrace();
-                }
 
-            }*/
+
+
 
 
     }

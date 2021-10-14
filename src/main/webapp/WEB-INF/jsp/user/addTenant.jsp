@@ -33,11 +33,8 @@
 <c:if test="${requestScope.get('successMessage')==null}">
     <form action="DispatcherServlet" method="post">
         <p>
-            <label><input type="radio" name="command" value="register" checked/>add tenant</label>
+            <label><input type="radio" name="command" value="add-tenant" checked/>add tenant</label>
         </p>
-        <label for="login">login<br></label>
-        <input id="login" class="form-control" type="text" name="login" required/>
-        <br/>
 
         <label for="city">city<br></label>
         <input id="city" class="form-control" type="text" name="city" required/>

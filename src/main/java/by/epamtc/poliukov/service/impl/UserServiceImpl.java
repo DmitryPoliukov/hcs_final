@@ -104,9 +104,9 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Failed to add user", e);
         }
     }
-/*
+
     @Override
-    public User addTenant(String login, String city, String address) throws ServiceException {
+    public User addTenantInfo(String login, String city, String address) throws ServiceException {
         //проверить
         User user;
         DaoFactory daoFactory = DaoFactory.getInstance();
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
- */
+
 
     @Override
     public User authorise(String login, byte[] password) throws ServiceException, ServiceAuthorizationException {

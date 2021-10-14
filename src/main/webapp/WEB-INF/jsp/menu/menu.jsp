@@ -36,11 +36,10 @@
             <li><a href="DispatcherServlet?command=log-out">
                 <span class="glyphicon glyphicon-log-out"></span>| LOG OUT |</a>
             </li>
-            <li> <a href="DispatcherServlet?command=add-tenant">| MAKE WORK REQUEST |</a>
+            <li> <a href="DispatcherServlet?command=go-to-add-tenant">| MAKE WORK REQUEST |</a>
 
             </li>
         </c:if>
-    <li> <a href="DispatcherServlet?command=all-employees">| OUR EMPLOYEES |</a>
 
     <li> <a href="DispatcherServlet?command=go-to-employee-by-type">| type EMPLOYEES |</a>
 
@@ -75,10 +74,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="password3" class="col-sm-3 control-label">username</label>
+                        <label for="password3" class="col-sm-3 control-label">password</label>
                         <span id="pswDemo" class="red"></span>
                         <div class="col-sm-7">
-                            <input type="password" class="form-control" id="password3" placeholder="username"
+                            <input type="password" class="form-control" id="password3" placeholder="password"
                                    name="pass" required>
                         </div>
                     </div>
@@ -222,6 +221,12 @@
     <input class="form-check-input" type="radio" name="role_name" id="role_name2" value="employee">
     <label class="form-check-label" for="role_name2">
     Employee
+    </label>
+    </div>
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="role_name" id="role_name3" value="user">
+    <label class="form-check-label" for="role_name3">
+    User
     </label>
     </div>
                     <div class="form-group">

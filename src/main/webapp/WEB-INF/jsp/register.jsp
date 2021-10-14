@@ -121,6 +121,12 @@
                                     Employee
                                 </label>
                             </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role_name" id="role_name3" value="user">
+                                <label class="form-check-label" for="role_name3">
+                                    User
+                                </label>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-7">

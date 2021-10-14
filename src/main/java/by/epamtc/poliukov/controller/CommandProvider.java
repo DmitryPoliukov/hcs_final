@@ -3,6 +3,7 @@ package by.epamtc.poliukov.controller;
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.impl.guest.*;
 import by.epamtc.poliukov.comand.impl.user.AddTenant;
+import by.epamtc.poliukov.comand.impl.user.GoToAddTenant;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,8 +45,10 @@ public class CommandProvider {
         userCommands.put(CommandList.LOGIN, new Login());
         userCommands.put(CommandList.VIEW_USER, new ViewUser());
         userCommands.put(CommandList.LOG_OUT, new Logout());
+        userCommands.put(CommandList.GO_TO_ADD_TENANT, new GoToAddTenant());
         userCommands.put(CommandList.ADD_TENANT, new AddTenant());
         userCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
+        userCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
 
 
         tenantCommands.put(CommandList.VIEW_USER, new ViewUser());
