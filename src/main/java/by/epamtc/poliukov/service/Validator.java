@@ -17,6 +17,8 @@ public class Validator {
     private static final String LOGIN = "[a-zA-Z_0-9]{3,16}";
     private static final Pattern PATTERN_LOGIN = Pattern.compile(LOGIN);
     private static final String EMAIL = "\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}";
+    private static final String DATE = "^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$";
+    private static final Pattern PATTERN_DATE = Pattern.compile(DATE);
 
 
     public static boolean validate(String... data) {
@@ -51,6 +53,12 @@ public class Validator {
     public static boolean validateLogin(String login) {
         Matcher matcher;
         matcher = PATTERN_LOGIN.matcher(login);
+        return matcher.matches();
+    }
+
+    public static boolean validateDate(String date) {
+        Matcher matcher;
+        matcher = PATTERN_DATE.matcher(date);
         return matcher.matches();
     }
 

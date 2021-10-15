@@ -1,30 +1,80 @@
 package by.epamtc.poliukov.service.impl;
 
 import by.epamtc.poliukov.dao.DaoFactory;
-import by.epamtc.poliukov.dao.UserDao;
 import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.entity.Subquery;
+import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.DaoException;
-import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
-import by.epamtc.poliukov.service.Encryption;
 import by.epamtc.poliukov.service.Validator;
 import by.epamtc.poliukov.service.WorkRequestService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static by.epamtc.poliukov.dao.ColumnName.*;
+
+
 
 public class WorkRequestServiceImpl implements WorkRequestService {
     private final Logger logger = LogManager.getLogger(WorkRequestServiceImpl.class);
+    private static final String USER = "user";
+    private static final String WORK_REQUEST_ID = "workRequestId";
+    private static final String AMOUNT = "amount";
+    private static final String WORK_TYPE = "workType";
+
+
+    public WorkRequest createWorkRequest (HttpServletRequest request, HttpSession session) throws IOException {
+
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.M.yyyy hh:mm:ss");
+        User user = (User) session.getAttribute(USER);
+        String fillingDate = formatForDateNow.format(dateNow);
+        /// распарсить дату
+
+        String plannedDate = request.getParameter("plannedDate");
+        if (!Validator.validateDate(plannedDate)) {
+           throw new IOException();
+        }
+        int tenantId = user.getUserId();
+
+        WorkRequest workRequest = new WorkRequest();
+        workRequest.setFillingDate(fillingDate);
+        workRequest.setPlannedDate(plannedDate);
+        workRequest.setTenantUserId(tenantId);
+        return workRequest;
+
+    }
+
+    public Subquery createSubquery (HttpServletRequest request) {
+        int workRequestID = Integer.parseInt(request.getParameter(WORK_REQUEST_ID));
+        int amountOfWorkInHours = Integer.parseInt(request.getParameter(AMOUNT));
+        String information = request.getParameter(INFORMATION);
+        String workType = request.getParameter(WORK_TYPE);
+
+        Subquery subquery = new Subquery();
+        subquery.setMainRequestId(workRequestID);
+        subquery.setAmountOfWorkInHours(amountOfWorkInHours);
+        subquery.setInformation(information);
+        subquery.setWorkType(workType);
+        return subquery;
+    }
+
+
 
     @Override
-    public boolean addWorkRequest(WorkRequest request) throws ServiceException {
+    public WorkRequest addWorkRequest(WorkRequest request) throws ServiceException {
         boolean isAdded = false;
+        WorkRequest workRequest;
         // валидация реквеста
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
@@ -32,13 +82,14 @@ public class WorkRequestServiceImpl implements WorkRequestService {
 
         try {
             isAdded = workRequestDao.addWorkRequest(request);
+            workRequest = utilDao.takeWorkRequestByFillingDateUserId(request.getFillingDate(), request.getTenantUserId());
         } catch (DaoException e) {
             throw new ServiceException("Failed to add request", e);
         }
         logger.log(Level.INFO,
                 "Request" + request.getRequestID() + "' was added: " + isAdded);
 
-        return isAdded;
+        return workRequest;
     }
 
     @Override

@@ -4,6 +4,7 @@ import by.epamtc.poliukov.dao.ColumnName;
 import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
 import by.epamtc.poliukov.entity.Subquery;
+import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;

@@ -36,9 +36,17 @@
             <li><a href="DispatcherServlet?command=log-out">
                 <span class="glyphicon glyphicon-log-out"></span>| LOG OUT |</a>
             </li>
+            <c:if test='${sessionScope.get("user").role eq "tenant"}'>
+                <li>
+                    <a href="DispatcherServlet?command=go-to-add-work-request">| MAKE tenant Request |</a>
+                </li>
+            </c:if>
+
+            <c:if test='${sessionScope.get("user").role eq "user"}'>
             <li> <a href="DispatcherServlet?command=go-to-add-tenant">| MAKE WORK REQUEST |</a>
 
             </li>
+            </c:if>
         </c:if>
 
     <li> <a href="DispatcherServlet?command=go-to-employee-by-type">| type EMPLOYEES |</a>

@@ -11,6 +11,9 @@ public class WorkRequest {
     private String requestStatus;
     private List<Subquery> subqueryList;
 
+    public WorkRequest() {
+    }
+
     public List<Subquery> getSubqueryList() {
         return subqueryList;
     }
@@ -84,8 +87,8 @@ public class WorkRequest {
                 ", fillingDate=" + fillingDate +
                 ", plannedDate=" + plannedDate +
                 ", tenantUserId=" + tenantUserId +
-                ", requestStatus='" + requestStatus + '\'' +
-                ", subqueriesList=" + subqueryList.toString() +
+                ", requestStatus='" + requestStatus +
+              //  ", subqueriesList=" + subqueryList.toString() +
                 '}';
     }
 }

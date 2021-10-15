@@ -8,7 +8,9 @@ import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.UserService;
 import by.epamtc.poliukov.service.WorkRequestService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ServiceTest {
@@ -133,7 +135,7 @@ public class ServiceTest {
 
  */
 
-
+/*
 
         int page = 1;
         List<User> employees;
@@ -146,6 +148,12 @@ public class ServiceTest {
         } catch (ServiceException e) {
             System.out.println("no1");
         }
+
+ */
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.M.yyyy");
+        String date = formatForDateNow.format(dateNow);
+        System.out.println("Текущая дата " + date);
 
 
 

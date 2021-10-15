@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: radof
+  Date: 14.10.2021
+  Time: 21:47
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -27,32 +34,26 @@
 
 <c:import url="../menu/menu.jsp"/>
 
-<div class="container">
-    <h2>Please, enter additional information</h2>
-
-<c:if test="${requestScope.get('successMessage')==null}">
-    <form action="DispatcherServlet" method="post">
-        <p>
-            <label><input type="radio" name="command" value="add-tenant" checked/>add tenant</label>
-        </p>
-
-        <label for="city">city<br></label>
-        <input id="city" class="form-control" type="text" name="city" required/>
-        <br/>
-        <label for="address">address<br></label>
-        <input id="address" class="form-control" type="text" name="address" required/>
-        <br/>
-
-        <button type="submit" class="btn btn-primary">submit</button>
-    </form>
+<c:if test="${requestScope.get('successMessage')!=null}">
+    <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
+    <c:remove var="successMessage" scope="request"/>
 </c:if>
-    <c:if test="${requestScope.get('successMessage')!=null}">
-        <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
-        <c:remove var="successMessage" scope="request"/>
 
-        <a href="DispatcherServlet?command=go-to-add-work-request" class="btn btn-info" role="button"> Continue </a>
+<div class="container">
+    <h2>Please, enter work request information</h2>
 
+    <c:if test="${requestScope.get('successMessage')==null}">
+        <form action="DispatcherServlet" method="post">
+            <input type="hidden" name="command" value="add-work-request"/>
+
+            <label for="plannedDate">planned date<br></label>
+            <input id="plannedDate" class="form-control" type="text" name="plannedDate" required/>
+            <br/>
+
+            <button type="submit" class="btn btn-primary">submit</button>
+        </form>
     </c:if>
+
 
 
 

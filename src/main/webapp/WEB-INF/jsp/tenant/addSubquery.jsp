@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: radof
+  Date: 14.10.2021
+  Time: 23:11
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -21,38 +28,61 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
 <c:import url="../menu/menu.jsp"/>
 
+<c:if test="${requestScope.get('successMessage')!=null}">
+    <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
+    <c:remove var="successMessage" scope="request"/>
+</c:if>
+
+<c:if test="${requestScope.get('successMessageSubquery')==null}">
 <div class="container">
-    <h2>Please, enter additional information</h2>
+    <h2>Please, enter subquerry information</h2>
 
-<c:if test="${requestScope.get('successMessage')==null}">
     <form action="DispatcherServlet" method="post">
-        <p>
-            <label><input type="radio" name="command" value="add-tenant" checked/>add tenant</label>
-        </p>
+        <input type="hidden" name="command" value="add-subquery"/>
+        <input type="hidden" name="workRequestId" value="${sessionScope.get('workRequest').requestID}"/>
 
-        <label for="city">city<br></label>
-        <input id="city" class="form-control" type="text" name="city" required/>
+        <label for="amount">amount of work in hours<br></label>
+        <input id="amount" class="form-control" type="text" name="amount" required/>
         <br/>
-        <label for="address">address<br></label>
-        <input id="address" class="form-control" type="text" name="address" required/>
+        <label for="information">other subquery information<br></label>
+        <input id="information" class="form-control" type="text" name="information" required/>
         <br/>
 
+        <select name="workType" id="workType">
+            <option value="Малярные работы">Малярные работы</option>
+            <option value="Бетонные работы">Бетонные работы</option>
+            <option value="Благоустройство">Благоустройство</option>
+
+        </select>
+        <br>
         <button type="submit" class="btn btn-primary">submit</button>
     </form>
-</c:if>
-    <c:if test="${requestScope.get('successMessage')!=null}">
-        <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
-        <c:remove var="successMessage" scope="request"/>
-
-        <a href="DispatcherServlet?command=go-to-add-work-request" class="btn btn-info" role="button"> Continue </a>
-
     </c:if>
+
+
+<c:if test="${requestScope.get('successMessageSubquery')!=null}">
+    <h3 class="green"><c:out value="${requestScope.get('successMessageSubquery')}"/></h3>
+    <c:remove var="successMessageSubquery" scope="request"/>
+    <br><br>
+    <a href="DispatcherServlet?command=go-to-add-subquery" class="btn btn-info" role="button"> Add another subquery </a>
+    <a href="#" class="btn btn-info" role="button"> посмотреть общий реквест </a>
+</c:if>
+
+
+
+
+
+
+
+
+
+
 
 
 

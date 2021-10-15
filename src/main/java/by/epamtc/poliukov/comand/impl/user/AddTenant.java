@@ -40,15 +40,15 @@ public class AddTenant implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             User user;
             UserService userService = ServiceFactory.getInstance().getUserService();
-            //String login = request.getParameter(LOGIN);
             String city = request.getParameter(CITY);
             String address = request.getParameter(ADDRESS);
             HttpSession session = request.getSession(true);
-            user = (User) session.getAttribute("user");
+            user = (User) session.getAttribute(USER);
             String login = user.getLogin();
 
             try {
                 user = userService.addTenantInfo(login, city, address);
+                session.setAttribute(USER, user);
                 request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
                 request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
             } catch (ServiceException e) {

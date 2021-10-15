@@ -7,6 +7,7 @@ public class Subquery {
     private int amountOfWorkInHours;
     private String information;
     private int mainRequestId;
+    private String workType;
 
     public int getMainRequestId() {
         return mainRequestId;
@@ -15,8 +16,6 @@ public class Subquery {
     public void setMainRequestId(int mainRequestId) {
         this.mainRequestId = mainRequestId;
     }
-
-    private String workType;
 
     public int getSubId() {
         return subId;

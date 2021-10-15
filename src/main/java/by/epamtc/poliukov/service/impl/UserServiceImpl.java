@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-    public User create(HttpServletRequest request) throws ServiceAuthorizationException {
+    public User createUser(HttpServletRequest request) throws ServiceAuthorizationException {
         String login = request.getParameter(USERNAME);
         String email = request.getParameter(EMAIL);
         String name = request.getParameter(NAME);
@@ -32,21 +32,6 @@ public class UserServiceImpl implements UserService {
         String surName = request.getParameter(SURNAME);
         String phone = request.getParameter(PHONE);
         String role = request.getParameter(ROLE_NAME);
-        /*
-        String city = null;
-        String address = null;
-        String valuePersonHour = null;
-        String information = null;
-
-        if (role.equals(TENANT)) {
-            city = request.getParameter(CITY);
-            address = request.getParameter(ADDRESS);
-        } else if (role.equals(EMPLOYEE)) {
-            valuePersonHour = request.getParameter(VALUE_PERSON_HOUR);
-            information = request.getParameter(INFORMATION);
-        }
-
-         */
 
         byte[] password = request.getParameter(PASSWORD).getBytes();
         byte[] password2 = request.getParameter("password2").getBytes();
@@ -60,7 +45,6 @@ public class UserServiceImpl implements UserService {
         String pass =  new String(password);
         String encodedPassword = Encryption.encrypt(pass);
 
-
         User user = new User();
         user.setLogin(login);
         user.setPassword(encodedPassword);
@@ -70,16 +54,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setPhone(phone);
         user.setRole(role);
-        /*
-        if (role.equals(TENANT)) {
-            user.setCity(city);
-            user.setAddress(address);
-        } else if (role.equals(EMPLOYEE)) {
-            user.setValuePersonHour(Integer.parseInt(valuePersonHour));
-            user.setInformation(information);
-        }
 
-         */
         return user;
     }
 

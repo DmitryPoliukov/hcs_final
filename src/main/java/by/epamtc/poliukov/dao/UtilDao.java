@@ -1,5 +1,6 @@
 package by.epamtc.poliukov.dao;
 
+import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.DaoException;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface UtilDao {
     Integer takeRequestStatusIdByStatusName(String statusName) throws DaoException;
 
     boolean updateUserRole(String login, Integer roleId) throws DaoException;
+
+    WorkRequest takeWorkRequestByFillingDateUserId(String fillingDate, int tenantId) throws DaoException;
 
    // не надо  List<String> takeTenantInfo(String login) throws DaoException;
 }

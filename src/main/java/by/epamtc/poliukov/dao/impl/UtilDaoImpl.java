@@ -3,6 +3,7 @@ package by.epamtc.poliukov.dao.impl;
 import by.epamtc.poliukov.dao.ColumnName;
 import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
+import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;
 
@@ -42,6 +43,8 @@ public class UtilDaoImpl implements UtilDao {
                     "WHERE request_status_name = ?";
     private final static String SQL_UPDATE_ROLE_BY_LOGIN = "UPDATE users SET role_id_fk = ? WHERE login = ?";
 
+    private final static String SQL_GET_REQUEST_BY_DATE_ID = "SELECT * FROM work_requests " +
+            "WHERE filling_date = ? and tenant_user_id_fk = ?";
 
 
     @Override
@@ -216,6 +219,36 @@ public class UtilDaoImpl implements UtilDao {
         }
     }
 
+    @Override
+    public WorkRequest takeWorkRequestByFillingDateUserId(String fillingDate, int tenantId) throws DaoException {
+        WorkRequest workRequest = null;
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_REQUEST_BY_DATE_ID);
+            st.setString(1, fillingDate);
+            st.setInt(2, tenantId);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                workRequest = new WorkRequest();
+                workRequest.setRequestID(rs.getInt(ColumnName.REQUEST_ID));
+                workRequest.setFillingDate(rs.getString(ColumnName.FILLING_DATE));
+                workRequest.setPlannedDate(rs.getString(ColumnName.PLANNED_DATE));
+                workRequest.setTenantUserId(rs.getInt(ColumnName.TENANT_USER_ID_FK));
+                workRequest.setRequestStatus(rs.getString(ColumnName.REQUEST_STATUS_ID_FK));
+            }
+            return workRequest;
+        } catch (SQLException e) {
+            throw new DaoException("sql error", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("pool connection error");
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+
+    }
 
     /*
     @Override
@@ -246,4 +279,6 @@ public class UtilDaoImpl implements UtilDao {
     }
 
  */
+
+
 }

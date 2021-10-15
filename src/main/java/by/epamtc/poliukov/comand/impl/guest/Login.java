@@ -46,7 +46,6 @@ public class Login implements Command {
                 session.setAttribute(USER, user);
                 response.sendRedirect(previousQuery);
             } catch (ServiceAuthorizationException e) {
-//                logger.log(Level.ERROR, e.getMessage(), e);
 //                logger.log(Level.INFO, " authorization error");
                 request.setAttribute(ERROR, MESSAGE_OF_ERROR_1);
                 request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);

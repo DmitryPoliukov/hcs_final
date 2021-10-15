@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
 
-    User create(HttpServletRequest request) throws ServiceAuthorizationException;
+    User createUser(HttpServletRequest request) throws ServiceAuthorizationException;
 
     User addUser(User user) throws ServiceException, ServiceAuthorizationException;
 

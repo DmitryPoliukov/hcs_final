@@ -39,7 +39,14 @@ public class TestWorkTypeDao {
             System.out.println("рекверст не добавлен");
         }
 
- */
+ *//*
+        try {
+            WorkRequest workRequest = utilDao.takeWorkRequestByFillingDateUserId("29.09.2021", 9);
+            System.out.println(workRequest.toString());
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        */
 
 /*
         Subquery subquery = new Subquery();

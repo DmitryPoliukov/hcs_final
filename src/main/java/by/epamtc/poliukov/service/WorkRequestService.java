@@ -5,11 +5,17 @@ import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.exception.ServiceException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 public interface WorkRequestService {
+    WorkRequest createWorkRequest (HttpServletRequest request, HttpSession session) throws IOException;
 
-    boolean addWorkRequest(WorkRequest request) throws ServiceException;
+    Subquery createSubquery (HttpServletRequest request);
+
+    WorkRequest addWorkRequest(WorkRequest request) throws ServiceException;
 
     boolean addSubqueries(Subquery subquery, int requestID) throws ServiceException;
 

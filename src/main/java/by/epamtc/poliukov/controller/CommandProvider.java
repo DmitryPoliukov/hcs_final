@@ -2,6 +2,10 @@ package by.epamtc.poliukov.controller;
 
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.impl.guest.*;
+import by.epamtc.poliukov.comand.impl.tenant.AddSubquery;
+import by.epamtc.poliukov.comand.impl.tenant.AddWorkRequest;
+import by.epamtc.poliukov.comand.impl.tenant.GoToAddSubquery;
+import by.epamtc.poliukov.comand.impl.tenant.GoToAddWorkRequest;
 import by.epamtc.poliukov.comand.impl.user.AddTenant;
 import by.epamtc.poliukov.comand.impl.user.GoToAddTenant;
 import org.apache.logging.log4j.Level;
@@ -53,8 +57,14 @@ public class CommandProvider {
 
         tenantCommands.put(CommandList.VIEW_USER, new ViewUser());
         tenantCommands.put(CommandList.LOG_OUT, new Logout());
+        tenantCommands.put(CommandList.GO_TO_ADD_TENANT, new GoToAddTenant());
         tenantCommands.put(CommandList.ADD_TENANT, new AddTenant());
         tenantCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
+        tenantCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
+        tenantCommands.put(CommandList.GO_TO_ADD_WORK_REQUEST, new GoToAddWorkRequest());
+        tenantCommands.put(CommandList.ADD_WORK_REQUEST, new AddWorkRequest());
+        tenantCommands.put(CommandList.GO_TO_ADD_SUBQUERY, new GoToAddSubquery());
+        tenantCommands.put(CommandList.ADD_SUBQUERY, new AddSubquery());
 
 
     }
