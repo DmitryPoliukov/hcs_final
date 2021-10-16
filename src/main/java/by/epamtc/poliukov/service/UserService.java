@@ -31,6 +31,8 @@ public interface UserService {
 
     int allEmployeesCount() throws ServiceException;
 
+    int allEmployeesCount(String workType) throws ServiceException;
+
     List<User> getAllEmployee(int offset, int recordsPerPage, String workType) throws ServiceException;
 
     // boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException;

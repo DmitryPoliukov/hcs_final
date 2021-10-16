@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AllEmployees implements Command {
     private static final Logger logger = LogManager.getLogger(AllEmployees.class);
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/common/allEmployees.jsp";
+    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/common/employeesByType.jsp";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String REQUEST_ATTRIBUTE = "all_employees";
 
@@ -32,10 +32,8 @@ public class AllEmployees implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        CommandHelper.saveCurrentQueryToSession(request);
 
         List<User> employees;
-
         UserService userService = ServiceFactory.getInstance().getUserService();
         try {
             int page = 1;

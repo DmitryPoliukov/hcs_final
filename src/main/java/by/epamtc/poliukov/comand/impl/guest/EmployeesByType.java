@@ -51,7 +51,7 @@ public class EmployeesByType implements Command {
 
             request.setAttribute(REQUEST_ATTRIBUTE, employees);
             // сделать количество для типа
-            int numberOfEmployees = userService.allEmployeesCount();
+            int numberOfEmployees = userService.allEmployeesCount(type);
             int noOfPages = (int) Math.ceil(numberOfEmployees * 1.0 / RECORDS_PER_PAGE);
 
             request.setAttribute(AMOUNT_OF_PAGES, noOfPages);

@@ -222,6 +222,24 @@ public class UserServiceImpl implements UserService {
         return amount;
     }
 
+    @Override
+    public int allEmployeesCount(String workTypeName) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao userDao = daoFactory.getUserDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        int amount;
+        try {
+            int workTypeId = utilDao.takeWorkTypeIdByName(workTypeName);
+            amount = userDao.allEmployeesCount(workTypeId);
+            if (amount == 0) {
+                throw new ServiceException("No employees matching your query");
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Error in source!", e);
+        }
+        return amount;
+    }
+
 
 
     @Override

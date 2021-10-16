@@ -48,6 +48,9 @@ public class UserDaoImpl implements UserDao {
 
     private static final String COUNT_ALL_EMPLOYEES = "SELECT COUNT(part_user_id) AS amount FROM users_part_employee " +
             "WHERE is_blocked = 0 ";
+    private static final String COUNT_ALL_EMPLOYEES_BY_TYPE = "SELECT COUNT(part_user_id) AS amount FROM users_part_employee upe " +
+            "JOIN employee_work_types ewt ON ewt_user_id_fk = part_user_id " +
+            "WHERE is_blocked = 0 AND ewt_work_type_id = ?";
 
     private static final String SQL_DELETE_BY_USERNAME =
             "DELETE FROM users WHERE login = ?";
@@ -322,6 +325,31 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException("Pool connection error", e);
         } finally {
             ConnectionPool.closeResource(con, st, rs);
+        }
+    }
+
+    public int allEmployeesCount(int workTypeId) throws DaoException {
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(COUNT_ALL_EMPLOYEES_BY_TYPE);
+            st.setInt(1, workTypeId);
+            rs = st.executeQuery();
+            int amount = 0;
+            rs = st.executeQuery();
+            if (rs.next()) {
+                amount = rs.getInt(AMOUNT);
+            }
+            return amount;
+
+        } catch (SQLException e) {
+            throw new DaoException("Employee sql error", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection error", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st, rs);
         }
     }
 

@@ -17,9 +17,11 @@ public interface UserDao {
 
     List<User> getAllEmployee(int offset, int noOfRecords) throws DaoException;
 
-    public List<User> getAllEmployee(int offset, int noOfRecords, int typeID) throws DaoException;
+    List<User> getAllEmployee(int offset, int noOfRecords, int typeID) throws DaoException;
 
-    public int allEmployeesCount() throws DaoException;
+    int allEmployeesCount() throws DaoException;
+
+    int allEmployeesCount(int workTypeId) throws DaoException;
 
     User getUserByLogin(String login) throws DaoException; // голый юзер
 
