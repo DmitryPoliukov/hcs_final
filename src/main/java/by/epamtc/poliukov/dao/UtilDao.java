@@ -17,7 +17,11 @@ public interface UtilDao {
 
     Integer takeWorkTypeIdByName(String workTypeName) throws DaoException;
 
+    String takeWorkTypeName(int workTypeId) throws DaoException;
+
     Integer takeRequestStatusIdByStatusName(String statusName) throws DaoException;
+
+    String takeRequestStatusNameByStatusId(int statusId) throws DaoException;
 
     boolean updateUserRole(String login, Integer roleId) throws DaoException;
 

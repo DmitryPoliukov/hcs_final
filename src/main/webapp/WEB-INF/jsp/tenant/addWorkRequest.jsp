@@ -59,9 +59,7 @@
 
 
 </div>
-<div class="footer">
-    <jsp:include page="../menu/footer.jsp"/>
-</div>
+<c:import url="../menu/footer.jsp"/>
 
 
 </body>

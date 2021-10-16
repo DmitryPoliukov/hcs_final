@@ -97,7 +97,7 @@ public class TestWorkTypeDao {
             System.out.println("no");
         }
 
- */
+ *//*
         int id = 0;
         try {
             id = utilDao.takeRequestStatusIdByStatusName("CLOSE");
@@ -105,6 +105,14 @@ public class TestWorkTypeDao {
             e.printStackTrace();
         }
         System.out.println(id);
+        */
+
+        try {
+            List<WorkRequest> workRequestList = wrd.getAllRequestForTenantByLogin("user1210", 0, 5);
+            System.out.println(workRequestList.toString());
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
 
 
         try {

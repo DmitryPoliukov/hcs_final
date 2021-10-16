@@ -2,7 +2,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
-<jsp:useBean id="tenant" class="by.epamtc.poliukov.entity.Tenant" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <fmt:setLocale value="${sessionScope.language}"/>
@@ -30,7 +29,6 @@
 <div class="container-fluid text-center wrapper">
     <br class="row content">
 
-    <%--<c:import url="../menu/adminMenu.jsp"/>--%>
 
     <div class="col-md-12 text-cente mainContent">
         <div>
@@ -85,8 +83,10 @@
 
     </div>
 
-
 </div>
+    <c:if test='${sessionScope.get("user").role eq "tenant"}'>
+        <a href="DispatcherServlet?command=show-all-tenant-requests" class="btn btn-info" role="button"> Show my requests </a>
+    </c:if>
 
 
 <div class="footer">

@@ -45,6 +45,7 @@
 
     <form action="DispatcherServlet" method="post">
         <input type="hidden" name="command" value="add-subquery"/>
+
         <input type="hidden" name="workRequestId" value="${sessionScope.get('workRequest').requestID}"/>
 
         <label for="amount">amount of work in hours<br></label>
@@ -70,9 +71,18 @@
     <h3 class="green"><c:out value="${requestScope.get('successMessageSubquery')}"/></h3>
     <c:remove var="successMessageSubquery" scope="request"/>
     <br><br>
+
     <a href="DispatcherServlet?command=go-to-add-subquery" class="btn btn-info" role="button"> Add another subquery </a>
-    <a href="#" class="btn btn-info" role="button"> посмотреть общий реквест </a>
+    <a href="DispatcherServlet?command=show-all-tenant-requests" class="btn btn-info" role="button"> Show my requests </a>
 </c:if>
+
+
+    </a>
+</div>
+    <c:import url="../menu/footer.jsp"/>
+
+</body>
+</html>
 
 
 

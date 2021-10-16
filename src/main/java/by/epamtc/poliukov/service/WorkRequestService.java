@@ -21,7 +21,11 @@ public interface WorkRequestService {
 
     List<WorkRequest> getAllRequestForTenantByLogin(String login) throws ServiceException;
 
+    List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws ServiceException;
+
     List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws ServiceException;
 
     boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws ServiceException;
+
+    int allRequestsByLoginCount(String login) throws ServiceException;
 }

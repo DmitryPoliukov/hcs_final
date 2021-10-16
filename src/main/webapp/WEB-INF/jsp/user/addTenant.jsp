@@ -27,14 +27,13 @@
 
 <c:import url="../menu/menu.jsp"/>
 
-<div class="container">
-    <h2>Please, enter additional information</h2>
+
 
 <c:if test="${requestScope.get('successMessage')==null}">
+<div class="container">
+    <h2>Please, enter additional information</h2>
     <form action="DispatcherServlet" method="post">
-        <p>
-            <label><input type="radio" name="command" value="add-tenant" checked/>add tenant</label>
-        </p>
+        <input type="hidden" name="command" value="add-tenant"/>
 
         <label for="city">city<br></label>
         <input id="city" class="form-control" type="text" name="city" required/>
@@ -45,6 +44,7 @@
 
         <button type="submit" class="btn btn-primary">submit</button>
     </form>
+</div>
 </c:if>
     <c:if test="${requestScope.get('successMessage')!=null}">
         <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
@@ -54,10 +54,6 @@
 
     </c:if>
 
-
-
-
-</div>
 <div class="footer">
     <jsp:include page="../menu/footer.jsp"/>
 </div>

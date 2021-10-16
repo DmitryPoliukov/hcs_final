@@ -44,6 +44,9 @@ public class EmployeesByType implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
         try {
             int page = 1;
+            if (request.getParameter(PAGE) != null) {
+                page = Integer.parseInt(request.getParameter(PAGE));
+            }
             employees = userService.getAllEmployee((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE, type);
 
             request.setAttribute(REQUEST_ATTRIBUTE, employees);

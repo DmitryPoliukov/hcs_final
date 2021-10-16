@@ -49,7 +49,7 @@
             </c:if>
         </c:if>
 
-    <li> <a href="DispatcherServlet?command=go-to-employee-by-type">| type EMPLOYEES |</a>
+    <li> <a href="DispatcherServlet?command=go-to-employee-by-type">| OUR EMPLOYEES |</a>
 
     </li>
 

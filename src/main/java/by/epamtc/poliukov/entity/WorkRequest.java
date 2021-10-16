@@ -88,7 +88,7 @@ public class WorkRequest {
                 ", plannedDate=" + plannedDate +
                 ", tenantUserId=" + tenantUserId +
                 ", requestStatus='" + requestStatus +
-              //  ", subqueriesList=" + subqueryList.toString() +
+                ", subqueriesList=" + subqueryList +
                 '}';
     }
 }

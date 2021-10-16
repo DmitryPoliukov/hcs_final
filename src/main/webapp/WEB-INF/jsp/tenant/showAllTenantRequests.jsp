@@ -1,95 +1,67 @@
 <%--
   Created by IntelliJ IDEA.
   User: radof
-  Date: 13.10.2021
-  Time: 21:01
+  Date: 15.10.2021
+  Time: 18:51
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<c:set scope="session" var="previousQuery" value="index.jsp"/>
+
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
-
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <title>employees</title>
+
 </head>
-<body onload="active()">
+<body>
 
 <c:import url="../menu/menu.jsp"/>
 
-<script language="JavaScript">
-    function active() {
-        document.getElementById("employees-page").className = "active";
-    }
-</script>
 <div class="container-fluid text-center wrapper">
     <br class="row content">
-    <div class="col-sm-8 text-left mainContent">
-        <h1>employees</h1>
-
-        <div class="selectboxes">
-            <div class="sortAwaits" style="width: 391px; float: left;margin: 0">
-                <span>Employees by work type</span>
-                <select onchange="MakeSort(this);">
-                    <option value="DispatcherServlet?command=all-employees">-</option>
-                    <option value="DispatcherServlet?command=all-employees">all</option>
-                    <option value="DispatcherServlet?command=employees-by-type&type=Малярные работы">Малярные работы</option>
-                    <option value="DispatcherServlet?command=employees-by-type&type=Бетонные работы">Бетонные работы</option>
+    <div class="col-sm-12 text-center mainContent">
+        <h1>Your requests</h1>
 
 
-                </select>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <script type="text/javascript">
-        function MakeSort(element) {
-            var selected = $('option:selected', element),
-                href = selected.val();
-            if (/*selected.text() === '-' || */!href) {
-                return false;
-            }
-            document.location = href;
-        }
-    </script>
     <br>
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Second name</th>
-            <th>Surname</th>
-            <th>email</th>
-            <th>Phone</th>
-            <th>Cost per person hour</th>
-            <th>Other information</th>
-            <th>Specialization</th>
+            <th>Filling date</th>
+            <th>Planned date</th>
+            <th>Status</th>
+            <th>Subqueries work type</th>
+
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="employee" items="${requestScope.all_employees}">
+        <c:forEach var="request" items="${requestScope.workRequestList}">
             <tr>
-                <td>${employee.login}</td>
-                <td>${employee.name}</td>
-                <td>${employee.secondName}</td>
-                <td>${employee.surname}</td>
-                <td>${employee.email}</td>
-                <td>${employee.phone}</td>
-                <td>${employee.valuePersonHour}</td>
-                <td>${employee.information}</td>
-                <td>${employee.employeeWorkTypeName}</td>
+                <td>${request.fillingDate}</td>
+                <td>${request.plannedDate}</td>
+                <td>${request.requestStatus}</td>
+                <td><c:forEach var="subquery" items="${request.subqueryList}">
+                    |   ${subquery.workType}   |
+                </c:forEach>
+                    </td>
             </tr>
         </c:forEach>
         </tbody>
@@ -122,7 +94,7 @@
         <ul class="pagination">
             <c:if test="${requestScope.currentPage > 1}">
                 <li>
-                    <a href="DispatcherServlet?command=employees-by-type&type=${param.type}&page=${requestScope.currentPage - 1}"> previous </a>
+                    <a href="DispatcherServlet?command=show-all-tenant-requests&page=${requestScope.currentPage - 1}"> previous </a>
                 </li>
 
             </c:if>
@@ -136,7 +108,7 @@
                         </c:when>
                         <c:otherwise>
                             <li>
-                                <a href="DispatcherServlet?command=employees-by-type&type=${param.type}&page=${i}">${i}</a>
+                                <a href="DispatcherServlet?command=show-all-tenant-requests&page=${i}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -145,15 +117,19 @@
             <%--For displaying Next link --%>
             <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
                 <li>
-                    <a href="DispatcherServlet?command=employees-by-type&type=${param.type}&page=${requestScope.currentPage + 1}">next</a>
+                    <a href="DispatcherServlet?command=show-all-tenant-requests&page=${requestScope.currentPage + 1}">next</a>
                 </li>
             </c:if>
 
         </ul>
     </div>
-    </div>
 </div>
 </div>
+</div>
+
+
+
+
 <c:import url="../menu/footer.jsp"/>
 </body>
 </html>

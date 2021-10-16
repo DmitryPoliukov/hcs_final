@@ -135,6 +135,32 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     }
 
     @Override
+    public List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws ServiceException {
+        // валидация логина
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+
+        List<WorkRequest> allRequestForOneTenant = null;
+        List<Subquery> allSubqueriesForRequest;
+        try {
+            allRequestForOneTenant = workRequestDao.getAllRequestForTenantByLogin(login, offset, noOfRecords);
+            for (WorkRequest request : allRequestForOneTenant) {
+                request.setRequestStatus(utilDao.takeRequestStatusNameByStatusId(Integer.parseInt(request.getRequestStatus())));
+                allSubqueriesForRequest = workRequestDao.getAllSubqueriesForRequest(request.getRequestID());
+                for (Subquery subquery: allSubqueriesForRequest) {
+                    subquery.setWorkType(utilDao.takeWorkTypeName(Integer.parseInt(subquery.getWorkType())));
+                }
+                request.setSubqueryList(allSubqueriesForRequest);
+            }
+
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return allRequestForOneTenant;
+    }
+
+    @Override
     public List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
@@ -166,9 +192,22 @@ public class WorkRequestServiceImpl implements WorkRequestService {
             Integer statusID = utilDao.takeRequestStatusIdByStatusName(updatedStatus);
             isUpdate = workRequestDao.updateWorkRequestStatus(workRequestId, statusID.toString());
         } catch (DaoException e) {
-            e.printStackTrace();
+            throw new ServiceException("Failed to update work request status", e);
         }
         return isUpdate;
+    }
+
+    public int allRequestsByLoginCount(String login) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        int requestCount;
+        try {
+            requestCount = workRequestDao.allRequestsByLoginCount(login);
+            return requestCount;
+        } catch (DaoException e) {
+           throw new ServiceException("Failed to count all requests by login", e);
+        }
+
     }
 }
 

@@ -16,7 +16,11 @@ public interface WorkRequestDao {
 
     List<WorkRequest> getAllRequestForTenantByLogin(String login) throws DaoException;
 
+    List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws DaoException;
+
     List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws DaoException;
 
     boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws DaoException;
+
+    int allRequestsByLoginCount(String login) throws DaoException;
 }

@@ -31,8 +31,13 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             "information, sub_work_request_id_fk, sub_work_type_id) VALUES(?, ?, ?, ?)";
 
 
-    private final static String SQL_GET_ALL_REQUESTS_FOR_TENANT = "SELECT * FROM work_requests " +
-            "JOIN users on users.user_id = tenant_user_id_fk WHERE login = ?";
+    private final static String SQL_GET_ALL_REQUESTS_FOR_TENANT = "SELECT * FROM work_requests wr " +
+            "JOIN users on users.user_id = wr.tenant_user_id_fk WHERE users.login = ?";
+
+    private final static String SQL_VIEW_ALL_WORK_REQUEST_TENANT_PAGINATION=
+            "SELECT * FROM work_requests JOIN users on users.user_id = tenant_user_id_fk " +
+                    "WHERE login = ? ORDER BY filling_date DESC LIMIT ?, ?";
+
     private final static String SQL_GET_All_SUBQUERIES_FOR_REQUEST = "SELECT * from subqueries " +
             "WHERE sub_work_request_id_fk = ?";
 
@@ -42,6 +47,11 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
 
     private final static String SQL_UPDATE_WORK_REQUEST_STATUS =
             "UPDATE work_requests SET request_status_id_fk = ? WHERE request_id = ?";
+
+    private static final String SQL_GET_COUNT_ALL_REQUESTS_BY_LOGIN = "SELECT COUNT(request_id) AS amount FROM work_requests " +
+            "JOIN users ON work_requests.tenant_user_id_fk = users.user_id WHERE users.login = ?";
+
+    private final static String AMOUNT = "amount";
 
     @Override
     public boolean addWorkRequest(WorkRequest request) throws DaoException {
@@ -90,6 +100,41 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             ConnectionPool.closeResource(connection, st);
         }
         return isAdded;
+    }
+
+    @Override
+    public List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws DaoException {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection connection = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_VIEW_ALL_WORK_REQUEST_TENANT_PAGINATION);
+            st.setString(1, login);
+            st.setInt(2, offset);
+            st.setInt(3, noOfRecords);
+            rs = st.executeQuery();
+            List<WorkRequest> workRequestList = new ArrayList<>();
+            WorkRequest workRequest;
+            while (rs.next()) {
+                workRequest = new WorkRequest();
+                workRequest.setRequestID(rs.getInt(ColumnName.REQUEST_ID));
+                workRequest.setFillingDate(rs.getString(ColumnName.FILLING_DATE));
+                workRequest.setPlannedDate(rs.getString(ColumnName.PLANNED_DATE));
+                workRequest.setTenantUserId(rs.getInt(ColumnName.TENANT_USER_ID_FK));
+                workRequest.setRequestStatus(rs.getString(ColumnName.REQUEST_STATUS_ID_FK));
+                workRequestList.add(workRequest);
+            }
+            return workRequestList;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception ", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
     }
 
     @Override
@@ -213,4 +258,30 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         }
         return isUpdate;
     }
+
+    @Override
+    public int allRequestsByLoginCount(String login) throws DaoException {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectionPool.getInstance().takeConnection();
+            st = con.prepareStatement(SQL_GET_COUNT_ALL_REQUESTS_BY_LOGIN);
+            st.setString(1, login);
+            int amount = 0;
+            rs = st.executeQuery();
+            if (rs.next()) {
+                amount = rs.getInt(AMOUNT);
+            }
+            return amount;
+
+        } catch (SQLException e) {
+            throw new DaoException("WorkRequest sql error", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection error", e);
+        } finally {
+            ConnectionPool.closeResource(con, st, rs);
+        }
+    }
+
 }
