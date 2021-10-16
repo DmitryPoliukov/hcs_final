@@ -51,7 +51,7 @@
         <c:remove var="successMessage" scope="request"/>
 
         <a href="DispatcherServlet?command=go-to-add-work-request" class="btn btn-info" role="button"> Continue </a>
-
+        <h3> <c:out value="${sessionScope.get('user').role}"/></h3>
     </c:if>
 
 <div class="footer">

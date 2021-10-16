@@ -65,6 +65,7 @@ public class CommandProvider {
         tenantCommands.put(CommandList.GO_TO_ADD_SUBQUERY, new GoToAddSubquery());
         tenantCommands.put(CommandList.ADD_SUBQUERY, new AddSubquery());
         tenantCommands.put(CommandList.SHOW_ALL_TENANT_REQUESTS, new ShowAllTenantRequests());
+        tenantCommands.put(CommandList.UPDATE_REQUEST_STATUS_TENANT, new UpdateRequestStatusTenant());
 
 
     }

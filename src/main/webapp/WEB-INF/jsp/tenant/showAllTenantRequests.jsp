@@ -35,11 +35,15 @@
 
 <c:import url="../menu/menu.jsp"/>
 
+<c:if test="${requestScope.get('deleteSuccessMessage')!=null}">
+    <h3 class="green"><c:out value="${requestScope.get('deleteSuccessMessage')}"/></h3>
+    <c:remove var="deleteSuccessMessage" scope="request"/>
+</c:if>
+
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-12 text-center mainContent">
         <h1>Your requests</h1>
-
 
     <br>
     <table class="table table-hover">
@@ -49,10 +53,12 @@
             <th>Planned date</th>
             <th>Status</th>
             <th>Subqueries work type</th>
+            <th>Cancel request</th>
 
         </tr>
         </thead>
         <tbody>
+
         <c:forEach var="request" items="${requestScope.workRequestList}">
             <tr>
                 <td>${request.fillingDate}</td>
@@ -61,7 +67,8 @@
                 <td><c:forEach var="subquery" items="${request.subqueryList}">
                     |   ${subquery.workType}   |
                 </c:forEach>
-                    </td>
+                </td>
+                <td> <a href="DispatcherServlet?command=update-request-status-tenant&delete=${request.requestID}" class="btn btn-info" role="button"> Cancel </a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -120,6 +127,7 @@
                     <a href="DispatcherServlet?command=show-all-tenant-requests&page=${requestScope.currentPage + 1}">next</a>
                 </li>
             </c:if>
+
 
         </ul>
     </div>

@@ -86,6 +86,7 @@
 </div>
     <c:if test='${sessionScope.get("user").role eq "tenant"}'>
         <a href="DispatcherServlet?command=show-all-tenant-requests" class="btn btn-info" role="button"> Show my requests </a>
+
     </c:if>
 
 

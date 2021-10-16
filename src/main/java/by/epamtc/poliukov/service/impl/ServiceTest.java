@@ -134,6 +134,13 @@ public class ServiceTest {
         }
 
  */
+        Boolean isUpdate = null;
+        try {
+            isUpdate = workRequestService.updateWorkRequestStatus(42, "close");
+        } catch (ServiceException e) {
+            System.out.println("no");
+        }
+        System.out.println(isUpdate);
 
 /*
 

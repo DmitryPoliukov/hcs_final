@@ -92,6 +92,7 @@ public class UserServiceImpl implements UserService {
             user = daoUser.getUserByLogin(login);
             utilDao.updateUserRole(login, 2); //roleId for tenant = 2
             daoUser.addTenantInfo(user.getUserId(), city, address);
+            user = daoUser.getUserByLogin(login);
         } catch (DaoException e) {
             throw new ServiceException("Error in source", e);
         }
