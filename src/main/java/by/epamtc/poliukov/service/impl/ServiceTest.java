@@ -133,7 +133,7 @@ public class ServiceTest {
             e.printStackTrace();
         }
 
- */
+ *//*
         Boolean isUpdate = null;
         try {
             isUpdate = workRequestService.updateWorkRequestStatus(42, "close");
@@ -141,6 +141,20 @@ public class ServiceTest {
             System.out.println("no");
         }
         System.out.println(isUpdate);
+        */
+/*
+        String date = "18 12/2001";
+        String[] arr = date.split("\\D");
+        StringBuilder dateSB = new StringBuilder();
+
+            dateSB.append(arr[0]).append(".").append(arr[1]).append(".").append(arr[2]);
+
+        System.out.println(dateSB);
+
+ */
+        char x = 106;
+        System.out.println(x);
+
 
 /*
 
@@ -156,11 +170,12 @@ public class ServiceTest {
             System.out.println("no1");
         }
 
- */
+ *//*
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.M.yyyy");
         String date = formatForDateNow.format(dateNow);
         System.out.println("Текущая дата " + date);
+        */
 
 
 

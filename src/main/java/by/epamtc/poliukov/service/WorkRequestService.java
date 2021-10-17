@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface WorkRequestService {
-    WorkRequest createWorkRequest (HttpServletRequest request, HttpSession session) throws IOException;
+    WorkRequest createWorkRequest (HttpServletRequest request) throws IOException;
 
     Subquery createSubquery (HttpServletRequest request);
 

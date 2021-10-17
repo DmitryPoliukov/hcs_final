@@ -33,19 +33,21 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     private static final String WORK_TYPE = "workType";
 
 
-    public WorkRequest createWorkRequest (HttpServletRequest request, HttpSession session) throws IOException {
+    public WorkRequest createWorkRequest (HttpServletRequest request) throws IOException {
 
         Date dateNow = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.M.yyyy hh:mm:ss");
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.M.yyyy HH:mm:ss");
+        HttpSession session = request.getSession(false);
         User user = (User) session.getAttribute(USER);
+        int tenantId = user.getUserId();
         String fillingDate = formatForDateNow.format(dateNow);
-        /// распарсить дату
+        String inputPlannedDate = request.getParameter("plannedDate");
 
-        String plannedDate = request.getParameter("plannedDate");
-        if (!Validator.validateDate(plannedDate)) {
+        if (!Validator.validateDate(inputPlannedDate)) {
            throw new IOException();
         }
-        int tenantId = user.getUserId();
+        String plannedDate = inputDateParsing(inputPlannedDate);
+
 
         WorkRequest workRequest = new WorkRequest();
         workRequest.setFillingDate(fillingDate);
@@ -56,6 +58,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     }
 
     public Subquery createSubquery (HttpServletRequest request) {
+
         int workRequestID = Integer.parseInt(request.getParameter(WORK_REQUEST_ID));
         int amountOfWorkInHours = Integer.parseInt(request.getParameter(AMOUNT));
         String information = request.getParameter(INFORMATION);
@@ -207,7 +210,13 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         } catch (DaoException e) {
            throw new ServiceException("Failed to count all requests by login", e);
         }
+    }
 
+    private String inputDateParsing(String inputDate) {
+        String[] arr = inputDate.split("\\D");
+        StringBuilder dateSB = new StringBuilder();
+        dateSB.append(arr[0]).append(".").append(arr[1]).append(".").append(arr[2]);
+        return dateSB.toString();
     }
 }
 

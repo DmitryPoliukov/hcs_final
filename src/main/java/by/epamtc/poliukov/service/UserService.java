@@ -37,4 +37,6 @@ public interface UserService {
 
     // boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException;
 
+    boolean updateUserRole(String login, String role) throws ServiceException, ServiceAuthorizationException;
+
 }

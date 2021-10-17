@@ -19,7 +19,6 @@ public class AddWorkRequest implements Command {
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/tenant/addSubquery.jsp";
     private static final Logger logger = LogManager.getLogger(AddWorkRequest.class);
 
-    private static final String USER = "user";
     private static final String WORK_REQUEST = "workRequest";
     private static final String SUCCESS = "successMessage";
     private static final String MESSAGE_OF_SUCCESS = "Work request information added";
@@ -27,14 +26,13 @@ public class AddWorkRequest implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         WorkRequest workRequest;
-        boolean isAdded;
         HttpSession session = request.getSession(true);
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         WorkRequestService workRequestService = serviceFactory.getWorkRequestService();
 
 
         try {
-            workRequest = workRequestService.createWorkRequest(request,  session);
+            workRequest = workRequestService.createWorkRequest(request);
             workRequest = workRequestService.addWorkRequest(workRequest);
             session.setAttribute(WORK_REQUEST, workRequest);
             request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
@@ -46,6 +44,8 @@ public class AddWorkRequest implements Command {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
     }
 }

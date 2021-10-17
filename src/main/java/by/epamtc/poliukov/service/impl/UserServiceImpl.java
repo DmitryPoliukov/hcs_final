@@ -288,7 +288,26 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Failed update employee status", e);
         }
     }
-/*
+
+    @Override
+    public boolean updateUserRole(String login, String roleName) throws ServiceException, ServiceAuthorizationException {
+        if(!Validator.validate(login)) {
+            throw new ServiceAuthorizationException("Wrong login");
+        }
+        boolean isUpdate;
+        UtilDao utilDao = DaoFactory.getInstance().getUtilDao();
+        int roleId = 0;
+        try {
+            roleId = Integer.parseInt(utilDao.takeRoleIdByRoleName(roleName));
+            isUpdate = utilDao.updateUserRole(login, roleId);
+        } catch (DaoException e) {
+            throw new ServiceException("Failed update user role", e);
+        }
+        return isUpdate;
+
+    }
+
+    /*
     @Override
     public List<String> getTenantInfo(String login) throws ServiceException, ServiceAuthorizationException {
         if(!Validator.validate(login)) {

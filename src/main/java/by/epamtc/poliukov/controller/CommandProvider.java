@@ -1,6 +1,8 @@
 package by.epamtc.poliukov.controller;
 
 import by.epamtc.poliukov.comand.Command;
+import by.epamtc.poliukov.comand.impl.admin.GoToUpdateRole;
+import by.epamtc.poliukov.comand.impl.admin.UpdateRole;
 import by.epamtc.poliukov.comand.impl.guest.*;
 import by.epamtc.poliukov.comand.impl.tenant.*;
 import by.epamtc.poliukov.comand.impl.user.AddTenant;
@@ -41,9 +43,15 @@ public class CommandProvider {
         guestCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         guestCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
 
+        adminCommands.put(CommandList.LOG_OUT, new Logout());
+        adminCommands.put(CommandList.VIEW_USER, new ViewUser());
+        adminCommands.put(CommandList.GO_TO_UPDATE_ROLE, new GoToUpdateRole());
+        adminCommands.put(CommandList.UPDATE_ROLE, new UpdateRole());
+        adminCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
+        adminCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
+        adminCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
 
 
-        userCommands.put(CommandList.LOGIN, new Login());
         userCommands.put(CommandList.VIEW_USER, new ViewUser());
         userCommands.put(CommandList.LOG_OUT, new Logout());
         userCommands.put(CommandList.GO_TO_ADD_TENANT, new GoToAddTenant());
