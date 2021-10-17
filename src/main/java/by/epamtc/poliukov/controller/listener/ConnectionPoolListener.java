@@ -1,5 +1,7 @@
 package by.epamtc.poliukov.controller.listener;
 
+import by.epamtc.poliukov.exception.ConnectionPoolListenerException;
+import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.PoolService;
 import by.epamtc.poliukov.service.ServiceFactory;
 import org.apache.logging.log4j.Level;
@@ -16,8 +18,6 @@ public class ConnectionPoolListener implements ServletContextListener {
 
     public ConnectionPoolListener() {
     }
-
-
 
     public void contextInitialized(ServletContextEvent sce) {
 

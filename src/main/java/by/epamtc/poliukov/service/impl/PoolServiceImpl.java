@@ -1,9 +1,9 @@
 package by.epamtc.poliukov.service.impl;
 
-import by.epamtc.poliukov.controller.listener.ServiceException;
 import by.epamtc.poliukov.dao.DaoFactory;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
+import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.PoolService;
 
 
