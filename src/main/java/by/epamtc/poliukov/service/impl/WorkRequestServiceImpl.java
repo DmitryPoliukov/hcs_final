@@ -167,7 +167,6 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     public List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
-        UtilDao utilDao = daoFactory.getUtilDao();
         List<WorkRequest> requestsForOneWorkType;
         List<Subquery> allSubqueriesForRequest;
         try {
