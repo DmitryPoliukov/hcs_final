@@ -18,9 +18,17 @@ public interface WorkRequestDao {
 
     List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws DaoException;
 
-    List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws DaoException;
+    List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId, int offset, int noOfRecords) throws DaoException;
+
+    List<WorkRequest> getAllNewRequests(int offset, int noOfRecords) throws DaoException;
 
     boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws DaoException;
 
     int allRequestsByLoginCount(String login) throws DaoException;
+
+    int newRequestsByTypeCount(int workTypeId) throws DaoException;
+
+    int allNewRequestsCount() throws DaoException;
+
+    Subquery getSubqueryByRequestIdType(int workRequestId, int workTypeId) throws DaoException;
 }

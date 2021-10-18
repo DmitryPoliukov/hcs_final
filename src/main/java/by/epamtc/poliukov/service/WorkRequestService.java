@@ -8,9 +8,11 @@ import by.epamtc.poliukov.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.Provider;
 import java.util.List;
 
 public interface WorkRequestService {
+
     WorkRequest createWorkRequest (HttpServletRequest request) throws IOException;
 
     Subquery createSubquery (HttpServletRequest request);
@@ -23,9 +25,18 @@ public interface WorkRequestService {
 
     List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws ServiceException;
 
-    List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws ServiceException;
+    List<WorkRequest> getNewRequestsForOneWorkType(String workTypeName, int offset, int noOfRecords) throws ServiceException;
+
+    List<WorkRequest> getAllNewRequests(int offset, int noOfRecords) throws ServiceException;
 
     boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws ServiceException;
 
     int allRequestsByLoginCount(String login) throws ServiceException;
+
+    int newRequestsByTypeCount(String workTypeName) throws ServiceException;
+
+    int allNewRequestsCount() throws ServiceException;
+
+
+
 }

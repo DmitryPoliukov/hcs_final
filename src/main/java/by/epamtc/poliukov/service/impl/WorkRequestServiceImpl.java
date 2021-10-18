@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -164,22 +165,55 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     }
 
     @Override
-    public List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws ServiceException {
+    public List<WorkRequest> getNewRequestsForOneWorkType(String workTypeName, int offset, int noOfRecords) throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
         List<WorkRequest> requestsForOneWorkType;
-        List<Subquery> allSubqueriesForRequest;
+        Subquery subquery;
+        List<Subquery> subqueriesList;
         try {
-            requestsForOneWorkType = workRequestDao.getNewRequestsForOneWorkType(workTypeId);
+            int workTypeId = utilDao.takeWorkTypeIdByName(workTypeName);
+            requestsForOneWorkType = workRequestDao.getNewRequestsForOneWorkType(workTypeId, offset, noOfRecords);
             for (WorkRequest workRequest : requestsForOneWorkType) {
-                allSubqueriesForRequest = workRequestDao.getAllSubqueriesForRequest(workRequest.getRequestID());
-                workRequest.setSubqueryList(allSubqueriesForRequest);
+                workRequest.setRequestStatus(utilDao.takeRequestStatusNameByStatusId(Integer.parseInt(workRequest.getRequestStatus())));
+                subquery = workRequestDao.getSubqueryByRequestIdType(workRequest.getRequestID(), workTypeId);
+                subquery.setWorkType(utilDao.takeWorkTypeName(Integer.parseInt(subquery.getWorkType())));
+                subqueriesList = new ArrayList<>();
+                subqueriesList.add(subquery);
+                workRequest.setSubqueryList(subqueriesList);
             }
         } catch (DaoException e) {
             throw new ServiceException("Failed to add request", e);
         }
         logger.log(Level.INFO,
-                "Take new requests for work type id = " + workTypeId);
+                "Take new requests for work type = " + workTypeName);
+
+        return requestsForOneWorkType;
+    }
+
+    @Override
+    public List<WorkRequest> getAllNewRequests(int offset, int noOfRecords) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        List<WorkRequest> requestsForOneWorkType;
+        List<Subquery> subqueriesList;
+        try {
+            requestsForOneWorkType = workRequestDao.getAllNewRequests(offset, noOfRecords);
+            for (WorkRequest workRequest : requestsForOneWorkType) {
+                workRequest.setRequestStatus(utilDao.takeRequestStatusNameByStatusId(Integer.parseInt(workRequest.getRequestStatus())));
+                subqueriesList = workRequestDao.getAllSubqueriesForRequest(workRequest.getRequestID());
+                for (Subquery subquery: subqueriesList) {
+                    subquery.setWorkType(utilDao.takeWorkTypeName(Integer.parseInt(subquery.getWorkType())));
+                }
+                workRequest.setSubqueryList(subqueriesList);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to get requests", e);
+        }
+        logger.log(Level.INFO,
+                "Take all new requests");
 
         return requestsForOneWorkType;
     }
@@ -208,6 +242,34 @@ public class WorkRequestServiceImpl implements WorkRequestService {
             return requestCount;
         } catch (DaoException e) {
            throw new ServiceException("Failed to count all requests by login", e);
+        }
+    }
+
+    public int allNewRequestsCount() throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        int requestCount;
+        try {
+            requestCount = workRequestDao.allNewRequestsCount();
+            return requestCount;
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to count all new requests", e);
+        }
+
+    }
+
+    public int newRequestsByTypeCount(String workTypeName) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        int workTypeId;
+        int requestCount;
+        try {
+            workTypeId = utilDao.takeWorkTypeIdByName(workTypeName);
+            requestCount = workRequestDao.newRequestsByTypeCount(workTypeId);
+            return requestCount;
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to count actual requests by work type name", e);
         }
     }
 

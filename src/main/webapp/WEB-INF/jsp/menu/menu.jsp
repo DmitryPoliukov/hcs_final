@@ -53,6 +53,11 @@
 
                 </li>
             </c:if>
+            <c:if test='${sessionScope.get("user").role eq "employee"}'>
+                <li> <a href="DispatcherServlet?command=go-to-actual-requests-employee">| actual requests |</a>
+
+                </li>
+            </c:if>
         </c:if>
 
     <li> <a href="DispatcherServlet?command=go-to-employee-by-type">| OUR EMPLOYEES |</a>
@@ -81,22 +86,22 @@
                     <input type="hidden" name="command" value="login"/>
                     <span id="unameDemo" class="red"></span>
                     <div class="form-group">
-                        <label for="username" class="col-sm-3 control-label">username</label>
-                        <div class="col-sm-7">
+                        <label for="username" class="col-sm-5 control-label">username</label>
+                        <div class="col-sm-6">
                             <input type="text" class="form-control" id="username" placeholder="username"
                                    name="username" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="password3" class="col-sm-3 control-label">password</label>
+                        <label for="password3" class="col-sm-5 control-label">password</label>
                         <span id="pswDemo" class="red"></span>
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                             <input type="password" class="form-control" id="password3" placeholder="password"
                                    name="pass" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-7">
+                        <div class="col-sm-offset-5 col-sm-6">
                             <button type="submit" class="btn btn-primary">signIn</button>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import by.epamtc.poliukov.dao.ColumnName;
 import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
 import by.epamtc.poliukov.entity.Subquery;
+import by.epamtc.poliukov.entity.Tenant;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
@@ -45,11 +46,27 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             "JOIN subqueries on sub_work_request_id_fk = request_id " +
             "WHERE request_status_id_fk = 1 AND subqueries.sub_work_type_id = ?";
 
+    private final static String SQL_GET_NEW_REQUESTS_FOR_ONE_WORK_TYPE_PAGE = "SELECT * from work_requests " +
+            "JOIN subqueries on sub_work_request_id_fk = request_id " +
+            "WHERE request_status_id_fk = 1 AND subqueries.sub_work_type_id = ? ORDER BY filling_date DESC LIMIT ?, ?";
+
+    private final static String SQL_GET_NEW_REQUESTS_PAGE = "SELECT * from work_requests " +
+            "WHERE request_status_id_fk = 1  ORDER BY filling_date DESC LIMIT ?, ?";
+
     private final static String SQL_UPDATE_WORK_REQUEST_STATUS =
             "UPDATE work_requests SET request_status_id_fk = ? WHERE request_id = ?";
 
     private static final String SQL_GET_COUNT_ALL_REQUESTS_BY_LOGIN = "SELECT COUNT(request_id) AS amount FROM work_requests " +
             "JOIN users ON work_requests.tenant_user_id_fk = users.user_id WHERE users.login = ?";
+
+    private static final String SQL_GET_ACTUAL_REQUESTS_TYPE_COUNT = "SELECT COUNT(request_id) AS amount FROM work_requests " +
+            "JOIN subqueries ON request_id = sub_work_request_id_fk WHERE sub_work_type_id = ?";
+
+    private final static String SQL_GET_SUBQUERIY_FOR_REQUEST_BY_TYPE = "SELECT * from subqueries " +
+            "WHERE sub_work_request_id_fk = ? AND sub_work_type_id = ?";
+
+    private final static String SQL_GET_ALL_ACTUAL_REQUESTS_COUNT = "SELECT COUNT(request_id) AS amount FROM work_requests " +
+            "WHERE request_status_id_fk = 1";
 
     private final static String AMOUNT = "amount";
 
@@ -104,10 +121,9 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
 
     @Override
     public List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws DaoException {
-        Connection con = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
         Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
@@ -202,15 +218,17 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     }
 
     @Override
-    public List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId) throws DaoException {
+    public List<WorkRequest> getNewRequestsForOneWorkType(int workTypeId, int offset, int noOfRecords) throws DaoException {
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-            st = connection.prepareStatement(SQL_GET_NEW_REQUESTS_FOR_ONE_WORK_TYPE);
+            st = connection.prepareStatement(SQL_GET_NEW_REQUESTS_FOR_ONE_WORK_TYPE_PAGE);
             st.setInt(1, workTypeId);
+            st.setInt(2, offset);
+            st.setInt(3, noOfRecords);
             rs = st.executeQuery();
             List<WorkRequest> allNewRequestsForOneWorkType = new ArrayList<>();
             WorkRequest workRequest;
@@ -232,6 +250,39 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             ConnectionPool.closeResource(connection, st);
         }
     }
+
+    public List<WorkRequest> getAllNewRequests(int offset, int noOfRecords) throws DaoException {
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_NEW_REQUESTS_PAGE);
+            st.setInt(1, offset);
+            st.setInt(2, noOfRecords);
+            rs = st.executeQuery();
+            List<WorkRequest> allNewRequests = new ArrayList<>();
+            WorkRequest workRequest;
+            while (rs.next()) {
+                workRequest = new WorkRequest();
+                workRequest.setRequestID(rs.getInt(ColumnName.REQUEST_ID));
+                workRequest.setFillingDate(rs.getString(ColumnName.FILLING_DATE));
+                workRequest.setPlannedDate(rs.getString(ColumnName.PLANNED_DATE));
+                workRequest.setTenantUserId(rs.getInt(ColumnName.TENANT_USER_ID_FK));
+                workRequest.setRequestStatus(rs.getString(ColumnName.REQUEST_STATUS_ID_FK));
+                allNewRequests.add(workRequest);
+            }
+            return allNewRequests;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception ", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
 
     @Override
     public boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws DaoException {
@@ -281,6 +332,85 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             throw new DaoException("Pool connection error", e);
         } finally {
             ConnectionPool.closeResource(con, st, rs);
+        }
+    }
+
+    public int newRequestsByTypeCount(int workTypeId) throws DaoException {
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectionPool.getInstance().takeConnection();
+            st = con.prepareStatement(SQL_GET_ACTUAL_REQUESTS_TYPE_COUNT);
+            st.setInt(1, workTypeId);
+            int amount = 0;
+            rs = st.executeQuery();
+            if (rs.next()) {
+                amount = rs.getInt(AMOUNT);
+            }
+            return amount;
+
+        } catch (SQLException e) {
+            throw new DaoException("WorkRequest sql error", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection error", e);
+        } finally {
+            ConnectionPool.closeResource(con, st, rs);
+        }
+    }
+
+    public int allNewRequestsCount() throws DaoException {
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.createStatement();
+            rs = st.executeQuery(SQL_GET_ALL_ACTUAL_REQUESTS_COUNT);
+            int amount = 0;
+            if (rs.next()) {
+                amount = rs.getInt(AMOUNT);
+            }
+            return amount;
+
+        } catch (SQLException e) {
+            throw new DaoException("WorkRequest sql error", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection error", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
+    public Subquery getSubqueryByRequestIdType(int workRequestId, int workTypeId) throws DaoException {
+
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_SUBQUERIY_FOR_REQUEST_BY_TYPE);
+            st.setInt(1, workRequestId);
+            st.setInt(2, workTypeId);
+
+            rs = st.executeQuery();
+            Subquery subquery;
+            Subquery sub= new Subquery();
+            if (rs.next()) {
+                sub.setSubId(rs.getInt(ColumnName.SUB_ID));
+                sub.setAmountOfWorkInHours(rs.getInt(ColumnName.AMOUNT_OF_WORK_IN_HOURS));
+                sub.setInformation(rs.getString(ColumnName.INFORMATION));
+                sub.setMainRequestId(rs.getInt(ColumnName.SUB_WORK_REQUEST_ID_FK));
+                sub.setWorkType(rs.getString(ColumnName.SUB_WORK_TYPE_ID));
+            }
+            return sub;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception ", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
         }
     }
 

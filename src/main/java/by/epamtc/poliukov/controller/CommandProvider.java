@@ -3,6 +3,9 @@ package by.epamtc.poliukov.controller;
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.impl.admin.GoToUpdateRole;
 import by.epamtc.poliukov.comand.impl.admin.UpdateRole;
+import by.epamtc.poliukov.comand.impl.employee.ActualRequestsAllTypes;
+import by.epamtc.poliukov.comand.impl.employee.ActualRequestsEmployee;
+import by.epamtc.poliukov.comand.impl.employee.GoToActualRequestsEmployee;
 import by.epamtc.poliukov.comand.impl.guest.*;
 import by.epamtc.poliukov.comand.impl.tenant.*;
 import by.epamtc.poliukov.comand.impl.user.AddTenant;
@@ -74,6 +77,16 @@ public class CommandProvider {
         tenantCommands.put(CommandList.ADD_SUBQUERY, new AddSubquery());
         tenantCommands.put(CommandList.SHOW_ALL_TENANT_REQUESTS, new ShowAllTenantRequests());
         tenantCommands.put(CommandList.UPDATE_REQUEST_STATUS_TENANT, new UpdateRequestStatusTenant());
+
+        employeeCommands.put(CommandList.VIEW_USER, new ViewUser());
+        employeeCommands.put(CommandList.LOG_OUT, new Logout());
+        employeeCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
+        employeeCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
+        employeeCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
+        employeeCommands.put(CommandList.GO_TO_ACTUAL_REQUESTS_EMPLOYEE, new GoToActualRequestsEmployee());
+        employeeCommands.put(CommandList.ACTUAL_REQUESTS_EMPLOYEE, new ActualRequestsEmployee());
+        employeeCommands.put(CommandList.ACTUAL_REQUESTS_ALL_TYPES, new ActualRequestsAllTypes());
+
 
 
     }

@@ -152,9 +152,15 @@ public class ServiceTest {
         System.out.println(dateSB);
 
  */
-        char x = 106;
-        System.out.println(x);
+        /*
+        try {
+            List<WorkRequest> newList = workRequestService.getNewRequestsForOneWorkType(3);
+            System.out.println(newList.toString());
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
 
+         */
 
 /*
 

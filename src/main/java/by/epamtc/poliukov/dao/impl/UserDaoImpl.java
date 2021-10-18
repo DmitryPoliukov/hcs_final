@@ -146,14 +146,14 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAllTenants() throws DaoException {
         Connection connection = null;
         Statement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.createStatement();
             rs = st.executeQuery(SQL_VIEW_ALL_TENANT);
             List<User> allTenants = new ArrayList<>();
-            User user = null;
+            User user;
             while (rs.next()) {
                 user = new Tenant();
                 user.setUserId(rs.getInt(ColumnName.USER_ID));

@@ -34,7 +34,7 @@
 <div class="container-fluid text-center wrapper">
     <div class="row content">
 
-        <div class="col-sm-8 text-left mainContent">
+        <div class="col-sm-6 text-left mainContent">
 
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -54,23 +54,23 @@
                               onsubmit="return validateForm();">
                             <input type="hidden" name="command" value="login"/>
                             <div class="form-group">
-                                <label for="username" class="col-sm-3 control-label">username </label>
+                                <label for="username" class="col-sm-5 control-label">username </label>
                                 <span id="unameDemo" class="red"></span>
-                                <div class="col-sm-7">
+                                <div class="col-sm-6">
                                     <input type="text" class="form-control" id="username" placeholder="username"
                                            name="username" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="password3" class="col-sm-3 control-label">password</label>
+                                <label for="password3" class="col-sm-5 control-label">password</label>
                                 <span id="pswDemo" class="red"></span>
-                                <div class="col-sm-7">
+                                <div class="col-sm-6">
                                     <input type="password" class="form-control" id="password3" placeholder="password"
                                            name="pass" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-7">
+                                <div class="col-sm-offset-5 col-sm-6">
                                     <button type="submit" class="btn btn-primary">Sign In</button>
                                 </div>
                             </div>
