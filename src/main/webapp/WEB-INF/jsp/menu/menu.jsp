@@ -28,14 +28,15 @@
         | LOGIN |</a>
         </li>
     </c:if>
-        <c:if test="${sessionScope.get('user') != null}">
-           <li class="sign-up">
-               <a href="DispatcherServlet?command=view-user&username=${sessionScope.get('user').login}">
-                    <span class="glyphicon glyphicon-user"></span> ${sessionScope.get('user').login}</a>
-            </li>
-            <li><a href="DispatcherServlet?command=log-out">
-                <span class="glyphicon glyphicon-log-out"></span>| LOG OUT |</a>
-            </li>
+    <c:if test="${sessionScope.get('user') != null}">
+        <li class="sign-up">
+        <a href="DispatcherServlet?command=view-user&username=${sessionScope.get('user').login}">
+        <span class="glyphicon glyphicon-user"></span> ${sessionScope.get('user').login}</a>
+        </li>
+        <li><a href="DispatcherServlet?command=log-out">
+        <span class="glyphicon glyphicon-log-out"></span>| LOG OUT |</a>
+        </li>
+
             <c:if test='${sessionScope.get("user").role eq "tenant"}'>
                 <li>
                     <a href="DispatcherServlet?command=go-to-add-work-request">| MAKE WORK REQUEST |</a>

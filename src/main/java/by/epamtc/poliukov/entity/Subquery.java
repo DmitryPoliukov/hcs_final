@@ -1,8 +1,10 @@
 package by.epamtc.poliukov.entity;
 
-import java.util.Objects;
+import java.io.Serializable;
 
-public class Subquery {
+public class Subquery implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int subId;
     private int amountOfWorkInHours;
     private String information;
@@ -53,27 +55,54 @@ public class Subquery {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Subquery subquery = (Subquery) o;
-        return subId == subquery.subId &&
-                amountOfWorkInHours == subquery.amountOfWorkInHours &&
-                mainRequestId == subquery.mainRequestId &&
-                Objects.equals(information, subquery.information) &&
-                Objects.equals(workType, subquery.workType);
+        Subquery other = (Subquery) o;
+        if (subId != other.subId) {
+            return false;
+        }
+        if (amountOfWorkInHours != other.amountOfWorkInHours) {
+            return false;
+        }
+        if (information == null) {
+            if (other.information != null) {
+                return false;
+            }
+        } else if (!information.equals(other.information)) {
+            return false;
+        }
+        if (mainRequestId != other.mainRequestId) {
+            return false;
+        }
+        if (workType == null) {
+            return other.workType == null;
+        } else return workType.equals(other.workType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subId, amountOfWorkInHours, information, mainRequestId, workType);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + subId;
+        result = prime * result + amountOfWorkInHours;
+        result = prime * result + (information == null ? 0 : information.hashCode());
+        result = prime * result + mainRequestId;
+        result = prime * result + (workType == null ? 0 : workType.hashCode());
+        return result;
     }
 
     @Override
     public String toString() {
-        return "Subquery{" +
-                "subId=" + subId +
-                ", amountOfWorkInHours=" + amountOfWorkInHours +
-                ", information='" + information + '\'' +
-                ", mainRequestId=" + mainRequestId +
-                ", workType='" + workType + '\'' +
-                '}' + System.lineSeparator();
+        StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName())
+                .append("[subId = ")
+                .append(subId)
+                .append(", amountOfWorkInHours = ")
+                .append(amountOfWorkInHours)
+                .append(", information = ")
+                .append(information)
+                .append(", mainRequestId = ")
+                .append(mainRequestId)
+                .append(", workType = ")
+                .append(workType);
+        return builder.toString();
     }
 }
