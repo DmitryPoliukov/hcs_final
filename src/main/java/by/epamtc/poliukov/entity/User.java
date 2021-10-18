@@ -2,7 +2,6 @@ package by.epamtc.poliukov.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -17,8 +16,6 @@ public class User implements Serializable {
     private String phone;
     private String role;
 
-
-
     private String city;
     private String address;
 
@@ -26,10 +23,6 @@ public class User implements Serializable {
     private String information;
     private boolean isBlocked;
     private List<String> employeeWorkTypeName;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getCity() {
         return city;
@@ -155,47 +148,153 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return userId == user.userId &&
-                valuePersonHour == user.valuePersonHour &&
-                isBlocked == user.isBlocked &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(secondName, user.secondName) &&
-                Objects.equals(surname, user.surname) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(phone, user.phone) &&
-                Objects.equals(role, user.role) &&
-                Objects.equals(city, user.city) &&
-                Objects.equals(address, user.address) &&
-                Objects.equals(information, user.information) &&
-                Objects.equals(employeeWorkTypeName, user.employeeWorkTypeName);
+        User other = (User) o;
+        if (userId != other.userId) {
+            return false;
+        }
+        if (valuePersonHour != other.valuePersonHour) {
+            return false;
+        }
+        if (isBlocked != other.isBlocked) {
+            return false;
+        }
+        if (login == null) {
+            if (other.login != null) {
+                return false;
+            }
+        } else if (!login.equals(other.login)) {
+            return false;
+        }
+        if (password == null) {
+            if (other.password != null) {
+                return false;
+            }
+        } else if (!password.equals(other.password)) {
+            return false;
+        }
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+        if (secondName == null) {
+            if (other.secondName != null) {
+                return false;
+            }
+        } else if (!secondName.equals(other.secondName)) {
+            return false;
+        }
+        if (surname == null) {
+            if (other.surname != null) {
+                return false;
+            }
+        } else if (!surname.equals(other.surname)) {
+            return false;
+        }
+        if (email == null) {
+            if (other.email != null) {
+                return false;
+            }
+        } else if (!email.equals(other.email)) {
+            return false;
+        }
+        if (phone == null) {
+            if (other.phone != null) {
+                return false;
+            }
+        } else if (!phone.equals(other.phone)) {
+            return false;
+        }
+        if (role == null) {
+            if (other.role != null) {
+                return false;
+            }
+        } else if (!role.equals(other.role)) {
+            return false;
+        }
+        if (city == null) {
+            if (other.city != null) {
+                return false;
+            }
+        } else if (!city.equals(other.city)) {
+            return false;
+        }
+        if (address == null) {
+            if (other.address != null) {
+                return false;
+            }
+        } else if (!address.equals(other.address)) {
+            return false;
+        }
+        if (information == null) {
+            if (other.information != null) {
+                return false;
+            }
+        } else if (!information.equals(other.information)) {
+            return false;
+        }
+        if (employeeWorkTypeName == null) {
+            return other.employeeWorkTypeName == null;
+        } else return employeeWorkTypeName.equals(other.employeeWorkTypeName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, login, password, name, secondName, surname, email, phone, role, city, address, valuePersonHour, information, isBlocked, employeeWorkTypeName);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + userId;
+        result = prime * result + (login == null ? 0 : login.hashCode());
+        result = prime * result + (password == null ? 0 : password.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (secondName == null ? 0 : secondName.hashCode());
+        result = prime * result + (surname == null ? 0 : surname.hashCode());
+        result = prime * result + (email == null ? 0 : email.hashCode());
+        result = prime * result + (phone == null ? 0 : phone.hashCode());
+        result = prime * result + (role == null ? 0 : role.hashCode());
+        result = prime * result + (city == null ? 0 : city.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + valuePersonHour;
+        result = prime * result + (information == null ? 0 : information.hashCode());
+        result = prime * result + (isBlocked  ? 1231 : 1237);
+        result = prime * result + (employeeWorkTypeName == null ? 0 : employeeWorkTypeName.hashCode());
+        return result;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", secondName='" + secondName + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", role='" + role + '\'' +
-                ", city='" + city + '\'' +
-                ", address='" + address + '\'' +
-                ", valuePersonHour=" + valuePersonHour +
-                ", information='" + information + '\'' +
-                ", isBlocked=" + isBlocked +
-                ", employeeWorkTypeName=" + employeeWorkTypeName +
-                '}' + System.lineSeparator();
+        StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName())
+                .append("[userId = ")
+                .append(userId)
+                .append(", login = ")
+                .append(login)
+                .append(", password = ")
+                .append(password)
+                .append(", secondName = ")
+                .append(secondName)
+                .append(", surname = ")
+                .append(surname)
+                .append(", email = ")
+                .append(email)
+                .append(", phone = ")
+                .append(phone)
+                .append(", role = ")
+                .append(role)
+                .append(", city = ")
+                .append(city)
+                .append(", address = ")
+                .append(address)
+                .append(", valuePersonHour = ")
+                .append(valuePersonHour)
+                .append(", information = ")
+                .append(information)
+                .append(", isBlocked = ")
+                .append(isBlocked)
+                .append(", employeeWorkTypeName = ")
+                .append(employeeWorkTypeName)
+                .append("]");
+        return builder.toString();
     }
 }

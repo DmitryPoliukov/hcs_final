@@ -102,7 +102,8 @@ public class Subquery implements Serializable {
                 .append(", mainRequestId = ")
                 .append(mainRequestId)
                 .append(", workType = ")
-                .append(workType);
+                .append(workType)
+                .append("]");
         return builder.toString();
     }
 }
