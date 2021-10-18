@@ -1,11 +1,7 @@
 package by.epamtc.poliukov.comand.impl.user;
 
 import by.epamtc.poliukov.comand.Command;
-import by.epamtc.poliukov.comand.CommandHelper;
-import by.epamtc.poliukov.comand.impl.guest.ViewUser;
-import by.epamtc.poliukov.entity.Tenant;
 import by.epamtc.poliukov.entity.User;
-import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
 import by.epamtc.poliukov.service.UserService;
@@ -20,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.epamtc.poliukov.dao.ColumnName.*;
-import static by.epamtc.poliukov.dao.ColumnName.LOGIN;
 
 public class AddTenant implements Command {
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/user/addTenant.jsp";

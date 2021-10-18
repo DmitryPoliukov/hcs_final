@@ -4,8 +4,6 @@ import by.epamtc.poliukov.dao.ColumnName;
 import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
 import by.epamtc.poliukov.entity.Subquery;
-import by.epamtc.poliukov.entity.Tenant;
-import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;
@@ -157,7 +155,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     public List<WorkRequest> getAllRequestForTenantByLogin(String login) throws DaoException {
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
@@ -189,7 +187,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     public List<Subquery> getAllSubqueriesForRequest(int requestId) throws DaoException {
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
@@ -362,7 +360,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     public int allNewRequestsCount() throws DaoException {
         Connection connection = null;
         Statement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.createStatement();

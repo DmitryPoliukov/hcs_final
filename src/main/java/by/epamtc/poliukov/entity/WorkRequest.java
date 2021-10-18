@@ -1,9 +1,11 @@
 package by.epamtc.poliukov.entity;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
-public class WorkRequest {
+public class WorkRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int requestID;
     private String fillingDate;
     private String plannedDate;
@@ -66,29 +68,69 @@ public class WorkRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WorkRequest that = (WorkRequest) o;
-        return requestID == that.requestID &&
-                tenantUserId == that.tenantUserId &&
-                Objects.equals(fillingDate, that.fillingDate) &&
-                Objects.equals(plannedDate, that.plannedDate) &&
-                Objects.equals(requestStatus, that.requestStatus) &&
-                Objects.equals(subqueryList, that.subqueryList);
+        WorkRequest other = (WorkRequest) o;
+        if (requestID != other.requestID) {
+            return false;
+        }
+        if (tenantUserId != other.tenantUserId) {
+            return false;
+        }
+        if (fillingDate == null) {
+            if (other.fillingDate != null) {
+                return false;
+            }
+        } else if (!fillingDate.equals(other.fillingDate)) {
+            return false;
+        }
+        if (plannedDate == null) {
+            if (other.plannedDate != null) {
+                return false;
+            }
+        } else if (!plannedDate.equals(other.plannedDate)) {
+            return false;
+        }
+        if (requestStatus == null) {
+            if (other.requestStatus != null) {
+                return false;
+            }
+        } else if (!requestStatus.equals(other.requestStatus)) {
+            return false;
+        }
+        if (subqueryList == null) {
+            return other.subqueryList == null;
+        } else return subqueryList.equals(other.subqueryList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestID, fillingDate, plannedDate, tenantUserId, requestStatus, subqueryList);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + requestID;
+        result = prime * result + (fillingDate == null ? 0 : fillingDate.hashCode());
+        result = prime * result + (plannedDate == null ? 0 : plannedDate.hashCode());
+        result = prime * result + tenantUserId;
+        result = prime * result + (requestStatus == null ? 0 : requestStatus.hashCode());
+        result = prime * result + (subqueryList == null ? 0 : subqueryList.hashCode());
+        return result;
     }
 
     @Override
     public String toString() {
-        return "WorkRequest{" +
-                "requestID=" + requestID +
-                ", fillingDate=" + fillingDate +
-                ", plannedDate=" + plannedDate +
-                ", tenantUserId=" + tenantUserId +
-                ", requestStatus='" + requestStatus +
-                ", subqueriesList=" + subqueryList +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName())
+                .append("[requestID = ")
+                .append(requestID)
+                .append(", fillingDate = ")
+                .append(fillingDate)
+                .append(", plannedDate = ")
+                .append(plannedDate)
+                .append(", tenantUserId = ")
+                .append(tenantUserId)
+                .append(", requestStatus = ")
+                .append(requestStatus)
+                .append(", subqueryList = ")
+                .append(subqueryList)
+                .append("]");
+        return builder.toString();
     }
 }

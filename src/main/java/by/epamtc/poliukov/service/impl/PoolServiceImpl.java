@@ -21,7 +21,6 @@ public class PoolServiceImpl implements PoolService {
         }
     }
 
-
     @Override
     public void destroy() throws ServiceException {
         try {

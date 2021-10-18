@@ -7,13 +7,11 @@ import java.util.List;
 
 public interface UserDao {
 
-    boolean addUser(User user) throws DaoException; //голый юзер
+    boolean addUser(User user) throws DaoException;
 
-    User authorise(String login, String password) throws DaoException; //голый юзер
+    User authorise(String login, String password) throws DaoException;
 
-    List<User> getAllTenants() throws DaoException; //ок
-
-    List<User> getAllEmployee() throws DaoException; // ок
+    List<User> getAllEmployee() throws DaoException;
 
     List<User> getAllEmployee(int offset, int noOfRecords) throws DaoException;
 
@@ -23,19 +21,17 @@ public interface UserDao {
 
     int allEmployeesCount(int workTypeId) throws DaoException;
 
-    User getUserByLogin(String login) throws DaoException; // голый юзер
-
-    boolean deleteUser(String login) throws DaoException; // голый юзер
+    User getUserByLogin(String login) throws DaoException;
 
     boolean updateEmployeeStatus(String login, boolean is_Blocked) throws DaoException;
 
     boolean addTenantInfo(int userId, String city, String address) throws DaoException;
 
     List<String> getTenantInfo(int userId) throws DaoException;
-
     boolean addEmployeeInfo(int userId, int value_person_hour, String information) throws DaoException;
-
     List<String> getEmployeeInfo(int userId) throws DaoException;
+    List<User> getAllTenants() throws DaoException;
+    boolean deleteUser(String login) throws DaoException;
 
 
 
