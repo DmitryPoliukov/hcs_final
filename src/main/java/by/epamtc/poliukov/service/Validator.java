@@ -12,8 +12,6 @@ public class Validator {
     private static final Pattern PATTERN_TITLE = Pattern.compile(TITLE);
     private static final String NUMBER = "[\\d]+";
     private static final Pattern PATTERN_NUMBER = Pattern.compile(NUMBER);
-    private static final String YEAR = "[1|2]{1}[9|0|1]{1}[\\d]{2}";
-    private static final Pattern PATTERN_YEAR = Pattern.compile(YEAR);
     private static final String LOGIN = "[a-zA-Z_0-9]{3,16}";
     private static final Pattern PATTERN_LOGIN = Pattern.compile(LOGIN);
     private static final String EMAIL = "\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}";
@@ -77,10 +75,4 @@ public class Validator {
         return email.matches(EMAIL);
     }
 
-
-    public static boolean validateYear(String year) {
-        Matcher matcher;
-        matcher = PATTERN_YEAR.matcher(year);
-        return matcher.matches();
-    }
 }

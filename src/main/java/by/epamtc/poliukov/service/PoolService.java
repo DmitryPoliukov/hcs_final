@@ -5,7 +5,6 @@ import by.epamtc.poliukov.exception.ServiceException;
 
 public interface PoolService {
 
-
     void init() throws ServiceException;
 
 

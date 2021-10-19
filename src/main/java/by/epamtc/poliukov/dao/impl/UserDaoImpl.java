@@ -87,7 +87,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean addUser(User user) throws DaoException {
         boolean isAdded = true;
-        if (isLoginEmailUnique(user)) {
             Connection connection = null;
             PreparedStatement statementUser = null;
             try {
@@ -109,9 +108,6 @@ public class UserDaoImpl implements UserDao {
             } finally {
                 ConnectionPool.closeResource(connection, statementUser);
             }
-        } else {
-            isAdded = false;
-        }
         return isAdded;
     }
 
@@ -257,9 +253,9 @@ public class UserDaoImpl implements UserDao {
             }
             return allEmployees;
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Pool connection exception in getAllEmployeePagination", e);
+            throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in getAllEmployeePagination ", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -432,15 +428,15 @@ public class UserDaoImpl implements UserDao {
         return isUpdate;
     }
 
-    private boolean isLoginEmailUnique(User user) throws DaoException {
+    public boolean isLoginEmailUnique(String login, String email) throws DaoException {
         boolean isUnique = true;
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement loginStatement = connection
                      .prepareStatement(SQL_UNIQUE_LOGIN);
              PreparedStatement emailStatement = connection
                      .prepareStatement(SQL_UNIQUE_EMAIL)) {
-            loginStatement.setString(1, user.getLogin());
-            emailStatement.setString(1, user.getEmail());
+            loginStatement.setString(1, login);
+            emailStatement.setString(1, email);
             ResultSet loginResultSet = loginStatement.executeQuery();
             ResultSet emailResultSet = emailStatement.executeQuery();
             if (loginResultSet.next()) {

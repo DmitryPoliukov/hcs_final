@@ -2,8 +2,8 @@ package by.epamtc.poliukov.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class Encryption {
-    private Encryption() {
+public class PasswordEncryption {
+    private PasswordEncryption() {
     }
 
     public static String encrypt (String plainPassword) {

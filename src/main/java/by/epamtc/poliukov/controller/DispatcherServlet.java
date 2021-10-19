@@ -32,23 +32,15 @@ public class DispatcherServlet extends HttpServlet implements Serializable {
         super();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
             processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String commandString;
@@ -60,8 +52,6 @@ public class DispatcherServlet extends HttpServlet implements Serializable {
         logger.log(Level.INFO, "DispatcherServlet processRequest() - commandName = {}", commandString);
         if (commandString != null && !commandString.isEmpty()) {
             try {
-
-
                 User user = (User) request.getSession(false).getAttribute(USER);
                 String role;
                 if (user != null) {
@@ -85,12 +75,6 @@ public class DispatcherServlet extends HttpServlet implements Serializable {
                 request.setAttribute(ERROR, MESSAGE_OF_ERROR_2);
                 request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
                 logger.info("Error in dispatcher servlet");
-            } catch (ServletException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         } else {
             logger.log(Level.ERROR, "No such command");

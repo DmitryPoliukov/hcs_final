@@ -7,7 +7,7 @@ import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
-import by.epamtc.poliukov.service.Encryption;
+import by.epamtc.poliukov.service.PasswordEncryption;
 import by.epamtc.poliukov.service.UserService;
 import by.epamtc.poliukov.service.Validator;
 import org.apache.logging.log4j.Level;
@@ -42,8 +42,14 @@ public class UserServiceImpl implements UserService {
                 !Validator.validateEmail(email)) {
             throw new ServiceAuthorizationException("Check input parameters");
         }
+        try {
+            isLoginEmailUnique(login, email);
+        } catch (ServiceException e) {
+            throw new ServiceAuthorizationException("Login or email not unique");
+        }
+
         String pass =  new String(password);
-        String encodedPassword = Encryption.encrypt(pass);
+        String encodedPassword = PasswordEncryption.encrypt(pass);
 
         User user = new User();
         user.setLogin(login);
@@ -59,11 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) throws ServiceException, ServiceAuthorizationException {
+    public User addUser(User user) throws ServiceException {
         boolean isAdded;
-        //if(!Validator.validate(user)) {
-          //  throw new ServiceAuthorizationException("incorrect user data");
-        //}
         DaoFactory daoFactory = DaoFactory.getInstance();
         UserDao daoUser = daoFactory.getUserDao();
         UtilDao utilDao = daoFactory.getUtilDao();
@@ -81,8 +84,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addTenantInfo(String login, String city, String address) throws ServiceException {
-        //проверить
+    public User addTenantInfo(String login, String city, String address) throws ServiceException, ServiceAuthorizationException {
+        if (!Validator.validateLogin(login)) {
+            throw new ServiceAuthorizationException("Check login");
+        }
         User user;
         DaoFactory daoFactory = DaoFactory.getInstance();
         UserDao daoUser = daoFactory.getUserDao();
@@ -94,7 +99,7 @@ public class UserServiceImpl implements UserService {
             daoUser.addTenantInfo(user.getUserId(), city, address);
             user = daoUser.getUserByLogin(login);
         } catch (DaoException e) {
-            throw new ServiceException("Error in source", e);
+            throw new ServiceException("Failed to add tenant info", e);
         }
         return user;
     }
@@ -103,16 +108,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User authorise(String login, byte[] password) throws ServiceException, ServiceAuthorizationException {
-        User user = null;
+        User user;
         if (!Validator.validateLogin(login)
                 || !Validator.validatePassword(password)) {
             throw new ServiceAuthorizationException("Wrong login or password");
         }
         String pass =  new String(password);
-
         user = getUserByLogin(login);
-
-        if (user == null || !Encryption.isMatch(pass , user.getPassword())) {
+        if (user == null || !PasswordEncryption.isMatch(pass , user.getPassword())) {
                 throw new ServiceAuthorizationException("Wrong login or password!");
         }
         logger.info(user.toString() + "was authorised");
@@ -149,12 +152,11 @@ public class UserServiceImpl implements UserService {
                 employeeWorkTypes = utilDao.takeEmployeeWorkType(employee.getLogin());
                 employee.setEmployeeWorkTypeName(employeeWorkTypes);
             }
-
-            if (employees == null || employees.size() == 0) {
+            if (employees.size() == 0) {
                 throw new ServiceException("No employees matching your query");
             }
         } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
+            throw new ServiceException("Exception in getAllEmployee", e);
         }
         return employees;
     }
@@ -172,12 +174,11 @@ public class UserServiceImpl implements UserService {
                 employeeWorkTypes = utilDao.takeEmployeeWorkType(employee.getLogin());
                 employee.setEmployeeWorkTypeName(employeeWorkTypes);
             }
-
-            if (employees == null || employees.size() == 0) {
+            if (employees.size() == 0) {
                 throw new ServiceException("No employees matching your query");
             }
         } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
+            throw new ServiceException("Exception in getAllEmployee", e);
         }
         return employees;
     }
@@ -197,11 +198,11 @@ public class UserServiceImpl implements UserService {
                 employee.setEmployeeWorkTypeName(employeeWorkTypes);
             }
 
-            if (employees == null || employees.size() == 0) {
+            if (employees.size() == 0) {
                 throw new ServiceException("No employees matching your query");
             }
         } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
+            throw new ServiceException("Exception in getAllEmployee_paginationType", e);
         }
         return employees;
     }
@@ -217,7 +218,7 @@ public class UserServiceImpl implements UserService {
                 throw new ServiceException("No employees matching your query");
             }
         } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
+            throw new ServiceException("Exception in allEmployeesCount", e);
         }
         return amount;
     }
@@ -235,7 +236,7 @@ public class UserServiceImpl implements UserService {
                 throw new ServiceException("No employees matching your query");
             }
         } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
+            throw new ServiceException("Exception in allEmployeesCount", e);
         }
         return amount;
     }
@@ -254,26 +255,10 @@ public class UserServiceImpl implements UserService {
             user = dao.getUserByLogin(login);
             logger.info(user.toString());
         } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
+            throw new ServiceException("Failed to get user by login", e);
         }
         return user;
     }
-/*
-    @Override
-    public boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException {
-        if(!Validator.validate(login)) {
-            throw new ServiceAuthorizationException("Wrong login");
-        }
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        UserDao dao = daoFactory.getUserDao();
-        try {
-            return dao.deleteUser(login);
-        } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
-        }
-    }
-
- */
 
     public void updateBlockingEmployee(String login, boolean isBlocked) throws ServiceException, ServiceAuthorizationException {
         if(!Validator.validate(login)) {
@@ -296,7 +281,7 @@ public class UserServiceImpl implements UserService {
         }
         boolean isUpdate;
         UtilDao utilDao = DaoFactory.getInstance().getUtilDao();
-        int roleId = 0;
+        int roleId;
         try {
             roleId = Integer.parseInt(utilDao.takeRoleIdByRoleName(roleName));
             isUpdate = utilDao.updateUserRole(login, roleId);
@@ -306,23 +291,32 @@ public class UserServiceImpl implements UserService {
         return isUpdate;
 
     }
-
+    private boolean isLoginEmailUnique(String login, String email) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        boolean isUnique;
+        try {
+            isUnique = dao.isLoginEmailUnique(login, email);
+        } catch (DaoException e) {
+            throw new ServiceException("Login or email is not unique", e);
+        }
+        return isUnique;
+    }
     /*
     @Override
-    public List<String> getTenantInfo(String login) throws ServiceException, ServiceAuthorizationException {
+    public boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException {
         if(!Validator.validate(login)) {
             throw new ServiceAuthorizationException("Wrong login");
         }
         DaoFactory daoFactory = DaoFactory.getInstance();
-        UtilDao utilDao = daoFactory.getUtilDao();
-        List<String> result;
+        UserDao dao = daoFactory.getUserDao();
         try {
-            result = utilDao.takeTenantInfo(login);
+            return dao.deleteUser(login);
         } catch (DaoException e) {
             throw new ServiceException("Error in source!", e);
         }
-        return result;
     }
 
  */
+
 }

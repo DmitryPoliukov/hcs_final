@@ -9,7 +9,6 @@ import by.epamtc.poliukov.service.PoolService;
 
 public class PoolServiceImpl implements PoolService {
 
-
     @Override
     public void init() throws ServiceException {
         try {
