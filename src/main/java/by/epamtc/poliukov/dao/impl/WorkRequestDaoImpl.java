@@ -15,7 +15,7 @@ import java.util.List;
 public class WorkRequestDaoImpl implements WorkRequestDao {
 
     private static final WorkRequestDao INSTANCE = new WorkRequestDaoImpl();
-    private WorkRequestDaoImpl(){
+    private WorkRequestDaoImpl() {
     }
 
     public static WorkRequestDao getInstance() {
@@ -23,17 +23,15 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     }
 
     private final static String SQL_ADD_WORK_REQUEST = "INSERT INTO work_requests (filling_date," +
-            "planned_date, tenant_user_id_fk) " +
-            "VALUES(?, ?, ?)";
+            "planned_date, tenant_user_id_fk) VALUES(?, ?, ?)";
 
     private final static String SQL_ADD_SUBQUERY = "INSERT INTO subqueries (amount_of_work_in_hours, " +
             "information, sub_work_request_id_fk, sub_work_type_id) VALUES(?, ?, ?, ?)";
 
-
     private final static String SQL_GET_ALL_REQUESTS_FOR_TENANT = "SELECT * FROM work_requests wr " +
             "JOIN users on users.user_id = wr.tenant_user_id_fk WHERE users.login = ?";
 
-    private final static String SQL_VIEW_ALL_WORK_REQUEST_TENANT_PAGINATION=
+    private final static String SQL_VIEW_ALL_WORK_REQUEST_TENANT_PAGINATION =
             "SELECT * FROM work_requests JOIN users on users.user_id = tenant_user_id_fk " +
                     "WHERE login = ? ORDER BY filling_date DESC LIMIT ?, ?";
 
@@ -83,7 +81,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             st.setInt(3, request.getTenantUserId());
             st.execute();
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in addWorkRequest ", e);
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } finally {
@@ -108,7 +106,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             st.setString(4, subquery.getWorkType());
             st.execute();
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in addSubqueries", e);
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } finally {
@@ -122,7 +120,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_VIEW_ALL_WORK_REQUEST_TENANT_PAGINATION);
@@ -145,7 +142,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in getAllRequestForTenantByLogin", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -156,7 +153,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_ALL_REQUESTS_FOR_TENANT);
@@ -177,7 +173,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in getAllRequestForTenantByLogin", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -188,7 +184,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_All_SUBQUERIES_FOR_REQUEST);
@@ -209,7 +204,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception getAllSubqueriesForRequest ", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -220,7 +215,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_NEW_REQUESTS_FOR_ONE_WORK_TYPE_PAGE);
@@ -243,7 +237,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in getNewRequestsForOneWorkType", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -253,7 +247,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_NEW_REQUESTS_PAGE);
@@ -275,18 +268,16 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in getAllNewRequests ", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
     }
 
-
     @Override
     public boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws DaoException {
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
         boolean isUpdate = false;
 
         try {
@@ -301,7 +292,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in updateWorkRequestStatus ", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -323,11 +314,10 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
                 amount = rs.getInt(AMOUNT);
             }
             return amount;
-
         } catch (SQLException e) {
-            throw new DaoException("WorkRequest sql error", e);
+            throw new DaoException("Registered sql exception in allRequestsByLoginCount", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Pool connection error", e);
+            throw new DaoException("Pool connection exception ", e);
         } finally {
             ConnectionPool.closeResource(con, st, rs);
         }
@@ -347,11 +337,10 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
                 amount = rs.getInt(AMOUNT);
             }
             return amount;
-
         } catch (SQLException e) {
-            throw new DaoException("WorkRequest sql error", e);
+            throw new DaoException("Registered sql exception in newRequestsByTypeCount", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Pool connection error", e);
+            throw new DaoException("Pool connection exception ", e);
         } finally {
             ConnectionPool.closeResource(con, st, rs);
         }
@@ -370,31 +359,26 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
                 amount = rs.getInt(AMOUNT);
             }
             return amount;
-
         } catch (SQLException e) {
-            throw new DaoException("WorkRequest sql error", e);
+            throw new DaoException("Registered sql exception in allNewRequestsCount", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Pool connection error", e);
+            throw new DaoException("Pool connection exception ", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
     }
 
     public Subquery getSubqueryByRequestIdType(int workRequestId, int workTypeId) throws DaoException {
-
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_SUBQUERIY_FOR_REQUEST_BY_TYPE);
             st.setInt(1, workRequestId);
             st.setInt(2, workTypeId);
-
             rs = st.executeQuery();
-            Subquery subquery;
-            Subquery sub= new Subquery();
+            Subquery sub = new Subquery();
             if (rs.next()) {
                 sub.setSubId(rs.getInt(ColumnName.SUB_ID));
                 sub.setAmountOfWorkInHours(rs.getInt(ColumnName.AMOUNT_OF_WORK_IN_HOURS));
@@ -406,7 +390,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in getSubqueryByRequestIdType", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }

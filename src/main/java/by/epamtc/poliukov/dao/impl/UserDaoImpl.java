@@ -27,47 +27,62 @@ public class UserDaoImpl implements UserDao {
     private final static String SQL_REGISTER_USER = "INSERT INTO users (login, password, name, second_name," +
             "surname, email, phone, role_id_fk) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
     private final static String SQL_LOG_IN = "SELECT * FROM users JOIN roles on users.role_id_fk = roles.role_id " +
             "WHERE `login`= ? and `password` = ?";
+
     private final static String SQL_VIEW_ALL_TENANT =
             "SELECT * FROM users JOIN users_part_tenant upt on users.user_id = upt.part_user_id " +
                     "JOIN roles on users.role_id_fk = roles.role_id";
+
     private final static String SQL_VIEW_ALL_EMPLOYEE =
             "SELECT * FROM users JOIN users_part_employee upe on users.user_id = upe.part_user_id " +
                     "JOIN roles on users.role_id_fk = roles.role_id ";
+
     private final static String SQL_VIEW_ALL_EMPLOYEE_PAGINATION =
             "SELECT * FROM users JOIN users_part_employee upe on users.user_id = upe.part_user_id " +
                     "JOIN roles on users.role_id_fk = roles.role_id WHERE upe.is_blocked = 0 ORDER BY upe.part_user_id DESC LIMIT ?, ?";
+
     private final static String SQL_VIEW_ALL_EMPLOYEE_PAGINATION_BY_TYPE =
             "SELECT * FROM users JOIN users_part_employee upe on users.user_id = upe.part_user_id " +
                     "JOIN roles on users.role_id_fk = roles.role_id " +
                     "JOIN employee_work_types ewt ON users.user_id = ewt_user_id_fk " +
                     "WHERE upe.is_blocked = 0 AND ewt_work_type_id = ? ORDER BY upe.part_user_id DESC LIMIT ?, ?";
+
     private static final String COUNT_ALL_EMPLOYEES = "SELECT COUNT(part_user_id) AS amount FROM users_part_employee " +
             "WHERE is_blocked = 0 ";
+
     private static final String COUNT_ALL_EMPLOYEES_BY_TYPE = "SELECT COUNT(part_user_id) AS amount FROM users_part_employee upe " +
             "JOIN employee_work_types ewt ON ewt_user_id_fk = part_user_id " +
             "WHERE is_blocked = 0 AND ewt_work_type_id = ?";
+
     private static final String SQL_DELETE_BY_USERNAME =
             "DELETE FROM users WHERE login = ?";
+
     private final static String SQL_GET_USER_BY_USERNAME =
             "SELECT * FROM users JOIN roles on users.role_id_fk = roles.role_id WHERE login = ?";
+
     private final static String SQL_UPDATE_EMPLOYEE_STATUS =
             "UPDATE users_part_employee upe JOIN users on " +
                     "users.user_id = upe.part_user_id SET is_blocked = ? WHERE login = ?";
+
     private static final String SQL_UNIQUE_LOGIN = "SELECT login "
             + "FROM users WHERE login = ?";
+
     private static final String SQL_UNIQUE_EMAIL = "SELECT email "
             + "FROM users WHERE email = ?";
+
     private final static String SQL_REGISTER_TENANT = "INSERT INTO users_part_tenant " +
             "(part_user_id, city, address) VALUES (?, ?, ?)";
+
     private final static String SQL_GET_TENANT_INFO = "SELECT * FROM users_part_tenant WHERE part_user_id = ?";
 
     private final static String SQL_REGISTER_EMPLOYEE = "INSERT INTO users_part_employee " +
             "(part_user_id, value_person_hour, information) VALUES (?, ?, ?)";
+
     private final static String SQL_GET_EMPLOYEE_INFO = "SELECT * FROM users_part_employee WHERE part_user_id = ?";
+
     private final static String AMOUNT = "amount";
-    private final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
     @Override
     public boolean addUser(User user) throws DaoException {
@@ -429,11 +444,9 @@ public class UserDaoImpl implements UserDao {
             ResultSet loginResultSet = loginStatement.executeQuery();
             ResultSet emailResultSet = emailStatement.executeQuery();
             if (loginResultSet.next()) {
-                logger.log(Level.WARN, "Login is not unique");
                 isUnique = false;
             }
             if (emailResultSet.next()) {
-                logger.log(Level.WARN, "Email is not unique");
                 isUnique = false;
             }
         } catch (SQLException ex) {

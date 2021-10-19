@@ -20,13 +20,11 @@ public class ConnectionPoolListener implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent sce) {
-
         try {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         PoolService poolService = serviceFactory.getPoolService();
         poolService.init();
         logger.log(Level.INFO, "Pool successfully initialized");
-
          } catch (ServiceException e) {
             try {
                 throw new ConnectionPoolListenerException("Cannot init the pool", e);
@@ -37,7 +35,6 @@ public class ConnectionPoolListener implements ServletContextListener {
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
-
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             PoolService poolService = serviceFactory.getPoolService();

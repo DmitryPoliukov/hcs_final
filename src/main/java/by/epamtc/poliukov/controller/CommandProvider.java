@@ -27,6 +27,7 @@ public class CommandProvider {
     private Map<CommandList, Command> tenantCommands = new HashMap<>();
     private Map<CommandList, Command> employeeCommands = new HashMap<>();
     private Map<CommandList, Command> dispatcherCommands = new HashMap<>();
+    private Map<String, Map<CommandList, Command>> roleCommands = new HashMap<>();
 
     private static final String GUEST = "guest";
     private static final String USER = "user";
@@ -38,6 +39,12 @@ public class CommandProvider {
     private static final CommandProvider instance = new CommandProvider();
 
     private CommandProvider() {
+        roleCommands.put(GUEST, guestCommands);
+        roleCommands.put(ADMIN, adminCommands);
+        roleCommands.put(TENANT, tenantCommands);
+        roleCommands.put(EMPLOYEE, employeeCommands);
+        roleCommands.put(DISPATCHER, dispatcherCommands);
+        roleCommands.put(USER, userCommands);
 
         guestCommands.put(CommandList.LOGIN, new Login());
         guestCommands.put(CommandList.REGISTER, new Register());
@@ -95,29 +102,13 @@ public class CommandProvider {
         return instance;
     }
 
-
     Command getCommandForUser(String type, String commandName) {
         String cmd = commandName.replace("-", "_").toUpperCase();
-        CommandList name = null;
+        CommandList name;
         Command command = null;
         try {
             name = CommandList.valueOf(cmd);
-            switch (type) {
-                case GUEST:
-                    return guestCommands.get(name);
-                case USER:
-                    return userCommands.get(name);
-                case ADMIN:
-                    return adminCommands.get(name);
-                case TENANT:
-                    return tenantCommands.get(name);
-                case EMPLOYEE:
-                    return employeeCommands.get(name);
-                case DISPATCHER:
-                    return dispatcherCommands.get(name);
-                default:
-                    return guestCommands.get(name);
-            }
+            return roleCommands.get(type).get(name);
         } catch (IllegalArgumentException e) {
             logger.log(Level.ERROR, "No such command", e);
         }

@@ -1,7 +1,8 @@
 package by.epamtc.poliukov.dao;
 
-public class ColumnName {
+public final class ColumnName {
     //final class singleton
+
     // roles
     public static final String ROLE_ID = "role_id";
     public static final String ROLE_NAME = "role_name";
@@ -32,7 +33,6 @@ public class ColumnName {
     public static final String RATING = "rating";
     public static final String NUMBERS_OF_FEEDBACK = "numbers_of_feedback";
     public static final String INFORMATION = "information";
-    public static final String IMAGES = "images";
     public static final String IS_BLOCKED = "is_blocked";
 
     //work type
@@ -49,13 +49,8 @@ public class ColumnName {
     public static final String REQUEST_STATUS_ID = "request_status_id";
     public static final String REQUEST_STATUS_NAME = "request_status_name";
 
-
-
     public static final String AMOUNT_OF_WORK_IN_HOURS = "amount_of_work_in_hours";
     public static final String SUB_WORK_REQUEST_ID_FK = "sub_work_request_id_fk";
     public static final String SUB_WORK_TYPE_ID = "sub_work_type_id";
-
-
-
 
 }

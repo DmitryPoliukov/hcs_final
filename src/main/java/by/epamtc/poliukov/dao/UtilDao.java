@@ -9,10 +9,6 @@ public interface UtilDao {
 
     String takeRoleIdByRoleName(String role) throws DaoException;
 
-    String takeRoleNameByRoleId(int roleId) throws DaoException;
-
-    Boolean takeEmployeeStatus(String login) throws DaoException;
-
     List<String> takeEmployeeWorkType(String login) throws DaoException;
 
     Integer takeWorkTypeIdByName(String workTypeName) throws DaoException;
@@ -27,5 +23,7 @@ public interface UtilDao {
 
     WorkRequest takeWorkRequestByFillingDateUserId(String fillingDate, int tenantId) throws DaoException;
 
-   // не надо  List<String> takeTenantInfo(String login) throws DaoException;
+    String takeRoleNameByRoleId(int roleId) throws DaoException;
+    Boolean takeEmployeeStatus(String login) throws DaoException;
+
 }

@@ -12,8 +12,6 @@ public class DaoFactory {
     private UtilDao utilDao = UtilDaoImpl.getInstance();
     private WorkRequestDao workRequestDao = WorkRequestDaoImpl.getInstance();
 
-
-
     public static DaoFactory getInstance() {
         return INSTANCE;
     }
@@ -21,9 +19,11 @@ public class DaoFactory {
     public UserDao getUserDao() {
         return userDao;
     }
+
     public UtilDao getUtilDao() {
         return utilDao;
     }
+
     public WorkRequestDao getWorkRequestDao() {
         return workRequestDao;
     }

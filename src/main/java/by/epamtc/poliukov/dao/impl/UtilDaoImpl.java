@@ -27,20 +27,25 @@ public class UtilDaoImpl implements UtilDao {
 
     private static final String SQL_GET_ROLE_ID_BY_ROLE = "SELECT role_id FROM roles WHERE " +
             "role_name = ? ";
+
     private static final String SQL_GET_ROLE_NAME_BY_ROLE_ID = "SELECT role_name FROM roles WHERE " +
             "role_id = ? ";
+
     private final static String SQL_GET_EMPLOYEE_STATUS_BY_LOGIN =
             "SELECT is_blocked from users_part_employee JOIN users " +
                     "on users.user_id=users_part_employee.part_user_id WHERE login = ?";
+
     private final static String SQL_GET_EMPLOYEE_WORK_TYPE_BY_LOGIN =
             "SELECT work_type_name FROM work_types wt " +
                     "JOIN employee_work_types ewt ON wt.work_type_id=ewt_work_type_id  " +
                     "JOIN users on users.user_id=ewt.ewt_user_id_fk WHERE login = ?";
+
     private final static String SQL_GET_WORK_TYPE_ID_BY_NAME =
             "SELECT work_type_id FROM work_types WHERE work_type_name = ?";
 
     private final static String SQL_GET_WORK_TYPE_NAME_BY_ID =
             "SELECT work_type_name FROM work_types WHERE work_type_id = ?";
+
     private final static String SQL_GET_REQUEST_STATUS_ID_BY_NAME =
             "SELECT request_status_id FROM request_statuses WHERE request_status_name = ?";
 
@@ -58,7 +63,7 @@ public class UtilDaoImpl implements UtilDao {
         String roleId = null;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_ROLE_ID_BY_ROLE);
@@ -69,7 +74,7 @@ public class UtilDaoImpl implements UtilDao {
             }
             return roleId;
         } catch (SQLException e) {
-        throw new DaoException("Registered sql exception ", e);
+        throw new DaoException("Registered sql exception in takeRoleIdByRoleName ", e);
         } catch (ConnectionPoolException e) {
         throw new DaoException("Pool connection exception ", e);
         } finally {
@@ -82,7 +87,7 @@ public class UtilDaoImpl implements UtilDao {
         String roleName = null;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_ROLE_NAME_BY_ROLE_ID);
@@ -93,7 +98,7 @@ public class UtilDaoImpl implements UtilDao {
             }
             return roleName;
         } catch (SQLException e) {
-            throw new DaoException("Registered sql exception ", e);
+            throw new DaoException("Registered sql exception in takeRoleNameByRoleId", e);
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception ", e);
         } finally {
@@ -106,22 +111,22 @@ public class UtilDaoImpl implements UtilDao {
         Boolean isBlocked = null;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_EMPLOYEE_STATUS_BY_LOGIN);
             st.setString(1, login);
             rs = st.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 isBlocked = rs.getInt(ColumnName.IS_BLOCKED) == 1;
             }
             return isBlocked;
 
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in takeEmployeeStatus", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -132,7 +137,7 @@ public class UtilDaoImpl implements UtilDao {
         int workTypeId = -1;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_WORK_TYPE_ID_BY_NAME);
@@ -142,11 +147,10 @@ public class UtilDaoImpl implements UtilDao {
                 workTypeId = rs.getInt(ColumnName.WORK_TYPE_ID);
             }
             return workTypeId;
-
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in takeWorkTypeIdByName", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -157,7 +161,7 @@ public class UtilDaoImpl implements UtilDao {
         String workTypeName = null;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_WORK_TYPE_NAME_BY_ID);
@@ -167,11 +171,10 @@ public class UtilDaoImpl implements UtilDao {
                 workTypeName = rs.getString(ColumnName.WORK_TYPE_NAME);
             }
             return workTypeName;
-
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in takeWorkTypeName", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception");
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -182,7 +185,7 @@ public class UtilDaoImpl implements UtilDao {
         List<String> employeeWorkTypeName = new ArrayList<>();
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_EMPLOYEE_WORK_TYPE_BY_LOGIN);
@@ -192,15 +195,13 @@ public class UtilDaoImpl implements UtilDao {
                 employeeWorkTypeName.add(rs.getString(ColumnName.WORK_TYPE_NAME));
             }
             return employeeWorkTypeName;
-
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in takeEmployeeWorkType", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception");
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
-
     }
 
     @Override
@@ -208,7 +209,7 @@ public class UtilDaoImpl implements UtilDao {
         int requestStatusId = -1;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_REQUEST_STATUS_ID_BY_NAME);
@@ -218,11 +219,10 @@ public class UtilDaoImpl implements UtilDao {
                 requestStatusId = rs.getInt(ColumnName.REQUEST_STATUS_ID);
             }
             return requestStatusId;
-
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in takeRequestStatusIdByStatusName", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception");
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -233,7 +233,7 @@ public class UtilDaoImpl implements UtilDao {
         String requestStatusName = null;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_REQUEST_STATUS_NAME_BY_ID);
@@ -243,11 +243,10 @@ public class UtilDaoImpl implements UtilDao {
                 requestStatusName = rs.getString(ColumnName.REQUEST_STATUS_NAME);
             }
             return requestStatusName;
-
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in takeRequestStatusNameByStatusId", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception");
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -267,9 +266,9 @@ public class UtilDaoImpl implements UtilDao {
             isUpdate = true;
             return isUpdate;
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in updateUserRole", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception");
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
@@ -280,7 +279,7 @@ public class UtilDaoImpl implements UtilDao {
         WorkRequest workRequest = null;
         Connection connection = null;
         PreparedStatement st = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_REQUEST_BY_DATE_ID);
@@ -297,44 +296,11 @@ public class UtilDaoImpl implements UtilDao {
             }
             return workRequest;
         } catch (SQLException e) {
-            throw new DaoException("sql error", e);
+            throw new DaoException("Registered sql exception in takeWorkRequestByFillingDateUserId", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
-        } finally {
-            ConnectionPool.closeResource(connection, st);
-        }
-
-    }
-
-    /*
-    @Override
-    public List<String> takeTenantInfo(String login) throws DaoException {
-        List<String> tenantInfo = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        try {
-            connection = ConnectionPool.getInstance().takeConnection();
-            st = connection.prepareStatement(SQL_GET_TENANT_INFO);
-            st.setString(1, login);
-            rs = st.executeQuery();
-            while (rs.next()) {
-                tenantInfo.add(rs.getString(ColumnName.CITY));
-                tenantInfo.add(rs.getString(ColumnName.ADDRESS));
-
-            }
-            return tenantInfo;
-
-        } catch (SQLException e) {
-            throw new DaoException("sql error", e);
-        } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection error");
+            throw new DaoException("Pool connection exception");
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
     }
-
- */
-
-
 }
