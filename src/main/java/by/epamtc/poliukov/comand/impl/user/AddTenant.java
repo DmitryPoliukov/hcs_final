@@ -6,6 +6,7 @@ import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
 import by.epamtc.poliukov.service.UserService;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,16 +20,15 @@ import java.io.IOException;
 import static by.epamtc.poliukov.dao.ColumnName.*;
 
 public class AddTenant implements Command {
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/user/addTenant.jsp";
-    private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
-    private static final String ACCOUNT = "WEB-INF/user/userPage.jsp";
-
     private static final Logger logger = LogManager.getLogger(AddTenant.class);
-    private static final String TENANT = "tenant";
+
+    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/user/addTenant.jsp";
     private static final String USER = "user";
-    private static final String LOGIN = "login";
     private static final String SUCCESS = "successMessage";
     private static final String MESSAGE_OF_SUCCESS = "Tenant information added";
+    private static final String ERROR = "errorMessage";
+    private static final String MESSAGE_OF_ERROR = "Request status not updated";
+    private static final String MESSAGE_OF_ERROR_1 = "Wrong login";
 
 
 
@@ -47,8 +47,14 @@ public class AddTenant implements Command {
                 session.setAttribute(USER, user);
                 request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
                 request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+            } catch (ServiceAuthorizationException e) {
+                logger.log(Level.ERROR, " authorization error");
+                request.setAttribute(ERROR, MESSAGE_OF_ERROR_1);
+                request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
             } catch (ServiceException e) {
-                e.printStackTrace();
+                logger.log(Level.ERROR, e.getMessage(), e);
+                request.setAttribute(ERROR, MESSAGE_OF_ERROR);
+                request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
             }
 
 

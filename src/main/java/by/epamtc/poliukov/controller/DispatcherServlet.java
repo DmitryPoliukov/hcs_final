@@ -49,14 +49,10 @@ public class DispatcherServlet extends HttpServlet implements Serializable {
         }
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String commandString;
-        if (ServletFileUpload.isMultipartContent(request)) {
-            commandString = String.valueOf(CommandList.UPLOAD_PHOTO);
-        } else {
-            commandString = request.getParameter(COMMAND);
-        }
+        commandString = request.getParameter(COMMAND);
         logger.log(Level.INFO, "DispatcherServlet processRequest() - commandName = {}", commandString);
         if (commandString != null && !commandString.isEmpty()) {
             try {
@@ -77,7 +73,7 @@ public class DispatcherServlet extends HttpServlet implements Serializable {
                 } else {
                     command.execute(request, response);
                 }
-            } catch (IllegalArgumentException | ServiceException ex) {
+            } catch (IllegalArgumentException ex) {
 
                 logger.log(Level.ERROR, "404 error, client requests a nonexistent command", ex);
                 request.setAttribute(ERROR, MESSAGE_OF_ERROR_2);
