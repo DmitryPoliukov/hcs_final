@@ -1,6 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set scope="session" var="previousQuery" value="index.jsp"/>
 <html>
 <head>
@@ -22,6 +22,6 @@
     }
 </script>
 
-<c:import url="WEB-INF/jsp/menu/menu.jsp"/>
+<c:import url="WEB-INF/jsp/menu/main.jsp"/>
 </body>
 </html>

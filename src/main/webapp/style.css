@@ -5,6 +5,7 @@
 	margin-bottom: 0;
 	border-radius: 5px;
 	min-height: 7%;
+	background-color: #00ff99;
 }
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
@@ -34,8 +35,9 @@ img{border:0;}
 
 /* Set black background color, white text and some padding */
 footer {
-	background-color: #555;
-	color: white;
+	float:left;
+	background-color: #c70b0b;
+	color: #ffffff;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
@@ -109,10 +111,10 @@ html {
 .footer {
 	position: relative;
 	bottom: 0;
-	width: 100%;
+	width: 70%;
 	/* Set the fixed height of the footer here */
 	min-height: 7%;
-	background-color: #555;
+	background-color: black;
 }
 #child{
 	padding: 1%;
