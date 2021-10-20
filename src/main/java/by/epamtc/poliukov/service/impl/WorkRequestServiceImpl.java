@@ -7,6 +7,7 @@ import by.epamtc.poliukov.entity.Subquery;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.DaoException;
+import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.Validator;
 import by.epamtc.poliukov.service.WorkRequestService;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,21 +47,27 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         String inputPlannedDate = request.getParameter("plannedDate");
 
         if (!Validator.validateDate(inputPlannedDate)) {
-           throw new IOException();
+           throw new IOException("Incorrect planned date ");
         }
         String plannedDate = inputDateParsing(inputPlannedDate);
-
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("dd.M.yyyy");
+        try {
+            Date docDate= format.parse(plannedDate);
+        } catch (ParseException e) {
+            logger.log(Level.ERROR,  "planned date parsing");
+        }
+        // добавить сравнение дат
 
         WorkRequest workRequest = new WorkRequest();
         workRequest.setFillingDate(fillingDate);
         workRequest.setPlannedDate(plannedDate);
         workRequest.setTenantUserId(tenantId);
+        logger.log(Level.INFO,  "Work request created");
         return workRequest;
-
     }
 
     public Subquery createSubquery (HttpServletRequest request) {
-
         int workRequestID = Integer.parseInt(request.getParameter(WORK_REQUEST_ID));
         int amountOfWorkInHours = Integer.parseInt(request.getParameter(AMOUNT));
         String information = request.getParameter(INFORMATION);
@@ -70,6 +78,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         subquery.setAmountOfWorkInHours(amountOfWorkInHours);
         subquery.setInformation(information);
         subquery.setWorkType(workType);
+        logger.log(Level.INFO,  "Subquery for requstID = " + workRequestID + "created");
         return subquery;
     }
 
@@ -77,9 +86,8 @@ public class WorkRequestServiceImpl implements WorkRequestService {
 
     @Override
     public WorkRequest addWorkRequest(WorkRequest request) throws ServiceException {
-        boolean isAdded = false;
+        boolean isAdded;
         WorkRequest workRequest;
-        // валидация реквеста
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
         UtilDao utilDao = daoFactory.getUtilDao();
@@ -92,14 +100,12 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         }
         logger.log(Level.INFO,
                 "Request" + request.getRequestID() + "' was added: " + isAdded);
-
         return workRequest;
     }
 
     @Override
     public boolean addSubqueries(Subquery subquery, int requestID) throws ServiceException {
-        boolean isAdded = false;
-        // валидация подзапроса
+        boolean isAdded;
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
         UtilDao utilDao = daoFactory.getUtilDao();
@@ -112,18 +118,17 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         }
         logger.log(Level.INFO,
                 "Subquery" + subquery.getSubId() + "' was added: " + isAdded);
-
         return isAdded;
     }
 
     @Override
-    public List<WorkRequest> getAllRequestForTenantByLogin(String login) throws ServiceException {
-        // валидация логина
+    public List<WorkRequest> getAllRequestForTenantByLogin(String login) throws ServiceException, ServiceAuthorizationException {
+        if (!Validator.validateLogin(login)) {
+            throw new ServiceAuthorizationException("Check input parameters");
+        }
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
-        UtilDao utilDao = daoFactory.getUtilDao();
-
-        List<WorkRequest> allRequestForOneTenant = null;
+        List<WorkRequest> allRequestForOneTenant;
         List<Subquery> allSubqueriesForRequest;
         try {
             allRequestForOneTenant = workRequestDao.getAllRequestForTenantByLogin(login);
@@ -131,21 +136,21 @@ public class WorkRequestServiceImpl implements WorkRequestService {
                 allSubqueriesForRequest = workRequestDao.getAllSubqueriesForRequest(request.getRequestID());
                 request.setSubqueryList(allSubqueriesForRequest);
             }
-
         } catch (DaoException e) {
-            e.printStackTrace();
+            throw new ServiceException("Failed to add request", e);
         }
         return allRequestForOneTenant;
     }
 
     @Override
-    public List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws ServiceException {
-        // валидация логина
+    public List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws ServiceException, ServiceAuthorizationException {
+        if (!Validator.validateLogin(login)) {
+            throw new ServiceAuthorizationException("Check input parameters");
+        }
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
         UtilDao utilDao = daoFactory.getUtilDao();
-
-        List<WorkRequest> allRequestForOneTenant = null;
+        List<WorkRequest> allRequestForOneTenant;
         List<Subquery> allSubqueriesForRequest;
         try {
             allRequestForOneTenant = workRequestDao.getAllRequestForTenantByLogin(login, offset, noOfRecords);
@@ -157,9 +162,8 @@ public class WorkRequestServiceImpl implements WorkRequestService {
                 }
                 request.setSubqueryList(allSubqueriesForRequest);
             }
-
         } catch (DaoException e) {
-            e.printStackTrace();
+            throw new ServiceException("Failed to get all requests for tenant by login", e);
         }
         return allRequestForOneTenant;
     }
@@ -184,7 +188,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
                 workRequest.setSubqueryList(subqueriesList);
             }
         } catch (DaoException e) {
-            throw new ServiceException("Failed to add request", e);
+            throw new ServiceException("Failed to get new requests for work type = " + workTypeName, e);
         }
         logger.log(Level.INFO,
                 "Take new requests for work type = " + workTypeName);
@@ -210,11 +214,9 @@ public class WorkRequestServiceImpl implements WorkRequestService {
                 workRequest.setSubqueryList(subqueriesList);
             }
         } catch (DaoException e) {
-            throw new ServiceException("Failed to get requests", e);
+            throw new ServiceException("Failed to get all new requests", e);
         }
-        logger.log(Level.INFO,
-                "Take all new requests");
-
+        logger.log(Level.INFO, "Take all new requests");
         return requestsForOneWorkType;
     }
 
@@ -223,22 +225,28 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
         UtilDao utilDao = daoFactory.getUtilDao();
-        boolean isUpdate = false;
+        boolean isUpdate;
         try {
             Integer statusID = utilDao.takeRequestStatusIdByStatusName(updatedStatus);
             isUpdate = workRequestDao.updateWorkRequestStatus(workRequestId, statusID.toString());
+            logger.log(Level.INFO, "update work request id = " + workRequestId + " status");
         } catch (DaoException e) {
             throw new ServiceException("Failed to update work request status", e);
         }
+
         return isUpdate;
     }
 
-    public int allRequestsByLoginCount(String login) throws ServiceException {
+    public int allRequestsByLoginCount(String login) throws ServiceException, ServiceAuthorizationException {
+        if (!Validator.validateLogin(login)) {
+            throw new ServiceAuthorizationException("Check input parameters");
+        }
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
         int requestCount;
         try {
             requestCount = workRequestDao.allRequestsByLoginCount(login);
+            logger.log(Level.INFO, "all requests by login = " + login + " count = " + requestCount);
             return requestCount;
         } catch (DaoException e) {
            throw new ServiceException("Failed to count all requests by login", e);
@@ -251,10 +259,12 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         int requestCount;
         try {
             requestCount = workRequestDao.allNewRequestsCount();
-            return requestCount;
+            logger.log(Level.INFO, "All new requests count = " + allNewRequestsCount());
+
         } catch (DaoException e) {
             throw new ServiceException("Failed to count all new requests", e);
         }
+        return requestCount;
 
     }
 
@@ -267,6 +277,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         try {
             workTypeId = utilDao.takeWorkTypeIdByName(workTypeName);
             requestCount = workRequestDao.newRequestsByTypeCount(workTypeId);
+            logger.log(Level.INFO, "All new requests  for type = " + workTypeName + " count = " + allNewRequestsCount());
             return requestCount;
         } catch (DaoException e) {
             throw new ServiceException("Failed to count actual requests by work type name", e);

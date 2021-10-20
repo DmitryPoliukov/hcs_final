@@ -38,10 +38,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     private final static String SQL_GET_All_SUBQUERIES_FOR_REQUEST = "SELECT * from subqueries " +
             "WHERE sub_work_request_id_fk = ?";
 
-    private final static String SQL_GET_NEW_REQUESTS_FOR_ONE_WORK_TYPE = "SELECT * from work_requests " +
-            "JOIN subqueries on sub_work_request_id_fk = request_id " +
-            "WHERE request_status_id_fk = 1 AND subqueries.sub_work_type_id = ?";
-
     private final static String SQL_GET_NEW_REQUESTS_FOR_ONE_WORK_TYPE_PAGE = "SELECT * from work_requests " +
             "JOIN subqueries on sub_work_request_id_fk = request_id " +
             "WHERE request_status_id_fk = 1 AND subqueries.sub_work_type_id = ? ORDER BY filling_date DESC LIMIT ?, ?";
@@ -68,7 +64,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
 
     @Override
     public boolean addWorkRequest(WorkRequest request) throws DaoException {
-        // валидация синтаксическая, уникальность
 
         boolean isAdded = true;
         Connection connection = null;
@@ -92,7 +87,6 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
 
     @Override
     public boolean addSubqueries(Subquery subquery, int requestID) throws DaoException {
-        //валидация синтаксическая и уникальная
 
         boolean isAdded = true;
         Connection connection = null;

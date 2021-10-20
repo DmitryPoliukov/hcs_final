@@ -17,13 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ViewUser implements Command {
+    private static final Logger logger = LogManager.getLogger(ViewUser.class);
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/user/userPage.jsp";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
-
-    private static final Logger logger = LogManager.getLogger(ViewUser.class);
-
     private static final String LOGIN = "username";
-
     private static final String REQUEST_ATTRIBUTE = "user";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "No user with such nickname";

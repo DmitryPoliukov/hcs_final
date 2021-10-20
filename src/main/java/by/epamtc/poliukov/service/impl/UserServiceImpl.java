@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setPhone(phone);
         user.setRole(role);
+        logger.log(Level.INFO, "User " + user.getLogin() + " created");
 
         return user;
     }
@@ -98,13 +99,12 @@ public class UserServiceImpl implements UserService {
             utilDao.updateUserRole(login, 2); //roleId for tenant = 2
             daoUser.addTenantInfo(user.getUserId(), city, address);
             user = daoUser.getUserByLogin(login);
+            logger.log(Level.INFO, "Tenant info was added for " + user.getLogin());
         } catch (DaoException e) {
             throw new ServiceException("Failed to add tenant info", e);
         }
         return user;
     }
-
-
 
     @Override
     public User authorise(String login, byte[] password) throws ServiceException, ServiceAuthorizationException {
@@ -201,6 +201,8 @@ public class UserServiceImpl implements UserService {
             if (employees.size() == 0) {
                 throw new ServiceException("No employees matching your query");
             }
+            logger.log(Level.INFO,
+                    "All employees: " + employees.toString() + "for work type - " + workType);
         } catch (DaoException e) {
             throw new ServiceException("Exception in getAllEmployee_paginationType", e);
         }
@@ -220,6 +222,7 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException("Exception in allEmployeesCount", e);
         }
+        logger.log(Level.INFO, "allEmployeesCount = " + amount);
         return amount;
     }
 
@@ -238,6 +241,8 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException("Exception in allEmployeesCount", e);
         }
+        logger.log(Level.INFO, "allEmployeesCount = " + amount + " for work type " + workTypeName);
+
         return amount;
     }
 
@@ -253,7 +258,7 @@ public class UserServiceImpl implements UserService {
         User user;
         try {
             user = dao.getUserByLogin(login);
-            logger.info(user.toString());
+            logger.log(Level.INFO, "Get user " + user.getLogin());
         } catch (DaoException e) {
             throw new ServiceException("Failed to get user by login", e);
         }
@@ -288,6 +293,7 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException("Failed update user role", e);
         }
+        logger.log(Level.INFO,  "user " + login + " updated as a " + roleName);
         return isUpdate;
 
     }
@@ -302,21 +308,4 @@ public class UserServiceImpl implements UserService {
         }
         return isUnique;
     }
-    /*
-    @Override
-    public boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException {
-        if(!Validator.validate(login)) {
-            throw new ServiceAuthorizationException("Wrong login");
-        }
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        UserDao dao = daoFactory.getUserDao();
-        try {
-            return dao.deleteUser(login);
-        } catch (DaoException e) {
-            throw new ServiceException("Error in source!", e);
-        }
-    }
-
- */
-
 }

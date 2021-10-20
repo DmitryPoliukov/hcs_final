@@ -33,8 +33,6 @@ public interface UserService {
 
     List<User> getAllEmployee(int offset, int recordsPerPage, String workType) throws ServiceException;
 
-    // boolean deleteUser(String login) throws ServiceException, ServiceAuthorizationException;
-
     boolean updateUserRole(String login, String role) throws ServiceException, ServiceAuthorizationException;
 
 }

@@ -2,6 +2,7 @@ package by.epamtc.poliukov.comand.impl.user;
 
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.entity.User;
+import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
 import by.epamtc.poliukov.service.UserService;
@@ -49,10 +50,6 @@ public class AddTenant implements Command {
             } catch (ServiceException e) {
                 e.printStackTrace();
             }
-
-
-
-
 
 
     }

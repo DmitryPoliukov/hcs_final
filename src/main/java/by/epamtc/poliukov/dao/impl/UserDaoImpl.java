@@ -56,9 +56,6 @@ public class UserDaoImpl implements UserDao {
             "JOIN employee_work_types ewt ON ewt_user_id_fk = part_user_id " +
             "WHERE is_blocked = 0 AND ewt_work_type_id = ?";
 
-    private static final String SQL_DELETE_BY_USERNAME =
-            "DELETE FROM users WHERE login = ?";
-
     private final static String SQL_GET_USER_BY_USERNAME =
             "SELECT * FROM users JOIN roles on users.role_id_fk = roles.role_id WHERE login = ?";
 
@@ -74,8 +71,6 @@ public class UserDaoImpl implements UserDao {
 
     private final static String SQL_REGISTER_TENANT = "INSERT INTO users_part_tenant " +
             "(part_user_id, city, address) VALUES (?, ?, ?)";
-
-    private final static String SQL_GET_TENANT_INFO = "SELECT * FROM users_part_tenant WHERE part_user_id = ?";
 
     private final static String SQL_REGISTER_EMPLOYEE = "INSERT INTO users_part_employee " +
             "(part_user_id, value_person_hour, information) VALUES (?, ?, ?)";
@@ -383,26 +378,6 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-
-    @Override
-    public boolean deleteUser(String login) throws DaoException {
-        Connection connection = null;
-        PreparedStatement st = null;
-        try {
-            connection = ConnectionPool.getInstance().takeConnection();
-            st = connection.prepareStatement(SQL_DELETE_BY_USERNAME);
-            st.setString(1, login);
-            int update = st.executeUpdate();
-            return update > 0;
-        } catch (SQLException e) {
-            throw new DaoException("sql exception in deleteUser", e);
-        } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection exception");
-        } finally {
-            ConnectionPool.closeResource(connection, st);
-        }
-    }
-
     @Override
     public boolean updateEmployeeStatus(String login, boolean is_Blocked) throws DaoException {
         boolean isUpdate = false;
@@ -477,32 +452,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<String> getTenantInfo(int userId) throws DaoException {
-        List<String> tenantInfo = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement st = null;
-        ResultSet rs;
-        try {
-            connection = ConnectionPool.getInstance().takeConnection();
-            st = connection.prepareStatement(SQL_GET_TENANT_INFO);
-            st.setInt(1, userId);
-            rs = st.executeQuery();
-            while (rs.next()) {
-                tenantInfo.add(rs.getString(ColumnName.CITY));
-                tenantInfo.add(rs.getString(ColumnName.ADDRESS));
-            }
-            return tenantInfo;
-
-        } catch (SQLException e) {
-            throw new DaoException("Registered sql exception in getTenantInfo", e);
-        } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection exception");
-        } finally {
-            ConnectionPool.closeResource(connection, st);
-        }
-    }
-
-    @Override
     public boolean addEmployeeInfo(int userId, int value_person_hour, String information) throws DaoException {
         boolean isAdded = true;
         Connection connection = null;
@@ -522,31 +471,5 @@ public class UserDaoImpl implements UserDao {
             ConnectionPool.closeResource(connection, statementEmployee);
         }
         return isAdded;
-    }
-
-    @Override
-    public List<String> getEmployeeInfo(int userId) throws DaoException {
-        List<String> employeeInfo = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement st = null;
-        ResultSet rs;
-        try {
-            connection = ConnectionPool.getInstance().takeConnection();
-            st = connection.prepareStatement(SQL_GET_EMPLOYEE_INFO);
-            st.setInt(1, userId);
-            rs = st.executeQuery();
-            while (rs.next()) {
-                employeeInfo.add(String.valueOf(rs.getInt(ColumnName.VALUE_PERSON_HOUR)));
-                employeeInfo.add(rs.getString(ColumnName.INFORMATION));
-                employeeInfo.add(String.valueOf(rs.getInt(ColumnName.IS_BLOCKED)));
-            }
-            return employeeInfo;
-        } catch (SQLException e) {
-            throw new DaoException("sql exception in getEmployeeInfo", e);
-        } catch (ConnectionPoolException e) {
-            throw new DaoException("pool connection exception");
-        } finally {
-            ConnectionPool.closeResource(connection, st);
-        }
     }
 }

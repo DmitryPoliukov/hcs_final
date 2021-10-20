@@ -1,7 +1,6 @@
 package by.epamtc.poliukov.comand.impl.guest;
 
 import by.epamtc.poliukov.comand.Command;
-import by.epamtc.poliukov.comand.CommandHelper;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
@@ -18,21 +17,19 @@ import java.util.List;
 
 public class AllEmployees implements Command {
     private static final Logger logger = LogManager.getLogger(AllEmployees.class);
+
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/common/employeesByType.jsp";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String REQUEST_ATTRIBUTE = "all_employees";
-
     private static final String PAGE = "page";
     private static final String AMOUNT_OF_PAGES = "noOfPages";
     private static final String CURRENT_PAGE = "currentPage";
     private static final int RECORDS_PER_PAGE = 2;
-
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "No employees matching your query";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         List<User> employees;
         UserService userService = ServiceFactory.getInstance().getUserService();
         try {
@@ -40,7 +37,6 @@ public class AllEmployees implements Command {
             if (request.getParameter(PAGE) != null) {
                 page = Integer.parseInt(request.getParameter(PAGE));
             }
-
             employees = userService.getAllEmployee((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
 
             int numberOfEmployees = userService.allEmployeesCount();

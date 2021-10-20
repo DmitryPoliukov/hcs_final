@@ -29,11 +29,9 @@ public interface UserDao {
 
     boolean isLoginEmailUnique(String login, String email) throws DaoException;
 
-    List<String> getTenantInfo(int userId) throws DaoException;
     boolean addEmployeeInfo(int userId, int value_person_hour, String information) throws DaoException;
-    List<String> getEmployeeInfo(int userId) throws DaoException;
+
     List<User> getAllTenants() throws DaoException;
-    boolean deleteUser(String login) throws DaoException;
 
 
 

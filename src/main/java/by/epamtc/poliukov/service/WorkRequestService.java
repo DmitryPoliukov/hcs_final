@@ -3,6 +3,7 @@ package by.epamtc.poliukov.service;
 import by.epamtc.poliukov.entity.Subquery;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.DaoException;
+import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +22,9 @@ public interface WorkRequestService {
 
     boolean addSubqueries(Subquery subquery, int requestID) throws ServiceException;
 
-    List<WorkRequest> getAllRequestForTenantByLogin(String login) throws ServiceException;
+    List<WorkRequest> getAllRequestForTenantByLogin(String login) throws ServiceException, ServiceAuthorizationException;
 
-    List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws ServiceException;
+    List<WorkRequest> getAllRequestForTenantByLogin(String login, int offset, int noOfRecords) throws ServiceException, ServiceAuthorizationException;
 
     List<WorkRequest> getNewRequestsForOneWorkType(String workTypeName, int offset, int noOfRecords) throws ServiceException;
 
@@ -31,7 +32,7 @@ public interface WorkRequestService {
 
     boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws ServiceException;
 
-    int allRequestsByLoginCount(String login) throws ServiceException;
+    int allRequestsByLoginCount(String login) throws ServiceException, ServiceAuthorizationException;
 
     int newRequestsByTypeCount(String workTypeName) throws ServiceException;
 
