@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
@@ -19,6 +18,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>show all requests</title>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
@@ -38,6 +38,10 @@
 <c:if test="${requestScope.get('deleteSuccessMessage')!=null}">
     <h3 class="green"><c:out value="${requestScope.get('deleteSuccessMessage')}"/></h3>
     <c:remove var="deleteSuccessMessage" scope="request"/>
+</c:if>
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
 <div class="container-fluid text-center wrapper">
@@ -134,7 +138,7 @@
     </div>
 </div>
 </div>
-</div>
+
 
 
 

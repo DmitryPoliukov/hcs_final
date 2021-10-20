@@ -21,11 +21,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <title></title>
+    <title>actual requests</title>
 </head>
 <body onload="active()">
 
 <c:import url="../menu/menu.jsp"/>
+
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
+</c:if>
 
 <script language="JavaScript">
     function active() {
@@ -40,12 +45,14 @@
         <div class="selectboxes">
             <div class="sortAwaits" style="width: 391px; float: left;margin: 0">
                 <span>Work type </span>
-                <select onchange="MakeSort(this);">
-                    <option value="DispatcherServlet?command=actual-requests-all-types">-</option>
-                    <option value="DispatcherServlet?command=actual-requests-all-types">all</option>
-                    <option value="DispatcherServlet?command=actual-requests-employee&type=Малярные работы">Малярные работы</option>
-                    <option value="DispatcherServlet?command=actual-requests-employee&type=Бетонные работы">Бетонные работы</option>
-                </select>
+                <label>
+                    <select onchange="MakeSort(this);">
+                        <option value="DispatcherServlet?command=actual-requests-all-types">-</option>
+                        <option value="DispatcherServlet?command=actual-requests-all-types">all</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Малярные работы">Малярные работы</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Бетонные работы">Бетонные работы</option>
+                    </select>
+                </label>
             </div>
             <div class="clear"></div>
         </div>
@@ -145,8 +152,6 @@
 
         </ul>
     </div>
-</div>
-</div>
 </div>
 <c:import url="../menu/footer.jsp"/>
 </body>

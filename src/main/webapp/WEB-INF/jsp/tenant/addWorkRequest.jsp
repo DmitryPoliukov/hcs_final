@@ -18,6 +18,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>add work request</title>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
@@ -37,6 +38,10 @@
 <c:if test="${requestScope.get('successMessage')!=null}">
     <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
     <c:remove var="successMessage" scope="request"/>
+</c:if>
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
 <div class="container">

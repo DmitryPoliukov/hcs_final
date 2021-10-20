@@ -26,6 +26,10 @@
 <body onload="active()">
 
 <c:import url="../menu/menu.jsp"/>
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
+</c:if>
 
 <script language="JavaScript">
     function active() {
@@ -40,14 +44,16 @@
         <div class="selectboxes">
             <div class="sortAwaits" style="width: 391px; float: left;margin: 0">
                 <span>Employees by work type</span>
-                <select onchange="MakeSort(this);">
-                    <option value="DispatcherServlet?command=all-employees">-</option>
-                    <option value="DispatcherServlet?command=all-employees">all</option>
-                    <option value="DispatcherServlet?command=employees-by-type&type=Малярные работы">Малярные работы</option>
-                    <option value="DispatcherServlet?command=employees-by-type&type=Бетонные работы">Бетонные работы</option>
+                <label>
+                    <select onchange="MakeSort(this);">
+                        <option value="DispatcherServlet?command=all-employees">-</option>
+                        <option value="DispatcherServlet?command=all-employees">all</option>
+                        <option value="DispatcherServlet?command=employees-by-type&type=Малярные работы">Малярные работы</option>
+                        <option value="DispatcherServlet?command=employees-by-type&type=Бетонные работы">Бетонные работы</option>
 
 
-                </select>
+                    </select>
+                </label>
             </div>
             <div class="clear"></div>
         </div>
@@ -152,8 +158,6 @@
         </ul>
     </div>
     </div>
-</div>
-</div>
 <c:import url="../menu/footer.jsp"/>
 </body>
 </html>

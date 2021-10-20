@@ -11,6 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <TITLE>Add tenant</TITLE>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
@@ -26,6 +27,11 @@
 <body>
 
 <c:import url="../menu/menu.jsp"/>
+
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
+</c:if>
 
 
 

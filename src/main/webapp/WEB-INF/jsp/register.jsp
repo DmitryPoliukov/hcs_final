@@ -25,6 +25,12 @@
 </head>
 <body onload="active()">
 <c:import url="menu/menu.jsp"/>
+
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
+</c:if>
+
 <script language="javascript">
     function active() {
         document.getElementById("index-page").className = "active";
@@ -65,7 +71,7 @@
                             <div class="form-group">
                                 <label for="name" class="col-sm-3 control-label">name</label>
                                 <div class="col-sm-7">
-                                    <input type="name" class="form-control" id="name" placeholder="name"
+                                    <input type="text" class="form-control" id="name" placeholder="name"
                                            name="name" required>
                                 </div>
                             </div>
@@ -73,7 +79,7 @@
                             <div class="form-group">
                                 <label for="surname" class="col-sm-3 control-label">surname</label>
                                 <div class="col-sm-7">
-                                    <input type="surname" class="form-control" id="surname" placeholder="surname"
+                                    <input type="text" class="form-control" id="surname" placeholder="surname"
                                            name="surname" required>
                                 </div>
                             </div>
@@ -81,7 +87,7 @@
                             <div class="form-group">
                                 <label for="second_name" class="col-sm-3 control-label">second_name</label>
                                 <div class="col-sm-7">
-                                    <input type="second_name" class="form-control" id="second_name" placeholder="second_name"
+                                    <input type="text" class="form-control" id="second_name" placeholder="second_name"
                                            name="second_name" required>
                                 </div>
                             </div>
@@ -89,7 +95,7 @@
                             <div class="form-group">
                                 <label for="phone" class="col-sm-3 control-label">phone</label>
                                 <div class="col-sm-7">
-                                    <input type="phone" class="form-control" id="phone" placeholder="phone"
+                                    <input type="text" class="form-control" id="phone" placeholder="phone"
                                            name="phone" required>
                                 </div>
                             </div>
