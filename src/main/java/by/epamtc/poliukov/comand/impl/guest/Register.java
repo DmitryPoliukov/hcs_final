@@ -25,7 +25,7 @@ public class Register implements Command {
     private static final String USER = "user";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR_2 = "User with such email or login is already exist";
-    private static final String MESSAGE_OF_ERROR_3 = "Login and password should be at least 6 characters";
+    private static final String MESSAGE_OF_ERROR_3 = "Check input parameters";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class Register implements Command {
             user = userService.createUser(request);
             String previousQuery = CommandHelper.getPreviousQuery(request);
             UserService service = ServiceFactory.getInstance().getUserService();
-            service.addUser(user);
+            user = service.addUser(user);
             session.setAttribute(USER, user);
             response.sendRedirect(previousQuery);
         } catch (ServiceAuthorizationException e) {

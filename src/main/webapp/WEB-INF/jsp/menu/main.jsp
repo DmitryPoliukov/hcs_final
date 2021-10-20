@@ -19,7 +19,7 @@
 </head>
     <body>
     <jsp:include page="menu.jsp"/>
-    <img src="${pageContext.request.contextPath}/img/back1.jpg" alt="back1" height="85%" width="100%"/>
+    <img src="${pageContext.request.contextPath}/img/back1.jpg" alt="back1" height="86%" width="100%"/>
     <jsp:include page="footer.jsp"/>
 
     </body>

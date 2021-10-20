@@ -31,7 +31,7 @@ public class UpdateRequestStatusTenant implements Command {
     private static final String REQUEST_ATTRIBUTE = "workRequestList";
     private static final String CLOSE = "close";
     private static final String SUCCESS = "deleteSuccessMessage";
-    private static final String MESSAGE_OF_SUCCESS = "Work request was deleted";
+    private static final String MESSAGE_OF_SUCCESS = "Work request canceled";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "Request status not updated";
     private static final String MESSAGE_OF_ERROR_1 = "Wrong login";

@@ -2,6 +2,7 @@ package by.epamtc.poliukov.comand.impl.tenant;
 
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.entity.WorkRequest;
+import by.epamtc.poliukov.exception.IncorrectDateException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
 import by.epamtc.poliukov.service.WorkRequestService;
@@ -24,6 +25,7 @@ public class AddWorkRequest implements Command {
     private static final String MESSAGE_OF_SUCCESS = "Work request information added";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "Work request information not added";
+    private static final String MESSAGE_OF_ERROR_2 = "Incorrect date";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,6 +43,10 @@ public class AddWorkRequest implements Command {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR);
+            request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
+        } catch (IncorrectDateException e) {
+            logger.log(Level.ERROR, e.getMessage(), e);
+            request.setAttribute(ERROR, MESSAGE_OF_ERROR_2);
             request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
         }
     }

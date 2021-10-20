@@ -7,6 +7,7 @@ import by.epamtc.poliukov.entity.Subquery;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.DaoException;
+import by.epamtc.poliukov.exception.IncorrectDateException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.Validator;
@@ -36,7 +37,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     private static final String WORK_TYPE = "workType";
 
 
-    public WorkRequest createWorkRequest (HttpServletRequest request) throws IOException {
+    public WorkRequest createWorkRequest (HttpServletRequest request) throws IncorrectDateException {
 
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.M.yyyy HH:mm:ss");
@@ -47,7 +48,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         String inputPlannedDate = request.getParameter("plannedDate");
 
         if (!Validator.validateDate(inputPlannedDate)) {
-           throw new IOException("Incorrect planned date ");
+           throw new IncorrectDateException("Incorrect planned date ");
         }
         String plannedDate = inputDateParsing(inputPlannedDate);
         SimpleDateFormat format = new SimpleDateFormat();
