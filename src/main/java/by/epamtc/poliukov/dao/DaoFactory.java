@@ -3,6 +3,7 @@ package by.epamtc.poliukov.dao;
 import by.epamtc.poliukov.dao.impl.UserDaoImpl;
 import by.epamtc.poliukov.dao.impl.UtilDaoImpl;
 import by.epamtc.poliukov.dao.impl.WorkRequestDaoImpl;
+import by.epamtc.poliukov.dao.impl.WorksPlanDaoImpl;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
 
 public class DaoFactory {
@@ -11,6 +12,7 @@ public class DaoFactory {
     private UserDao userDao = UserDaoImpl.getInstance();
     private UtilDao utilDao = UtilDaoImpl.getInstance();
     private WorkRequestDao workRequestDao = WorkRequestDaoImpl.getInstance();
+    private WorksPlanDao worksPlanDao = WorksPlanDaoImpl.getInstance();
 
     public static DaoFactory getInstance() {
         return INSTANCE;
@@ -26,6 +28,10 @@ public class DaoFactory {
 
     public WorkRequestDao getWorkRequestDao() {
         return workRequestDao;
+    }
+
+    public WorksPlanDao getWorksPlanDao() {
+        return worksPlanDao;
     }
 
     public ConnectionPool getConnectionPool() {

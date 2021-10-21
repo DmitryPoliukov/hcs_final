@@ -6,9 +6,6 @@ import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
 import by.epamtc.poliukov.entity.User;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -74,8 +71,6 @@ public class UserDaoImpl implements UserDao {
 
     private final static String SQL_REGISTER_EMPLOYEE = "INSERT INTO users_part_employee " +
             "(part_user_id, value_person_hour, information) VALUES (?, ?, ?)";
-
-    private final static String SQL_GET_EMPLOYEE_INFO = "SELECT * FROM users_part_employee WHERE part_user_id = ?";
 
     private final static String AMOUNT = "amount";
 

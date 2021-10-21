@@ -48,11 +48,14 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     private final static String SQL_UPDATE_WORK_REQUEST_STATUS =
             "UPDATE work_requests SET request_status_id_fk = ? WHERE request_id = ?";
 
+    private final static String SQL_UPDATE_WORK_REQUEST_PLANNED_DATE =
+            "UPDATE work_requests SET planned_date = ? WHERE request_id = ?";
+
     private static final String SQL_GET_COUNT_ALL_REQUESTS_BY_LOGIN = "SELECT COUNT(request_id) AS amount FROM work_requests " +
             "JOIN users ON work_requests.tenant_user_id_fk = users.user_id WHERE users.login = ?";
 
     private static final String SQL_GET_ACTUAL_REQUESTS_TYPE_COUNT = "SELECT COUNT(request_id) AS amount FROM work_requests " +
-            "JOIN subqueries ON request_id = sub_work_request_id_fk WHERE sub_work_type_id = ?";
+            "JOIN subqueries ON request_id = sub_work_request_id_fk WHERE sub_work_type_id = ? AND request_status_id_fk = 1";
 
     private final static String SQL_GET_SUBQUERIY_FOR_REQUEST_BY_TYPE = "SELECT * from subqueries " +
             "WHERE sub_work_request_id_fk = ? AND sub_work_type_id = ?";
@@ -269,7 +272,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     }
 
     @Override
-    public boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws DaoException {
+    public boolean updateWorkRequestStatus(int workRequestId, String updatedStatusId) throws DaoException {
         Connection connection = null;
         PreparedStatement st = null;
         boolean isUpdate = false;
@@ -277,7 +280,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_UPDATE_WORK_REQUEST_STATUS);
-            st.setString(1, updatedStatus);
+            st.setString(1, updatedStatusId);
             st.setInt(2, workRequestId);
             int i = st.executeUpdate();
             if (i > 0) {
@@ -287,6 +290,31 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
             throw new DaoException("Registered sql exception in updateWorkRequestStatus ", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+        return isUpdate;
+    }
+
+    @Override
+    public boolean updateWorkRequestCompletionDate(int workRequestId, String plannedDate) throws DaoException {
+        Connection connection = null;
+        PreparedStatement st = null;
+        boolean isUpdate = false;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_UPDATE_WORK_REQUEST_PLANNED_DATE);
+            st.setString(1, plannedDate);
+            st.setInt(2, workRequestId);
+            int i = st.executeUpdate();
+            if (i > 0) {
+                isUpdate = true;
+            }
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in updateWorkrequestCompletionDate" , e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }

@@ -238,6 +238,8 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         return isUpdate;
     }
 
+
+
     public int allRequestsByLoginCount(String login) throws ServiceException, ServiceAuthorizationException {
         if (!Validator.validateLogin(login)) {
             throw new ServiceAuthorizationException("Check input parameters");
@@ -260,12 +262,12 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         int requestCount;
         try {
             requestCount = workRequestDao.allNewRequestsCount();
-            logger.log(Level.INFO, "All new requests count = " + allNewRequestsCount());
-
+            logger.log(Level.INFO, "All new requests count = " + requestCount);
+            return requestCount;
         } catch (DaoException e) {
             throw new ServiceException("Failed to count all new requests", e);
         }
-        return requestCount;
+
 
     }
 
@@ -278,7 +280,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         try {
             workTypeId = utilDao.takeWorkTypeIdByName(workTypeName);
             requestCount = workRequestDao.newRequestsByTypeCount(workTypeId);
-            logger.log(Level.INFO, "All new requests  for type = " + workTypeName + " count = " + allNewRequestsCount());
+            logger.log(Level.INFO, "All new requests  for type = " + workTypeName + " count = " + requestCount);
             return requestCount;
         } catch (DaoException e) {
             throw new ServiceException("Failed to count actual requests by work type name", e);

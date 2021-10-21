@@ -48,6 +48,10 @@ public final class ColumnName {
     public static final String SUB_ID = "sub_id";
     public static final String REQUEST_STATUS_ID = "request_status_id";
     public static final String REQUEST_STATUS_NAME = "request_status_name";
+    public static final String EMPLOYEE_USER_ID_FK = "employee_user_id_fk";
+    public static final String WORKS_REQUEST_ID_FK = "works_request_id_fk";
+    public static final String COMPLETION_DATE = "completion_date";
+
 
     public static final String AMOUNT_OF_WORK_IN_HOURS = "amount_of_work_in_hours";
     public static final String SUB_WORK_REQUEST_ID_FK = "sub_work_request_id_fk";

@@ -22,7 +22,9 @@ public interface WorkRequestDao {
 
     List<WorkRequest> getAllNewRequests(int offset, int noOfRecords) throws DaoException;
 
-    boolean updateWorkRequestStatus(int workRequestId, String updatedStatus) throws DaoException;
+    boolean updateWorkRequestStatus(int workRequestId, String updatedStatusId) throws DaoException;
+
+    boolean updateWorkRequestCompletionDate(int workRequestId, String plannedDate) throws DaoException;
 
     int allRequestsByLoginCount(String login) throws DaoException;
 
