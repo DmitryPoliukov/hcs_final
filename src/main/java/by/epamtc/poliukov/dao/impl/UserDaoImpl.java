@@ -72,6 +72,12 @@ public class UserDaoImpl implements UserDao {
     private final static String SQL_REGISTER_EMPLOYEE = "INSERT INTO users_part_employee " +
             "(part_user_id, value_person_hour, information) VALUES (?, ?, ?)";
 
+    private final static String SQL_GET_TENANT_INFO = "SELECT * FROM users_part_tenant " +
+            "WHERE part_user_id = ?";
+
+    private final static String SQL_GET_USER_BY_USER_ID =
+            "SELECT * FROM users JOIN roles on users.role_id_fk = roles.role_id WHERE user_id = ?";
+
     private final static String AMOUNT = "amount";
 
     @Override
@@ -373,6 +379,38 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+     public User getUserByUserId(int userId) throws DaoException {
+         Connection connection = null;
+         PreparedStatement st = null;
+         ResultSet rs;
+         try {
+             connection = ConnectionPool.getInstance().takeConnection();
+             st = connection.prepareStatement(SQL_GET_USER_BY_USER_ID);
+             st.setInt(1, userId);
+             rs = st.executeQuery();
+             User user = null;
+             if (rs.next()) {
+                 user = new User();
+                 user.setUserId(rs.getInt(ColumnName.USER_ID));
+                 user.setLogin(rs.getString(ColumnName.USERNAME));
+                 user.setPassword(rs.getString(ColumnName.PASSWORD));
+                 user.setName(rs.getString(ColumnName.NAME));
+                 user.setSecondName(rs.getString(ColumnName.SECOND_NAME));
+                 user.setSurname(rs.getString(ColumnName.SURNAME));
+                 user.setEmail(rs.getString(ColumnName.EMAIL));
+                 user.setPhone(rs.getString(ColumnName.PHONE));
+                 user.setRole(rs.getString(ColumnName.ROLE_NAME));
+             }
+             return user;
+         } catch (SQLException e) {
+             throw new DaoException("getUserByUserId sql exception", e);
+         } catch (ConnectionPoolException e) {
+             throw new DaoException("pool connection exception");
+         } finally {
+             ConnectionPool.closeResource(connection, st);
+         }
+     }
+
     @Override
     public boolean updateEmployeeStatus(String login, boolean is_Blocked) throws DaoException {
         boolean isUpdate = false;
@@ -466,5 +504,31 @@ public class UserDaoImpl implements UserDao {
             ConnectionPool.closeResource(connection, statementEmployee);
         }
         return isAdded;
+    }
+
+    @Override
+    public List<String> getTenantInfo(int userId) throws DaoException {
+        List<String> tenantInfo = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_TENANT_INFO);
+            st.setInt(1, userId);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                tenantInfo.add(rs.getString(ColumnName.CITY));
+                tenantInfo.add(rs.getString(ColumnName.ADDRESS));
+            }
+            return tenantInfo;
+
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in getTenantInfo", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("pool connection exception");
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
     }
 }

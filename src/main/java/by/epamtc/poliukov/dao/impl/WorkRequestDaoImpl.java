@@ -63,6 +63,9 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     private final static String SQL_GET_ALL_ACTUAL_REQUESTS_COUNT = "SELECT COUNT(request_id) AS amount FROM work_requests " +
             "WHERE request_status_id_fk = 1";
 
+    private final static String SQL_GET_REQUEST_BY_REQUEST_ID = "SELECT * FROM work_requests " +
+            "WHERE request_id = ?";
+
     private final static String AMOUNT = "amount";
 
     @Override
@@ -418,4 +421,30 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
         }
     }
 
+    @Override
+    public WorkRequest getWorkrequestById(int workRequestId) throws DaoException {
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_REQUEST_BY_REQUEST_ID);
+            st.setInt(1, workRequestId);
+            rs = st.executeQuery();
+            WorkRequest workRequest = new WorkRequest();
+            if (rs.next()) {
+                workRequest.setFillingDate(rs.getString(ColumnName.FILLING_DATE));
+                workRequest.setPlannedDate(rs.getString(ColumnName.FILLING_DATE));
+                workRequest.setTenantUserId(rs.getInt(ColumnName.TENANT_USER_ID_FK));
+                workRequest.setRequestStatus(rs.getString(ColumnName.REQUEST_STATUS_ID_FK));
+            }
+            return workRequest;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in getWorkRequestById", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
 }

@@ -39,6 +39,8 @@ public interface WorkRequestService {
 
     int allNewRequestsCount() throws ServiceException;
 
+    WorkRequest getWorkRequestById(int workRequestId) throws ServiceException;
+
 
 
 }

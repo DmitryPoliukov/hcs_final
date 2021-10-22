@@ -3,9 +3,7 @@ package by.epamtc.poliukov.controller;
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.impl.admin.GoToUpdateRole;
 import by.epamtc.poliukov.comand.impl.admin.UpdateRole;
-import by.epamtc.poliukov.comand.impl.employee.ActualRequestsAllTypes;
-import by.epamtc.poliukov.comand.impl.employee.ActualRequestsEmployee;
-import by.epamtc.poliukov.comand.impl.employee.GoToActualRequestsEmployee;
+import by.epamtc.poliukov.comand.impl.employee.*;
 import by.epamtc.poliukov.comand.impl.guest.*;
 import by.epamtc.poliukov.comand.impl.tenant.*;
 import by.epamtc.poliukov.comand.impl.user.AddTenant;
@@ -93,6 +91,8 @@ public class CommandProvider {
         employeeCommands.put(CommandList.GO_TO_ACTUAL_REQUESTS_EMPLOYEE, new GoToActualRequestsEmployee());
         employeeCommands.put(CommandList.ACTUAL_REQUESTS_EMPLOYEE, new ActualRequestsEmployee());
         employeeCommands.put(CommandList.ACTUAL_REQUESTS_ALL_TYPES, new ActualRequestsAllTypes());
+        employeeCommands.put(CommandList.GO_TO_SHOW_WORK_PLAN, new GoToShowWorkPlan());
+        employeeCommands.put(CommandList.SHOW_WORK_PLAN, new ShowWorkPlan());
 
 
 

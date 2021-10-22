@@ -15,6 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorksPlanServiceImpl implements WorksPlanService {
+    private WorksPlanServiceImpl(){}
+    private static final WorksPlanServiceImpl INSTANCE = new WorksPlanServiceImpl();
+    public static WorksPlanServiceImpl getInstance() {
+        return INSTANCE;
+    }
+
     private final Logger logger = LogManager.getLogger(WorksPlanServiceImpl.class);
     @Override
     public boolean addWorkRequestToPlan(int workRequestId, int employeeId) throws ServiceException {
@@ -45,10 +51,6 @@ public class WorksPlanServiceImpl implements WorksPlanService {
             throw new ServiceException("Failed to get employees ID by request ID", e);
         }
         return employeesForRequest;
-
-
-
-
     }
 
     @Override
@@ -58,9 +60,12 @@ public class WorksPlanServiceImpl implements WorksPlanService {
         List<Integer> requestsIdByEmployeeIdDate;
         try {
             requestsIdByEmployeeIdDate = worksPlanDao.getRequestsIdByEmployeeIdCompletionDate(employeeId, completionDate);
+            logger.log(Level.INFO, "Get request id by employee id and completion date");
         } catch (DaoException e) {
             throw new ServiceException("Failed to get request id by employee id and completion date", e);
         }
         return requestsIdByEmployeeIdDate;
     }
+
+
 }

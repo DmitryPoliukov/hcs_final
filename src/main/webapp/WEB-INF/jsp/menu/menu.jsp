@@ -41,6 +41,7 @@
                 <li>
                     <a href="DispatcherServlet?command=go-to-add-work-request">| MAKE WORK REQUEST |</a>
                 </li>
+
             </c:if>
 
             <c:if test='${sessionScope.get("user").role eq "user"}'>
@@ -56,7 +57,8 @@
             </c:if>
             <c:if test='${sessionScope.get("user").role eq "employee"}'>
                 <li> <a href="DispatcherServlet?command=go-to-actual-requests-employee">| actual requests |</a>
-
+                </li>
+                <li> <a href="DispatcherServlet?command=go-to-show-work-plan">| WORK PLAN |</a>
                 </li>
             </c:if>
         </c:if>
@@ -187,7 +189,7 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-3 control-label">name</label>
                         <div class="col-sm-7">
-                            <input type="name" class="form-control" id="name" placeholder="name"
+                            <input type="text" class="form-control" id="name" placeholder="name"
                                    name="name" required>
                         </div>
                     </div>
@@ -195,7 +197,7 @@
                     <div class="form-group">
                         <label for="surname" class="col-sm-3 control-label">surname</label>
                         <div class="col-sm-7">
-                            <input type="surname" class="form-control" id="surname" placeholder="surname"
+                            <input type="text" class="form-control" id="surname" placeholder="surname"
                                    name="surname" required>
                         </div>
                     </div>
@@ -203,7 +205,7 @@
                     <div class="form-group">
                         <label for="second_name" class="col-sm-3 control-label">secondName</label>
                         <div class="col-sm-7">
-                            <input type="second_name" class="form-control" id="second_name" placeholder="second_name"
+                            <input type="text" class="form-control" id="second_name" placeholder="second_name"
                                    name="second_name" required>
                         </div>
                     </div>
@@ -211,7 +213,7 @@
                     <div class="form-group">
                         <label for="phone" class="col-sm-3 control-label">phone</label>
                         <div class="col-sm-7">
-                            <input type="phone" class="form-control" id="phone" placeholder="phone"
+                            <input type="text" class="form-control" id="phone" placeholder="phone"
                                    name="phone" required>
                         </div>
                     </div>

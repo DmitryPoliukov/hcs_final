@@ -30,6 +30,12 @@ import static by.epamtc.poliukov.dao.ColumnName.*;
 
 
 public class WorkRequestServiceImpl implements WorkRequestService {
+    private WorkRequestServiceImpl(){}
+    private static final WorkRequestServiceImpl INSTANCE = new WorkRequestServiceImpl();
+    public static WorkRequestServiceImpl getInstance() {
+        return INSTANCE;
+    }
+
     private final Logger logger = LogManager.getLogger(WorkRequestServiceImpl.class);
     private static final String USER = "user";
     private static final String WORK_REQUEST_ID = "workRequestId";
@@ -292,6 +298,22 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         StringBuilder dateSB = new StringBuilder();
         dateSB.append(arr[0]).append(".").append(arr[1]).append(".").append(arr[2]);
         return dateSB.toString();
+    }
+
+    @Override
+    public WorkRequest getWorkRequestById(int workRequestId) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        WorkRequest workRequest;
+        List<Subquery> subqueryList;
+        try {
+            workRequest = workRequestDao.getWorkrequestById(workRequestId);
+            subqueryList = workRequestDao.getAllSubqueriesForRequest(workRequestId);
+            workRequest.setSubqueryList(subqueryList);
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to get work request by request id", e);
+        }
+        return workRequest;
     }
 }
 

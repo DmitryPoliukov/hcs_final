@@ -17,6 +17,8 @@ public interface UserService {
 
     User getUserByLogin(String login) throws ServiceException, ServiceAuthorizationException;
 
+    User getUserByUserId(int userId) throws ServiceException;
+
     void updateBlockingEmployee(String login, boolean isBlocked) throws ServiceException, ServiceAuthorizationException;
 
     User addTenantInfo(String login, String city, String address) throws ServiceException, ServiceAuthorizationException;
@@ -34,5 +36,7 @@ public interface UserService {
     List<User> getAllEmployee(int offset, int recordsPerPage, String workType) throws ServiceException;
 
     boolean updateUserRole(String login, String role) throws ServiceException, ServiceAuthorizationException;
+
+    List<String> getTenantInfo(int userId) throws ServiceException;
 
 }

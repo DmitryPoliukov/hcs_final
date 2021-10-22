@@ -8,6 +8,11 @@ import by.epamtc.poliukov.service.PoolService;
 
 
 public class PoolServiceImpl implements PoolService {
+    private PoolServiceImpl(){}
+    private static final PoolServiceImpl INSTANCE = new PoolServiceImpl();
+    public static PoolServiceImpl getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public void init() throws ServiceException {

@@ -3,6 +3,7 @@ package by.epamtc.poliukov.service.impl;
 import by.epamtc.poliukov.dao.DaoFactory;
 import by.epamtc.poliukov.dao.UserDao;
 import by.epamtc.poliukov.dao.UtilDao;
+import by.epamtc.poliukov.dao.impl.UtilDaoImpl;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
@@ -16,11 +17,17 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.epamtc.poliukov.dao.ColumnName.*;
 
 public class UserServiceImpl implements UserService {
+    private UserServiceImpl(){}
+    private static final UserServiceImpl INSTANCE = new UserServiceImpl();
+    public static UserServiceImpl getInstance() {
+        return INSTANCE;
+    }
 
     private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
@@ -265,6 +272,20 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User getUserByUserId(int userId) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        User user;
+        try {
+            user = dao.getUserByUserId(userId);
+            logger.log(Level.INFO, "Get user " + user.getLogin());
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to get user by user id", e);
+        }
+        return user;
+    }
+
     public void updateBlockingEmployee(String login, boolean isBlocked) throws ServiceException, ServiceAuthorizationException {
         if(!Validator.validate(login)) {
             throw new ServiceAuthorizationException("Wrong login");
@@ -307,5 +328,17 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("Login or email is not unique", e);
         }
         return isUnique;
+    }
+
+    public List<String> getTenantInfo(int userId) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        List<String> tenantInfo;
+        try {
+            tenantInfo = dao.getTenantInfo(userId);
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to get tenant info", e);
+        }
+        return tenantInfo;
     }
 }

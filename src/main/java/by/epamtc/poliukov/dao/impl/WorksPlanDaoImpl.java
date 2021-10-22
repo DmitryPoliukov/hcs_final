@@ -7,7 +7,6 @@ import by.epamtc.poliukov.dao.pool.ConnectionPool;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;
-import org.graalvm.compiler.asm.aarch64.AArch64MacroAssembler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
             "WHERE works_request_id_fk = ?";
 
     private static final String SQL_GET_REQUESTS_ID_BY_EMPLOYEE_ID_COMPLETION_DATE = "SELECT works_request_id_fk FROM works_plan " +
-            "JOIN work_requests ON request_id = work_request_id_fk " +
-            "WHERE employee_user_id_fk = ? AND completion_date = ?";
+            "JOIN work_requests ON request_id = works_request_id_fk " +
+            "WHERE employee_user_id_fk = ? AND planned_date = ?";
 
 
     @Override
@@ -121,7 +120,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
             st.setString(2, completionDate);
             rs = st.executeQuery();
             while (rs.next()) {
-                int requestId = rs.getInt(ColumnName.EMPLOYEE_USER_ID_FK);
+                int requestId = rs.getInt(ColumnName.WORKS_REQUEST_ID_FK);
                 requestsIdList.add(requestId);
             }
             return requestsIdList;

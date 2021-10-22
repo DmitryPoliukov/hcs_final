@@ -23,6 +23,8 @@ public interface UserDao {
 
     User getUserByLogin(String login) throws DaoException;
 
+    User getUserByUserId(int userId) throws DaoException;
+
     boolean updateEmployeeStatus(String login, boolean is_Blocked) throws DaoException;
 
     boolean addTenantInfo(int userId, String city, String address) throws DaoException;
@@ -30,6 +32,8 @@ public interface UserDao {
     boolean isLoginEmailUnique(String login, String email) throws DaoException;
 
     boolean addEmployeeInfo(int userId, int value_person_hour, String information) throws DaoException;
+
+    List<String> getTenantInfo(int userId) throws DaoException;
 
     List<User> getAllTenants() throws DaoException;
 
