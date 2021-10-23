@@ -34,6 +34,6 @@ public interface WorkRequestDao {
 
     Subquery getSubqueryByRequestIdType(int workRequestId, int workTypeId) throws DaoException;
 
-    WorkRequest getWorkrequestById(int workRequestId) throws DaoException;
+    WorkRequest getWorkRequestById(int workRequestId) throws DaoException;
 
 }

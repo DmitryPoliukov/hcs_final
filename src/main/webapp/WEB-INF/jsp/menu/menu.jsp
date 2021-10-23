@@ -48,15 +48,18 @@
             <li> <a href="DispatcherServlet?command=go-to-add-tenant">| MAKE WORK REQUEST |</a>
 
             </li>
+                <li> <a href="DispatcherServlet?command=go-to-add-employee">| BECOME EMPLOYEE |</a>
+
+                </li>
             </c:if>
 
             <c:if test='${sessionScope.get("user").role eq "admin"}'>
-                <li> <a href="DispatcherServlet?command=go-to-update-role">| update roles |</a>
+                <li> <a href="DispatcherServlet?command=go-to-update-role">| UPDATE ROLES |</a>
 
                 </li>
             </c:if>
             <c:if test='${sessionScope.get("user").role eq "employee"}'>
-                <li> <a href="DispatcherServlet?command=go-to-actual-requests-employee">| actual requests |</a>
+                <li> <a href="DispatcherServlet?command=go-to-actual-requests-employee">| ACTUAL REQUESTS |</a>
                 </li>
                 <li> <a href="DispatcherServlet?command=go-to-show-work-plan">| WORK PLAN |</a>
                 </li>
@@ -71,7 +74,6 @@
 <%--    <li><a href="DispatcherServlet?command=change-language&language=en">| English |</a></li>--%>
 <%--    <li><a href="DispatcherServlet?command=change-language&language=ru">| Русский |</a></li>--%>
     </ul>
-    </div>
     </div>
     </nav>
 

@@ -24,12 +24,6 @@
 
 </head>
 <body onload="active()">
-<c:import url="menu/menu.jsp"/>
-
-<c:if test="${requestScope.get('errorMessage')!=null}">
-    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
-    <c:remove var="errorMessage" scope="request"/>
-</c:if>
 
 <script language="javascript">
     function active() {

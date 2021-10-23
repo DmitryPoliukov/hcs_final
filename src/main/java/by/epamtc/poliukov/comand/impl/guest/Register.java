@@ -20,6 +20,7 @@ import java.io.IOException;
 
 public class Register implements Command {
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/guest/register.jsp";
+    private static final String JSP_ADD_EMPLOYEE_INFO = "WEB-INF/jsp/user/addEmployee.jsp";
     private static final Logger logger = LogManager.getLogger(Register.class);
 
     private static final String USER = "user";
@@ -39,7 +40,10 @@ public class Register implements Command {
             UserService service = ServiceFactory.getInstance().getUserService();
             user = service.addUser(user);
             session.setAttribute(USER, user);
-            response.sendRedirect(previousQuery);
+            if (user.getRole().equals("employee")) {
+                request.getRequestDispatcher(JSP_ADD_EMPLOYEE_INFO).forward(request, response);
+            } else response.sendRedirect(previousQuery);
+
         } catch (ServiceAuthorizationException e) {
             logger.log(Level.INFO, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR_2);

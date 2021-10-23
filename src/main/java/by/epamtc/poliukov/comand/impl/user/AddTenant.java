@@ -17,8 +17,6 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-import static by.epamtc.poliukov.dao.ColumnName.*;
-
 public class AddTenant implements Command {
     private static final Logger logger = LogManager.getLogger(AddTenant.class);
 
@@ -27,8 +25,10 @@ public class AddTenant implements Command {
     private static final String SUCCESS = "successMessage";
     private static final String MESSAGE_OF_SUCCESS = "Tenant information added";
     private static final String ERROR = "errorMessage";
-    private static final String MESSAGE_OF_ERROR = "Request status not updated";
+    private static final String MESSAGE_OF_ERROR = "Tenant information not added";
     private static final String MESSAGE_OF_ERROR_1 = "Wrong login";
+    private static final String CITY = "city";
+    private static final String ADDRESS = "address";
 
 
 

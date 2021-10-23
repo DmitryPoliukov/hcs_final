@@ -6,7 +6,9 @@ import by.epamtc.poliukov.comand.impl.admin.UpdateRole;
 import by.epamtc.poliukov.comand.impl.employee.*;
 import by.epamtc.poliukov.comand.impl.guest.*;
 import by.epamtc.poliukov.comand.impl.tenant.*;
+import by.epamtc.poliukov.comand.impl.user.AddEmployee;
 import by.epamtc.poliukov.comand.impl.user.AddTenant;
+import by.epamtc.poliukov.comand.impl.user.GoToAddEmployee;
 import by.epamtc.poliukov.comand.impl.user.GoToAddTenant;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -67,6 +69,8 @@ public class CommandProvider {
         userCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
         userCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
         userCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
+        userCommands.put(CommandList.GO_TO_ADD_EMPLOYEE, new GoToAddEmployee());
+        userCommands.put(CommandList.ADD_EMPLOYEE, new AddEmployee());
 
 
         tenantCommands.put(CommandList.VIEW_USER, new ViewUser());
@@ -93,6 +97,9 @@ public class CommandProvider {
         employeeCommands.put(CommandList.ACTUAL_REQUESTS_ALL_TYPES, new ActualRequestsAllTypes());
         employeeCommands.put(CommandList.GO_TO_SHOW_WORK_PLAN, new GoToShowWorkPlan());
         employeeCommands.put(CommandList.SHOW_WORK_PLAN, new ShowWorkPlan());
+        employeeCommands.put(CommandList.GO_TO_ADD_EMPLOYEE, new GoToAddEmployee());
+        employeeCommands.put(CommandList.ADD_EMPLOYEE, new AddEmployee());
+
 
 
 

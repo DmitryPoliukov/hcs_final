@@ -48,9 +48,13 @@
 </div>
 </c:if>
 
-<c:if test="${requestScope.get('workRequestList') != null}">
+<c:if test="${requestScope.get('workRequestList').size() == 0}">
+    <h2>No requests for this date</h2>
+</c:if>
+
+<c:if test="${requestScope.get('workRequestList').size() > 0}">
 <div class="col-sm-12 text-center mainContent">
-    <h1>Works plan for you for ${requestScope.get('plannedDate')} </h1>
+    <h1>Your work plan </h1>
 
 
     <br>
@@ -60,7 +64,7 @@
             <th>Work request id</th>
             <th>Filling date</th>
             <th>Planned date</th>
-            <th>Subqueries work type</th>
+            <th>Subqueries information</th>
             <th>Tenant's name</th>
             <th>Tenant's phone</th>
             <th>Tenant's city</th>
@@ -70,19 +74,20 @@
         </thead>
         <tbody>
 
-        <c:forEach begin="0" end="${requestScope.workRequestList.size()}" var="i">
+        <c:forEach begin="0" end="${requestScope.workRequestList.size()-1}" var="i">
+        <tr>
             <td>${requestScope.workRequestList.get(i).requestID}</td>
             <td>${requestScope.workRequestList.get(i).fillingDate}</td>
             <td>${requestScope.workRequestList.get(i).plannedDate}</td>
         <td><c:forEach var="subquery" items="${requestScope.workRequestList.get(i).subqueryList}">
-            |  ${subquery.workType}  |
+            ${subquery.workType} -- ${subquery.information} <br>
             </c:forEach>
         </td>
             <td>${requestScope.tenantList.get(i).name} ${requestScope.tenantList.get(i).surname}</td>
             <td>${requestScope.tenantList.get(i).phone}</td>
             <td>${requestScope.tenantInfoList.get(i).get(0)}</td>
             <td>${requestScope.tenantInfoList.get(i).get(1)}</td>
-
+        </tr>
         </c:forEach>
         </tbody>
     </table>

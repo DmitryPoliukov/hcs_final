@@ -341,4 +341,42 @@ public class UserServiceImpl implements UserService {
         }
         return tenantInfo;
     }
+
+    @Override
+    public boolean addEmployeeWorkType(int employeeId, String[] employeeWorkTypeName) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        int workTypeId;
+        try {
+            for (String workTypeName : employeeWorkTypeName) {
+                workTypeId = utilDao.takeWorkTypeIdByName(workTypeName);
+                dao.addEmployeeWorkType(employeeId, workTypeId);
+                logger.log(Level.INFO, "Employee work types were added for " + employeeId);
+            }
+            return true;
+        } catch (DaoException e) {
+           throw new ServiceException("Failed to add employee work type", e);
+        }
+    }
+
+    @Override
+    public User addEmployeeInfo(int employeeId, int valuePersonHour, String information) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao dao = daoFactory.getUserDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        User user;
+        try {
+            dao.addEmployeeInfo(employeeId, valuePersonHour, information);
+            user = dao.getUserByUserId(employeeId);
+            utilDao.updateUserRole(user.getLogin(), 3); //roleId for employee = 3;
+            user = dao.getUserByUserId(employeeId);
+            logger.log(Level.INFO, "Employee info was added for " + user.getLogin());
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to add employee information", e);
+        }
+        return user;
+    }
+
+
 }

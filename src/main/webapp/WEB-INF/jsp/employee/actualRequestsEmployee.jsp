@@ -40,7 +40,7 @@
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-12 text-left mainContent">
-        <h1>New work requests</h1>
+        <h1>Actual work requests</h1>
 
         <div class="selectboxes">
             <div class="sortAwaits" style="width: 391px; float: left;margin: 0">

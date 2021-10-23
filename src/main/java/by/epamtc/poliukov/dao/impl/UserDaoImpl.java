@@ -78,6 +78,8 @@ public class UserDaoImpl implements UserDao {
     private final static String SQL_GET_USER_BY_USER_ID =
             "SELECT * FROM users JOIN roles on users.role_id_fk = roles.role_id WHERE user_id = ?";
 
+    private final static String SQL_ADD_EMPLOYEE_WORK_TYPE = "INSERT  INTO employee_work_types " +
+            "(ewt_user_id_fk, ewt_work_type_id) VALUES (?, ?)";
     private final static String AMOUNT = "amount";
 
     @Override
@@ -485,7 +487,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean addEmployeeInfo(int userId, int value_person_hour, String information) throws DaoException {
+    public boolean addEmployeeInfo(int userId, int valuePersonHour, String information) throws DaoException {
         boolean isAdded = true;
         Connection connection = null;
         PreparedStatement statementEmployee = null;
@@ -493,7 +495,7 @@ public class UserDaoImpl implements UserDao {
             connection = ConnectionPool.getInstance().takeConnection();
             statementEmployee = connection.prepareStatement(SQL_REGISTER_EMPLOYEE);
             statementEmployee.setInt(1, userId);
-            statementEmployee.setInt(2, value_person_hour);
+            statementEmployee.setInt(2, valuePersonHour);
             statementEmployee.setString(3, information);
             statementEmployee.execute();
         } catch (SQLException e) {
@@ -530,5 +532,26 @@ public class UserDaoImpl implements UserDao {
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
+    }
+
+    @Override
+    public boolean addEmployeeWorkType(int employeeId, int workTypeId) throws DaoException {
+        boolean isAdded = true;
+        Connection connection = null;
+        PreparedStatement statementEmployee = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            statementEmployee = connection.prepareStatement(SQL_ADD_EMPLOYEE_WORK_TYPE);
+            statementEmployee.setInt(1, employeeId);
+            statementEmployee.setInt(2, workTypeId);
+            statementEmployee.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in addEmployeeInfo", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } finally {
+            ConnectionPool.closeResource(connection, statementEmployee);
+        }
+        return isAdded;
     }
 }

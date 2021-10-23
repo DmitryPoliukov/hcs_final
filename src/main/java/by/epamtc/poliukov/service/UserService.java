@@ -1,6 +1,7 @@
 package by.epamtc.poliukov.service;
 
 import by.epamtc.poliukov.entity.User;
+import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 
@@ -39,4 +40,7 @@ public interface UserService {
 
     List<String> getTenantInfo(int userId) throws ServiceException;
 
+    boolean addEmployeeWorkType(int employeeId, String[] employeeWorkTypeName) throws ServiceException;
+
+    User addEmployeeInfo(int userId, int valuePersonHour, String information) throws ServiceException;
 }

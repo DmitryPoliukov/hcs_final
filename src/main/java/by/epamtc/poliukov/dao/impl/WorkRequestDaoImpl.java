@@ -422,7 +422,7 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     }
 
     @Override
-    public WorkRequest getWorkrequestById(int workRequestId) throws DaoException {
+    public WorkRequest getWorkRequestById(int workRequestId) throws DaoException {
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
@@ -433,8 +433,9 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             rs = st.executeQuery();
             WorkRequest workRequest = new WorkRequest();
             if (rs.next()) {
+                workRequest.setRequestID(rs.getInt(ColumnName.REQUEST_ID));
                 workRequest.setFillingDate(rs.getString(ColumnName.FILLING_DATE));
-                workRequest.setPlannedDate(rs.getString(ColumnName.FILLING_DATE));
+                workRequest.setPlannedDate(rs.getString(ColumnName.PLANNED_DATE));
                 workRequest.setTenantUserId(rs.getInt(ColumnName.TENANT_USER_ID_FK));
                 workRequest.setRequestStatus(rs.getString(ColumnName.REQUEST_STATUS_ID_FK));
             }

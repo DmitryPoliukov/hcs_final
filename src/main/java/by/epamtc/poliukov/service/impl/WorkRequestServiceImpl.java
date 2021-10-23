@@ -18,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -304,11 +303,15 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     public WorkRequest getWorkRequestById(int workRequestId) throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
+        UtilDao utilDao = daoFactory.getUtilDao();
         WorkRequest workRequest;
         List<Subquery> subqueryList;
         try {
-            workRequest = workRequestDao.getWorkrequestById(workRequestId);
+            workRequest = workRequestDao.getWorkRequestById(workRequestId);
             subqueryList = workRequestDao.getAllSubqueriesForRequest(workRequestId);
+            for(Subquery subquery : subqueryList) {
+                subquery.setWorkType(utilDao.takeWorkTypeName(Integer.parseInt(subquery.getWorkType())));
+            }
             workRequest.setSubqueryList(subqueryList);
         } catch (DaoException e) {
             throw new ServiceException("Failed to get work request by request id", e);
