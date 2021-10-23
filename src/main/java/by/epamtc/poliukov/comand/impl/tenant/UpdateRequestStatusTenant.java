@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateRequestStatusTenant implements Command {
-    private static final String JSP_PAGE_PATH = "DispatcherServlet?command=show-all-tenant-requests";
-
     private static final Logger logger = LogManager.getLogger(UpdateRequestStatusTenant.class);
+    private static final String JSP_PAGE_PATH = "DispatcherServlet?command=show-all-tenant-requests";
     private static final String DELETE = "delete";
     private static final String USER = "user";
     private static final String REQUEST_ATTRIBUTE = "workRequestList";

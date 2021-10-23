@@ -64,6 +64,13 @@
                 <li> <a href="DispatcherServlet?command=go-to-show-work-plan">| WORK PLAN |</a>
                 </li>
             </c:if>
+
+        <c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
+            <li> <a href="DispatcherServlet?command=go-to-all-employee-work-plan">| WORK PLAN |</a>
+            </li>
+            <li> <a href="#">| Update work request status |</a>
+            </li>
+        </c:if>
         </c:if>
 
     <li> <a href="DispatcherServlet?command=go-to-employee-by-type">| OUR EMPLOYEES |</a>

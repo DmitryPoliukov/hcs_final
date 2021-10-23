@@ -1,4 +1,4 @@
-package by.epamtc.poliukov.comand.impl.employee;
+package by.epamtc.poliukov.comand.impl.dispatcher;
 
 import by.epamtc.poliukov.comand.Command;
 
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class GoToShowWorkPlan implements Command {
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/employee/employeeShowWorkPlan.jsp";
+public class GoToAllEmployeeWorkPlan implements Command {
+    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/dispatcher/showAllEmployeeWorkPlan.jsp";
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);

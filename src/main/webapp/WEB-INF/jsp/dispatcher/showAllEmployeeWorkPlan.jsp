@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: radof
-  Date: 13.10.2021
-  Time: 21:01
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -65,13 +59,13 @@
 
         <div class="selectboxes">
             <div class="sortAwaits" style="width: 391px; float: left;margin: 0">
-                <span>Employees by work type</span>
+                <span>Show employees by work type</span>
                 <label>
                     <select onchange="MakeSort(this);">
                         <option value="DispatcherServlet?command=all-employees">-</option>
                         <option value="DispatcherServlet?command=all-employees">all</option>
-                        <option value="DispatcherServlet?command=employees-by-type&type=Малярные работы">Малярные работы</option>
-                        <option value="DispatcherServlet?command=employees-by-type&type=Бетонные работы">Бетонные работы</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan&type=Малярные работы">Малярные работы</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan&type=Бетонные работы">Бетонные работы</option>
 
 
                     </select>
@@ -104,6 +98,7 @@
             <th>Cost per person hour</th>
             <th>Other information</th>
             <th>Specialization</th>
+            <th>Check work plan</th>
         </tr>
         </thead>
         <tbody>
@@ -117,7 +112,8 @@
                 <td>${employee.phone}</td>
                 <td>${employee.valuePersonHour}</td>
                 <td>${employee.information}</td>
-                <td>${employee.employeeWorkTypeName}</td>
+                <td>${employee.employeeWorkTypeName} </td>
+                <td> <a href="DispatcherServlet?command=go-to-dispatcher-work-plan&employeeId=${employee.userId}" class="btn btn-success" role="button">Show work plan</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -159,7 +155,7 @@
 
         </ul>
     </div>
-    </div>
+</div>
 <c:import url="../menu/footer.jsp"/>
 </body>
 </html>
