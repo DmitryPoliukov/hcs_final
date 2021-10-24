@@ -3,10 +3,7 @@ package by.epamtc.poliukov.controller;
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.impl.admin.GoToUpdateRole;
 import by.epamtc.poliukov.comand.impl.admin.UpdateRole;
-import by.epamtc.poliukov.comand.impl.dispatcher.AllEmployeeWorkPlan;
-import by.epamtc.poliukov.comand.impl.dispatcher.DispatcherWorkPlan;
-import by.epamtc.poliukov.comand.impl.dispatcher.GoToAllEmployeeWorkPlan;
-import by.epamtc.poliukov.comand.impl.dispatcher.GoToDispatcherWorkPlan;
+import by.epamtc.poliukov.comand.impl.dispatcher.*;
 import by.epamtc.poliukov.comand.impl.employee.*;
 import by.epamtc.poliukov.comand.impl.guest.*;
 import by.epamtc.poliukov.comand.impl.tenant.*;
@@ -110,7 +107,11 @@ public class CommandProvider {
         dispatcherCommands.put(CommandList.ALL_EMPLOYEE_WORK_PLAN, new AllEmployeeWorkPlan());
         dispatcherCommands.put(CommandList.GO_TO_DISPATCHER_WORK_PLAN, new GoToDispatcherWorkPlan());
         dispatcherCommands.put(CommandList.DISPATCHER_WORK_PLAN, new DispatcherWorkPlan());
-
+        dispatcherCommands.put(CommandList.GO_TO_ADD_REQUEST_TO_WORK_PLAN, new GoToAddRequestToWorkPlan());
+        dispatcherCommands.put(CommandList.ADD_REQUEST_TO_WORK_PLAN, new AddRequestsToWorkPlan());
+        dispatcherCommands.put(CommandList.GO_TO_ACTUAL_REQUESTS_EMPLOYEE, new GoToActualRequestsEmployee());
+        dispatcherCommands.put(CommandList.ACTUAL_REQUESTS_EMPLOYEE, new ActualRequestsEmployee());
+        dispatcherCommands.put(CommandList.ACTUAL_REQUESTS_ALL_TYPES, new ActualRequestsAllTypes());
 
 
 

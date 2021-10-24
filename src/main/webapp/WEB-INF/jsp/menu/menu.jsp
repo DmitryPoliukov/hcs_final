@@ -66,7 +66,9 @@
             </c:if>
 
         <c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
-            <li> <a href="DispatcherServlet?command=go-to-all-employee-work-plan">| WORK PLAN |</a>
+            <li> <a href="DispatcherServlet?command=go-to-all-employee-work-plan">| SHOW WORK PLAN |</a>
+            </li>
+            <li> <a href="DispatcherServlet?command=go-to-actual-requests-employee">| actual requests |</a>
             </li>
             <li> <a href="#">| Update work request status |</a>
             </li>

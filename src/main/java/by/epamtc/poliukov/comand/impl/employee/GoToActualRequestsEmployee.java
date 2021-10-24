@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class GoToActualRequestsEmployee implements Command {
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/employee/actualRequestsEmployee.jsp";
+    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/employee/actualRequests.jsp";
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);

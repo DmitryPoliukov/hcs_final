@@ -22,7 +22,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
     }
 
     private static final String SQL_ADD_WORK_REQUEST_TO_PLAN = "INSERT INTO works_plan " +
-        "(employee_user_id_fk, works_request_id_fk) VALUES (?, ?)";
+        "(employee_user_id_fk, works_request_id_fk, subquery_id) VALUES (?, ?, ?)";
 
     private static final String SQL_GET_COMPLETION_DATE_BY_REQUEST_ID = "SELECT completion_date FROM works_plan " +
             "WHERE works_request_id_fk = ?";
@@ -36,7 +36,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
 
 
     @Override
-    public boolean addWorkRequestToPlan(int workRequestId, int employeeId) throws DaoException {
+    public boolean addWorkRequestToPlan(int workRequestId, int subqueryId, int employeeId) throws DaoException {
         boolean isAdded = true;
         Connection connection = null;
         PreparedStatement st = null;
@@ -45,6 +45,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
             st = connection.prepareStatement(SQL_ADD_WORK_REQUEST_TO_PLAN);
             st.setInt(1, employeeId);
             st.setInt(2, workRequestId);
+            st.setInt(3, subqueryId);
             st.execute();
         } catch (SQLException e) {
             throw new DaoException("Registered sql exception in addWorkRequestToPlan ", e);

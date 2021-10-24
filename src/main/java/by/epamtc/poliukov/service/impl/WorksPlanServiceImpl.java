@@ -23,19 +23,19 @@ public class WorksPlanServiceImpl implements WorksPlanService {
 
     private final Logger logger = LogManager.getLogger(WorksPlanServiceImpl.class);
     @Override
-    public boolean addWorkRequestToPlan(int workRequestId, int employeeId) throws ServiceException {
+    public boolean addWorkRequestToPlan(int workRequestId, int subqueryId, int employeeId) throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorksPlanDao worksPlanDao= daoFactory.getWorksPlanDao();
         WorkRequestDao workRequestDao = daoFactory.getWorkRequestDao();
-        boolean isUpdate;
+        boolean isAdd;
         try {
             workRequestDao.updateWorkRequestStatus(workRequestId, "2"); //workStatusId = 2  --  "In process"
-           isUpdate = worksPlanDao.addWorkRequestToPlan(workRequestId, employeeId);
+           isAdd = worksPlanDao.addWorkRequestToPlan(workRequestId, subqueryId, employeeId);
             logger.log(Level.INFO, "update work request id = " + workRequestId + " status");
         } catch (DaoException e) {
             throw new ServiceException("Failed to add work request to plan", e);
         }
-        return isUpdate;
+        return isAdd;
     }
 
     @Override

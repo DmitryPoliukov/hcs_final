@@ -79,6 +79,9 @@
             <th>Subqueries work type</th>
             <th>Amount of work in hours</th>
             <th>Information</th>
+<c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
+            <th>Assign an employee</th>
+</c:if>
 
         </tr>
         </thead>
@@ -91,6 +94,9 @@
                 <td>${request.subqueryList[0].workType}</td>
                 <td>${request.subqueryList[0].amountOfWorkInHours}</td>
                 <td>${request.subqueryList[0].information}</td>
+                <c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
+                <td><a href="DispatcherServlet?command=go-to-add-request-to-work-plan&requestId=${request.requestID}" class="btn btn-info" role="button"> Assign </a></td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>

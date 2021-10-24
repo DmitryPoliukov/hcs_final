@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface WorksPlanDao {
 
-    boolean addWorkRequestToPlan(int workRequestId, int employeeId) throws DaoException;
+    boolean addWorkRequestToPlan(int workRequestId, int subqueryId, int employeeId) throws DaoException;
 
   // String getCompletionDateByRequestId(int workRequesId) throws DaoException;
 

@@ -18,7 +18,7 @@ import java.util.List;
 public class ActualRequestsAllTypes implements Command {
     private static final Logger logger = LogManager.getLogger(ActualRequestsAllTypes.class);
 
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/employee/actualRequestsEmployee.jsp";
+    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/employee/actualRequests.jsp";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String PAGE = "page";
     private static final String AMOUNT_OF_PAGES = "noOfPages";
