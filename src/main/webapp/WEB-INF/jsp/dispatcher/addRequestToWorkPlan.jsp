@@ -74,7 +74,7 @@
                         <select name="employeeId" id="employeeId">
                             <c:forEach var="employee" items="${requestScope.allEmployees}">
 
-                                <option value="${employee.userId}">${employee.name} ${employee.surname}</option>
+                                <option value="${employee.userId}">${employee.name} ${employee.surname} ${employee.employeeWorkTypeName}</option>
                             </c:forEach>
 
                         </select>

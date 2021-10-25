@@ -26,6 +26,11 @@
 </head>
 <body>
 
+<c:if test="${requestScope.get('successMessage')!=null}">
+    <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
+    <c:remove var="successMessage" scope="request"/>
+</c:if>
+
 <c:import url="../menu/menu.jsp"/>
 
 <c:if test="${requestScope.get('workRequestList') == null}">
@@ -70,6 +75,7 @@
             <th>Tenant's phone</th>
             <th>Tenant's city</th>
             <th>Tenant's address</th>
+            <th>Update work request status</th>
 
         </tr>
         </thead>
@@ -88,6 +94,7 @@
                 <td>${requestScope.tenantList.get(i).phone}</td>
                 <td>${requestScope.tenantInfoList.get(i).get(0)}</td>
                 <td>${requestScope.tenantInfoList.get(i).get(1)}</td>
+                <td><a href="DispatcherServlet?command=dispatcher-close-work-request&requestId=${requestScope.workRequestList.get(i).requestID}" class="btn btn-success" role="button">Close work request</a></td>
             </tr>
         </c:forEach>
         </tbody>

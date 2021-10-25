@@ -112,6 +112,10 @@ public class CommandProvider {
         dispatcherCommands.put(CommandList.GO_TO_ACTUAL_REQUESTS_EMPLOYEE, new GoToActualRequestsEmployee());
         dispatcherCommands.put(CommandList.ACTUAL_REQUESTS_EMPLOYEE, new ActualRequestsEmployee());
         dispatcherCommands.put(CommandList.ACTUAL_REQUESTS_ALL_TYPES, new ActualRequestsAllTypes());
+        dispatcherCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
+        dispatcherCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
+        dispatcherCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
+        dispatcherCommands.put(CommandList.DISPATCHER_CLOSE_WORK_REQUEST, new DispatcherCloseWorkRequest());
 
 
 

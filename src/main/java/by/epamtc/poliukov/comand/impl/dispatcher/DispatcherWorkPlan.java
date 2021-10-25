@@ -25,7 +25,6 @@ public class DispatcherWorkPlan implements Command {
     private static final Logger logger = LogManager.getLogger(DispatcherWorkPlan.class);
 
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/dispatcher/dispatcherShowWorkPlan.jsp";
-    private static final String USER = "user";
     private static final String PLANNED_DATE = "plannedDate";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "No requests matching your query";

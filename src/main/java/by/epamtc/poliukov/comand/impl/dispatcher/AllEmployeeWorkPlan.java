@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class AllEmployeeWorkPlan implements Command {
-    private static final Logger logger = LogManager.getLogger(EmployeesByType.class);
+    private static final Logger logger = LogManager.getLogger(AllEmployeeWorkPlan.class);
 
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/dispatcher/showAllEmployeeWorkPlan.jsp";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";

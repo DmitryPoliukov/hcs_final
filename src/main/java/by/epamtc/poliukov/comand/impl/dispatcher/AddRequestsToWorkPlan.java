@@ -27,7 +27,7 @@ public class AddRequestsToWorkPlan implements Command {
     private static final String MESSAGE_OF_SUCCESS = "Employee assigned for subquery";
 
     private static final String ERROR = "errorMessage";
-    private static final String MESSAGE_OF_ERROR = "N------------------------";
+    private static final String MESSAGE_OF_ERROR = "Work request not added to plan";
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int requestId = Integer.parseInt(request.getParameter(REQUEST_ID));
