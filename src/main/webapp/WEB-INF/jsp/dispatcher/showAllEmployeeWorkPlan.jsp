@@ -62,10 +62,10 @@
                 <span>Show employees by work type</span>
                 <label>
                     <select onchange="MakeSort(this);">
-                        <option value="DispatcherServlet?command=all-employees">-</option>
-                        <option value="DispatcherServlet?command=all-employees">all</option>
-                        <option value="DispatcherServlet?command=all-employee-work-plan&type=Малярные работы">Малярные работы</option>
-                        <option value="DispatcherServlet?command=all-employee-work-plan&type=Бетонные работы">Бетонные работы</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan">-</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan">all</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan-by-type&type=Малярные работы">Малярные работы</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan-by-type&type=Бетонные работы">Бетонные работы</option>
 
 
                     </select>

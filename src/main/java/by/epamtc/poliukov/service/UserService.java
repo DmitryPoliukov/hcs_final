@@ -2,6 +2,7 @@ package by.epamtc.poliukov.service;
 
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.DaoException;
+import by.epamtc.poliukov.exception.NotUniqueLoginEmailException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface UserService {
 
-    User createUser(HttpServletRequest request) throws ServiceAuthorizationException;
+    User createUser(HttpServletRequest request) throws ServiceAuthorizationException, NotUniqueLoginEmailException;
 
     User addUser(User user) throws ServiceException, ServiceAuthorizationException;
 

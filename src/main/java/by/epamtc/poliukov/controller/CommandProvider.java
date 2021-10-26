@@ -104,6 +104,7 @@ public class CommandProvider {
         dispatcherCommands.put(CommandList.LOGIN, new Login());
         dispatcherCommands.put(CommandList.LOG_OUT, new Logout());
         dispatcherCommands.put(CommandList.GO_TO_ALL_EMPLOYEE_WORK_PLAN, new GoToAllEmployeeWorkPlan());
+        dispatcherCommands.put(CommandList.ALL_EMPLOYEE_WORK_PLAN_BY_TYPE, new AllEmployeeWorkPlanByType());
         dispatcherCommands.put(CommandList.ALL_EMPLOYEE_WORK_PLAN, new AllEmployeeWorkPlan());
         dispatcherCommands.put(CommandList.GO_TO_DISPATCHER_WORK_PLAN, new GoToDispatcherWorkPlan());
         dispatcherCommands.put(CommandList.DISPATCHER_WORK_PLAN, new DispatcherWorkPlan());

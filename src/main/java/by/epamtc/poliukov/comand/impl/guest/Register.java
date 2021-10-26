@@ -3,6 +3,7 @@ package by.epamtc.poliukov.comand.impl.guest;
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.CommandHelper;
 import by.epamtc.poliukov.entity.User;
+import by.epamtc.poliukov.exception.NotUniqueLoginEmailException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
@@ -25,6 +26,7 @@ public class Register implements Command {
 
     private static final String USER = "user";
     private static final String ERROR = "errorMessage";
+    private static final String MESSAGE_OF_ERROR_1 = "Not unique login or email";
     private static final String MESSAGE_OF_ERROR_2 = "User with such email or login is already exist";
     private static final String MESSAGE_OF_ERROR_3 = "Check input parameters";
 
@@ -51,6 +53,10 @@ public class Register implements Command {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR_3);
+            request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+        } catch (NotUniqueLoginEmailException e) {
+            logger.log(Level.ERROR, e.getMessage(), e);
+            request.setAttribute(ERROR, MESSAGE_OF_ERROR_1);
             request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         }
 

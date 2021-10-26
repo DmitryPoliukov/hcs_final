@@ -18,6 +18,7 @@
     <title>actual requests</title>
 </head>
     <body>
+
     <jsp:include page="menu.jsp"/>
     <img src="${pageContext.request.contextPath}/img/back1.jpg" alt="back1" height="86%" width="100%"/>
     <jsp:include page="footer.jsp"/>

@@ -110,8 +110,7 @@
                 </li>
 
             </c:if>
-            <%--For displaying Page numbers.
-                    The when condition does not display a link for the current page--%>
+
             <c:if test="${requestScope.noOfPages>1}">
                 <c:forEach begin="1" end="${requestScope.noOfPages}" var="i">
                     <c:choose>

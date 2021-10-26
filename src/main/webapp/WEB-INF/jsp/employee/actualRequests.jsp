@@ -69,6 +69,7 @@
         }
     </script>
     <br>
+<c:if test='${requestScope.actualRequests != null}'>
     <table class="table table-hover">
 
         <thead>
@@ -79,6 +80,9 @@
             <th>Subqueries work type</th>
             <th>Amount of work in hours</th>
             <th>Information</th>
+            <th>Tenant's city</th>
+            <th>Tenant's address</th>
+
 <c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
             <th>Assign an employee</th>
 </c:if>
@@ -86,16 +90,31 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="request" items="${requestScope.actualRequests}">
+        <c:forEach begin="0" end="${requestScope.actualRequests.size()-1}" var="i">
+
             <tr>
-                <td>${request.fillingDate}</td>
-                <td>${request.plannedDate}</td>
-                <td>${request.requestStatus}</td>
-                <td>${request.subqueryList[0].workType}</td>
-                <td>${request.subqueryList[0].amountOfWorkInHours}</td>
-                <td>${request.subqueryList[0].information}</td>
+                <td>${requestScope.actualRequests.get(i).fillingDate}</td>
+                <td>${requestScope.actualRequests.get(i).plannedDate}</td>
+                <td>${requestScope.actualRequests.get(i).requestStatus}</td>
+
+                <td> <c:forEach var="subquery" items="${requestScope.actualRequests.get(i).subqueryList}">
+                        ${subquery.workType}<br>
+                </c:forEach></td>
+
+                <td><c:forEach var="subquery" items="${requestScope.actualRequests.get(i).subqueryList}">
+                ${subquery.amountOfWorkInHours}<br>
+                </c:forEach></td>
+
+                <td><c:forEach var="subquery" items="${requestScope.actualRequests.get(i).subqueryList}">
+                    ${subquery.information}<br>
+                </c:forEach></td>
+
+                <td>${requestScope.tenantInfoList.get(i).get(0)}</td>
+                <td>${requestScope.tenantInfoList.get(i).get(1)}</td>
+
+
                 <c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
-                <td><a href="DispatcherServlet?command=go-to-add-request-to-work-plan&requestId=${request.requestID}" class="btn btn-info" role="button"> Assign </a></td>
+                <td><a href="DispatcherServlet?command=go-to-add-request-to-work-plan&requestId=${requestScope.actualRequests.get(i).requestID}" class="btn btn-info" role="button"> Assign </a></td>
                 </c:if>
             </tr>
         </c:forEach>
@@ -158,6 +177,7 @@
 
         </ul>
     </div>
+</c:if>
 </div>
 <c:import url="../menu/footer.jsp"/>
 </body>

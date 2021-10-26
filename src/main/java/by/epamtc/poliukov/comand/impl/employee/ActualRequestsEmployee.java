@@ -1,9 +1,11 @@
 package by.epamtc.poliukov.comand.impl.employee;
 
 import by.epamtc.poliukov.comand.Command;
+import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
+import by.epamtc.poliukov.service.UserService;
 import by.epamtc.poliukov.service.WorkRequestService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActualRequestsEmployee implements Command {
@@ -24,8 +27,9 @@ public class ActualRequestsEmployee implements Command {
     private static final String PAGE = "page";
     private static final String AMOUNT_OF_PAGES = "noOfPages";
     private static final String CURRENT_PAGE = "currentPage";
-    private static final int RECORDS_PER_PAGE = 2;
+    private static final int RECORDS_PER_PAGE = 4;
     private static final String REQUEST_ATTRIBUTE = "actualRequests";
+    private static final String TENANT_INFO_LIST = "tenantInfoList";
 
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "No work requests matching your query";
@@ -33,14 +37,21 @@ public class ActualRequestsEmployee implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter(TYPE);
         List<WorkRequest> workRequestList;
+        List<List<String>> tenantInfoList = new ArrayList<>();
         WorkRequestService workRequestService = ServiceFactory.getInstance().getWorkRequestService();
+        UserService userService = ServiceFactory.getInstance().getUserService();
         try {
             int page = 1;
             if (request.getParameter(PAGE) != null) {
                 page = Integer.parseInt(request.getParameter(PAGE));
             }
             workRequestList = workRequestService.getNewRequestsForOneWorkType(type, (page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+            for (WorkRequest workRequest: workRequestList) {
+                int tenantId = workRequest.getTenantUserId();
+                tenantInfoList.add(userService.getTenantInfo(tenantId));
+            }
             request.setAttribute(REQUEST_ATTRIBUTE, workRequestList);
+            request.setAttribute(TENANT_INFO_LIST, tenantInfoList);
 
             int numberOfRequests = workRequestService.newRequestsByTypeCount(type);
             int noOfPages = (int) Math.ceil(numberOfRequests * 1.0 / RECORDS_PER_PAGE);

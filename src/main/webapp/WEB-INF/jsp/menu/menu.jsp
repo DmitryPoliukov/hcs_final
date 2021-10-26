@@ -8,7 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Poliukov_fin</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,21 +19,21 @@
     <c:if test="${sessionScope.get('user') == null}">
         <li class="sign-up">
         <a data-toggle="modal" data-target="#register" href="#">
-        <span class="glyphicon glyphicon-user"> </span>
+        <span class="glyphicon glyphicon-user" > </span>
         | SIGN UP |</a>
         </li>
         <li><a data-toggle="modal" data-target="#login" href="#">
-        <span class="glyphicon glyphicon-log-in"></span>
+        <span class="glyphicon glyphicon-log-in" ></span>
         | LOGIN |</a>
         </li>
     </c:if>
     <c:if test="${sessionScope.get('user') != null}">
         <li class="sign-up">
         <a href="DispatcherServlet?command=view-user&username=${sessionScope.get('user').login}">
-        <span class="glyphicon glyphicon-user"></span> ${sessionScope.get('user').login}</a>
+        <span class="glyphicon glyphicon-user" ></span>Hello, ${sessionScope.get('user').login}</a>
         </li>
         <li><a href="DispatcherServlet?command=log-out">
-        <span class="glyphicon glyphicon-log-out"></span>| LOG OUT |</a>
+        <span class="glyphicon glyphicon-log-out" ></span>| LOG OUT |</a>
         </li>
 
             <c:if test='${sessionScope.get("user").role eq "tenant"}'>
@@ -114,7 +113,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-5 col-sm-6">
-                            <button type="submit" class="btn btn-primary">signIn</button>
+                            <button type="submit" class="btn btn-primary">Sign In</button>
                         </div>
                     </div>
                 </form>

@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,30 +46,29 @@ public class WorkRequestServiceImpl implements WorkRequestService {
 
 
     public WorkRequest createWorkRequest (HttpServletRequest request) throws IncorrectDateException {
+        LocalDateTime dateNow = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.M.yyyy HH:mm:ss");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String fillingDateDB = dateNow.format(formatter); // to DB
+        String fillingDate = dateNow.format(formatter2);
 
-        Date dateNow = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.M.yyyy HH:mm:ss");
         HttpSession session = request.getSession(false);
         User user = (User) session.getAttribute(USER);
         int tenantId = user.getUserId();
-        String fillingDate = formatForDateNow.format(dateNow);
         String inputPlannedDate = request.getParameter("plannedDate");
 
         if (!Validator.validateDate(inputPlannedDate)) {
            throw new IncorrectDateException("Incorrect planned date ");
         }
         String plannedDate = inputDateParsing(inputPlannedDate);
-        SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("dd.M.yyyy");
-        try {
-            Date docDate= format.parse(plannedDate);
-        } catch (ParseException e) {
-            logger.log(Level.ERROR,  "planned date parsing");
+        LocalDate parsedPlannedDate = LocalDate.parse(plannedDate, formatter2);
+        LocalDate parsedFillingDate = LocalDate.parse(fillingDate,formatter2);
+        if (parsedFillingDate.isAfter(parsedPlannedDate)) {
+           throw new IncorrectDateException("Completion(planned) date cannot be earlier than tomorrow");
         }
-        // добавить сравнение дат
 
         WorkRequest workRequest = new WorkRequest();
-        workRequest.setFillingDate(fillingDate);
+        workRequest.setFillingDate(fillingDateDB);
         workRequest.setPlannedDate(plannedDate);
         workRequest.setTenantUserId(tenantId);
         logger.log(Level.INFO,  "Work request created");

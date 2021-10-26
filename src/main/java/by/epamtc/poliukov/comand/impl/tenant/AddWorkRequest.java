@@ -25,7 +25,7 @@ public class AddWorkRequest implements Command {
     private static final String MESSAGE_OF_SUCCESS = "Work request information added";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "Work request information not added";
-    private static final String MESSAGE_OF_ERROR_2 = "Incorrect date";
+    private static final String MESSAGE_OF_ERROR_2 = "Completion(planned) date cannot be earlier than tomorrow";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

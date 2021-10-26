@@ -6,6 +6,7 @@ import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.dao.impl.UtilDaoImpl;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.DaoException;
+import by.epamtc.poliukov.exception.NotUniqueLoginEmailException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.PasswordEncryption;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-    public User createUser(HttpServletRequest request) throws ServiceAuthorizationException {
+    public User createUser(HttpServletRequest request) throws ServiceAuthorizationException, NotUniqueLoginEmailException {
         String login = request.getParameter(USERNAME);
         String email = request.getParameter(EMAIL);
         String name = request.getParameter(NAME);
@@ -50,9 +51,12 @@ public class UserServiceImpl implements UserService {
             throw new ServiceAuthorizationException("Check input parameters");
         }
         try {
-            isLoginEmailUnique(login, email);
+            boolean isUnique = isLoginEmailUnique(login, email);
+            if (!isUnique) {
+                throw new NotUniqueLoginEmailException("Login or email not unique");
+            }
         } catch (ServiceException e) {
-            throw new ServiceAuthorizationException("Login or email not unique");
+            throw new NotUniqueLoginEmailException("Login or email not unique");
         }
 
         String pass =  new String(password);
