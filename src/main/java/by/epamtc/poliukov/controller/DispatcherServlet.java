@@ -32,21 +32,14 @@ public class DispatcherServlet extends HttpServlet implements Serializable {
         super();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

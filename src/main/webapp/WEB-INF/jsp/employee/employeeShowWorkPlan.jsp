@@ -27,6 +27,10 @@
 <body>
 
 <c:import url="../menu/menu.jsp"/>
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
+</c:if>
 
 <c:if test="${requestScope.get('workRequestList') == null}">
 <div class="container">
@@ -36,11 +40,8 @@
         <input type="hidden" name="command" value="show-work-plan"/>
 
         <label for="plannedDate">date<br></label>
-        <input id="plannedDate" class="form-control" type="text" name="plannedDate" required/>
+        <input id="plannedDate" class="form-control" type="text" placeholder="DD.MM.YYYY" name="plannedDate" required/>
         <br/>
-        <br>
-        <br>
-        <br>
 
         <button type="submit" class="btn btn-primary">Show work plan</button>
     </form>

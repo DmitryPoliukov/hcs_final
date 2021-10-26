@@ -53,7 +53,7 @@
             <input type="hidden" name="command" value="add-work-request"/>
 
             <label for="plannedDate">planned date<br></label>
-            <input id="plannedDate" class="form-control" type="text" name="plannedDate" required/>
+            <input id="plannedDate" class="form-control" type="text" placeholder="DD.MM.YYYY" name="plannedDate" required/>
             <br/>
 
             <button type="submit" class="btn btn-primary">submit</button>

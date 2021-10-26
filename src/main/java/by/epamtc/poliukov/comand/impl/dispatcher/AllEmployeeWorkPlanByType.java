@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class AllEmployeeWorkPlan implements Command {
+public class AllEmployeeWorkPlanByType implements Command {
     private static final Logger logger = LogManager.getLogger(AllEmployeeWorkPlanByType.class);
 
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/dispatcher/showAllEmployeeWorkPlan.jsp";
@@ -31,6 +31,7 @@ public class AllEmployeeWorkPlan implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String type = request.getParameter(TYPE);
         List<User> employees;
         UserService userService = ServiceFactory.getInstance().getUserService();
         try {
@@ -38,10 +39,10 @@ public class AllEmployeeWorkPlan implements Command {
             if (request.getParameter(PAGE) != null) {
                 page = Integer.parseInt(request.getParameter(PAGE));
             }
-            employees = userService.getAllEmployee((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
+            employees = userService.getAllEmployee((page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE, type);
             request.setAttribute(REQUEST_ATTRIBUTE, employees);
 
-            int numberOfEmployees = userService.allEmployeesCount();
+            int numberOfEmployees = userService.allEmployeesCount(type);
             int noOfPages = (int) Math.ceil(numberOfEmployees * 1.0 / RECORDS_PER_PAGE);
 
             request.setAttribute(AMOUNT_OF_PAGES, noOfPages);

@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 public class Validator {
     private static final String REGEXP = "[\\w\\W]{1,4000}";
     private static final Pattern PATTERN_REGEXP = Pattern.compile(REGEXP);
-    private static final String TITLE = "[a-zA-Z0-9_ \\-]{4,64}";
-    private static final Pattern PATTERN_TITLE = Pattern.compile(TITLE);
     private static final String NUMBER = "[\\d]+";
     private static final Pattern PATTERN_NUMBER = Pattern.compile(NUMBER);
     private static final String LOGIN = "[a-zA-Z_0-9]{3,16}";
@@ -24,16 +22,6 @@ public class Validator {
         for (String arg : data) {
             matcher = PATTERN_REGEXP.matcher(arg);
             if (!matcher.matches()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    public static boolean validate(int... data) {
-        for (int arg : data) {
-            if (arg < 0) {
                 return false;
             }
         }

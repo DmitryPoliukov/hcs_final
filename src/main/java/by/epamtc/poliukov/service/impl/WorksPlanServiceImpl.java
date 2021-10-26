@@ -5,12 +5,16 @@ import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.dao.WorksPlanDao;
 import by.epamtc.poliukov.exception.DaoException;
+import by.epamtc.poliukov.exception.IncorrectDateException;
 import by.epamtc.poliukov.exception.ServiceException;
+import by.epamtc.poliukov.service.Validator;
 import by.epamtc.poliukov.service.WorksPlanService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +58,16 @@ public class WorksPlanServiceImpl implements WorksPlanService {
     }
 
     @Override
-    public List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException {
+    public List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorksPlanDao worksPlanDao= daoFactory.getWorksPlanDao();
         List<Integer> requestsIdByEmployeeIdDate;
+
+        if (!Validator.validateDate(completionDate)) {
+            throw new IncorrectDateException("Incorrect planned date ");
+        }
+        completionDate = inputDateParsing(completionDate);
+
         try {
             requestsIdByEmployeeIdDate = worksPlanDao.getRequestsIdByEmployeeIdCompletionDate(employeeId, completionDate);
             logger.log(Level.INFO, "Get request id by employee id and completion date");
@@ -65,6 +75,12 @@ public class WorksPlanServiceImpl implements WorksPlanService {
             throw new ServiceException("Failed to get request id by employee id and completion date", e);
         }
         return requestsIdByEmployeeIdDate;
+    }
+    private String inputDateParsing(String inputDate) {
+        String[] arr = inputDate.split("\\D");
+        StringBuilder dateSB = new StringBuilder();
+        dateSB.append(arr[0]).append(".").append(arr[1]).append(".").append(arr[2]);
+        return dateSB.toString();
     }
 
 
