@@ -61,6 +61,7 @@ public class CommandProvider {
         adminCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
         adminCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         adminCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
+        adminCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
 
 
         userCommands.put(CommandList.VIEW_USER, new ViewUser());

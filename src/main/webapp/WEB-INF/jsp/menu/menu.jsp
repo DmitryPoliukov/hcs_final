@@ -77,8 +77,8 @@
     </li>
 
 
-<%--    <li><a href="DispatcherServlet?command=change-language&language=en">| English |</a></li>--%>
-<%--    <li><a href="DispatcherServlet?command=change-language&language=ru">| Русский |</a></li>--%>
+<li><a href="DispatcherServlet?command=change-language&language=en">| English |</a></li>
+<li><a href="DispatcherServlet?command=change-language&language=ru">| Русский |</a></li>
     </ul>
     </div>
     </nav>

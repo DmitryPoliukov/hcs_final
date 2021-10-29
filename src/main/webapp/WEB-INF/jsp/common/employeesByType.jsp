@@ -1,15 +1,25 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: radof
-  Date: 13.10.2021
-  Time: 21:01
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.employeesByType.ourEmployees" var="ourEmployees"/>
+<fmt:message bundle="${locale}" key="locale.employeesByType.chooseWorkType" var="chooseWorkType"/>
+<fmt:message bundle="${locale}" key="locale.common.all" var="all"/>
+<fmt:message bundle="${locale}" key="locale.common.paintingWorks" var="paintingWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.concreteWorks" var="concreteWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.name" var="name"/>
+<fmt:message bundle="${locale}" key="locale.common.username" var="username"/>
+<fmt:message bundle="${locale}" key="locale.common.secondName" var="secondName"/>
+<fmt:message bundle="${locale}" key="locale.common.surname" var="surname"/>
+<fmt:message bundle="${locale}" key="locale.common.email" var="email"/>
+<fmt:message bundle="${locale}" key="locale.common.phone" var="phone"/>
+<fmt:message bundle="${locale}" key="locale.common.costPerPersonHour" var="costPerPersonHour"/>
+<fmt:message bundle="${locale}" key="locale.common.otherInformation" var="otherInformation"/>
+<fmt:message bundle="${locale}" key="locale.common.specialization" var="specialization"/>
+<fmt:message bundle="${locale}" key="locale.common.next" var="next"/>
+<fmt:message bundle="${locale}" key="locale.common.previous" var="previous"/>
+
 
 
 <!DOCTYPE html>
@@ -19,9 +29,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>employees</title>
     <style type="text/css">
         div.pagination {
@@ -41,7 +49,7 @@
             border: 1px #3b5998 solid;
         }
         a.current {
-            background: #c2d6ed;
+            background: #e8db66;
         }
     </style>
 </head>
@@ -61,17 +69,17 @@
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-8 text-left mainContent">
-        <h1>Our employees</h1>
+        <h1>${ourEmployees}</h1>
 
         <div class="selectboxes">
             <div class="sortAwaits" style="width: 391px; float: left;margin: 0">
-                <span>Employees by work type</span>
+                <span>${chooseWorkType}</span>
                 <label>
                     <select onchange="MakeSort(this);">
                         <option value="DispatcherServlet?command=all-employees">-</option>
-                        <option value="DispatcherServlet?command=all-employees">all</option>
-                        <option value="DispatcherServlet?command=employees-by-type&type=Малярные работы">Малярные работы</option>
-                        <option value="DispatcherServlet?command=employees-by-type&type=Бетонные работы">Бетонные работы</option>
+                        <option value="DispatcherServlet?command=all-employees">${all}</option>
+                        <option value="DispatcherServlet?command=employees-by-type&type=Малярные работы">${paintingWorks}</option>
+                        <option value="DispatcherServlet?command=employees-by-type&type=Бетонные работы">${concreteWorks}</option>
 
 
                     </select>
@@ -85,7 +93,7 @@
         function MakeSort(element) {
             var selected = $('option:selected', element),
                 href = selected.val();
-            if (/*selected.text() === '-' || */!href) {
+            if (selected.text() === '-' || !href) {
                 return false;
             }
             document.location = href;
@@ -95,15 +103,15 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Second name</th>
-            <th>Surname</th>
-            <th>email</th>
-            <th>Phone</th>
-            <th>Cost per person hour</th>
-            <th>Other information</th>
-            <th>Specialization</th>
+            <th>${username}</th>
+            <th>${name}</th>
+            <th>${secondName}</th>
+            <th>${surname}</th>
+            <th>${email}</th>
+            <th>${phone}</th>
+            <th>${costPerPersonHour}</th>
+            <th>${otherInformation}</th>
+            <th>${specialization}</th>
         </tr>
         </thead>
         <tbody>
@@ -130,7 +138,7 @@
         <ul class="pagination">
             <c:if test="${requestScope.currentPage > 1}">
                 <li>
-                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage - 1}"> previous </a>
+                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage - 1}">${previous} </a>
                 </li>
 
             </c:if>
@@ -153,7 +161,7 @@
             <%--For displaying Next link --%>
             <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
                 <li>
-                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage + 1}">next</a>
+                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage + 1}">${next}</a>
                 </li>
             </c:if>
 

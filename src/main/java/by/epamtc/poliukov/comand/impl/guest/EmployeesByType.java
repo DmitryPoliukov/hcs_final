@@ -25,7 +25,7 @@ public class EmployeesByType implements Command {
     private static final String PAGE = "page";
     private static final String AMOUNT_OF_PAGES = "noOfPages";
     private static final String CURRENT_PAGE = "currentPage";
-    private static final int RECORDS_PER_PAGE = 2;
+    private static final int RECORDS_PER_PAGE = 4;
     private static final String REQUEST_ATTRIBUTE = "all_employees";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "No employees matching your query";

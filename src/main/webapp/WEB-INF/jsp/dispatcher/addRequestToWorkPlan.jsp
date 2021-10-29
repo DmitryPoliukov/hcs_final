@@ -8,22 +8,21 @@
 
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.addRequestToWorkPlan.subAmount" var="subAmount"/>
+<fmt:message bundle="${locale}" key="locale.addRequestToWorkPlan.subInfo" var="subInfo"/>
+<fmt:message bundle="${locale}" key="locale.addRequestToWorkPlan.subWorkType" var="subWorkType"/>
+<fmt:message bundle="${locale}" key="locale.addRequestToWorkPlan.assign" var="assign"/>
+<fmt:message bundle="${locale}" key="locale.addRequestToWorkPlan.plannedDate" var="plannedDate"/>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Request to work plan</title>
-    <!-- Required meta tags -->
+    <title>Add request to work plan</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Optional JavaScript -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 </head>
 <body>
 
@@ -42,20 +41,18 @@
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-8 text-center mainContent">
-        <h1>Planned date  ${requestScope.workRequest.plannedDate}</h1>
+        <h1>${plannedDate} ${requestScope.workRequest.plannedDate}</h1>
 
         <form action="DispatcherServlet" method="post">
             <input type="hidden" name="command" value="add-request-to-work-plan"/>
         <br>
         <table class="table table-hover">
-
             <thead>
             <tr>
-                <th>Subqueries amount of work in hours</th>
-                <th>Subqueries information</th>
-                <th>Subqueries work type</th>
-                <th>Assign</th>
-
+                <th>${subAmount}</th>
+                <th>${subInfo}</th>
+                <th>${subWorkType}</th>
+                <th>${assign}</th>
             </tr>
             </thead>
             <tbody>
@@ -73,31 +70,20 @@
                         <label for="employeeId"></label>
                         <select name="employeeId" id="employeeId">
                             <c:forEach var="employee" items="${requestScope.allEmployees}">
-
                                 <option value="${employee.userId}">${employee.name} ${employee.surname} ${employee.employeeWorkTypeName}</option>
                             </c:forEach>
-
                         </select>
                         <br>
-
-
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
-
         </table>
-
         <br>
             <button type="submit" class="btn btn-primary">Assign</button>
         </form>
     </div>
 </div>
-
-
-
-
-
 
 <c:import url="../menu/footer.jsp"/>
 </body>
