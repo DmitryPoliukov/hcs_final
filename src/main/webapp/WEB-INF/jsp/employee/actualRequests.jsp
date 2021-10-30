@@ -1,15 +1,25 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: radof
-  Date: 18.10.2021
-  Time: 01:50
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.common.all" var="all"/>
+<fmt:message bundle="${locale}" key="locale.common.paintingWorks" var="paintingWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.concreteWorks" var="concreteWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.next" var="next"/>
+<fmt:message bundle="${locale}" key="locale.common.previous" var="previous"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.newWorkRequests" var="newWorkRequests"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.workType" var="workType"/>
+<fmt:message bundle="${locale}" key="locale.common.fillingDate" var="fillingDate"/>
+<fmt:message bundle="${locale}" key="locale.common.plannedDate" var="plannedDate"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.status" var="status"/>
+<fmt:message bundle="${locale}" key="locale.common.subWorkType" var="subWorkType"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.amountOfWorkInHours" var="amountOfWorkInHours"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.information" var="information"/>
+<fmt:message bundle="${locale}" key="locale.common.tenantCity" var="tenantCity"/>
+<fmt:message bundle="${locale}" key="locale.common.tenantAddress" var="tenantAddress"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.assign" var="assign"/>
+
 
 
 <!DOCTYPE html>
@@ -21,9 +31,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <title>actual requests</title>
+    <title>New requests</title>
 </head>
-<body onload="active()">
+<body>
 
 <c:import url="../menu/menu.jsp"/>
 
@@ -32,25 +42,20 @@
     <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
-<script language="JavaScript">
-    function active() {
-        document.getElementById("employees-page").className = "active";
-    }
-</script>
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-12 text-left mainContent">
-        <h1>Actual work requests</h1>
+        <h1>${newWorkRequests}</h1>
 
         <div class="selectboxes">
             <div class="sortAwaits" style="width: 391px; float: left;margin: 0">
-                <span>Work type </span>
+                <span>${workType} </span>
                 <label>
                     <select onchange="MakeSort(this);">
                         <option value="DispatcherServlet?command=actual-requests-all-types">-</option>
-                        <option value="DispatcherServlet?command=actual-requests-all-types">all</option>
-                        <option value="DispatcherServlet?command=actual-requests-employee&type=Малярные работы">Малярные работы</option>
-                        <option value="DispatcherServlet?command=actual-requests-employee&type=Бетонные работы">Бетонные работы</option>
+                        <option value="DispatcherServlet?command=actual-requests-all-types">${all}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Малярные работы">${paintingWorks}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Бетонные работы">${concreteWorks}</option>
                     </select>
                 </label>
             </div>
@@ -74,17 +79,17 @@
 
         <thead>
         <tr>
-            <th>Filling date</th>
-            <th>Planned date</th>
-            <th>Status</th>
-            <th>Subqueries work type</th>
-            <th>Amount of work in hours</th>
-            <th>Information</th>
-            <th>Tenant's city</th>
-            <th>Tenant's address</th>
+            <th>${fillingDate}</th>
+            <th>${plannedDate}</th>
+            <th>${status}</th>
+            <th>${subWorkType}</th>
+            <th>${amountOfWorkInHours}</th>
+            <th>${information}</th>
+            <th>${tenantCity}</th>
+            <th>${tenantAddress}</th>
 
 <c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
-            <th>Assign an employee</th>
+            <th>${assign}</th>
 </c:if>
 
         </tr>
@@ -148,7 +153,7 @@
         <ul class="pagination">
             <c:if test="${requestScope.currentPage > 1}">
                 <li>
-                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage - 1}"> previous </a>
+                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage - 1}">${previous}</a>
                 </li>
 
             </c:if>
@@ -171,7 +176,7 @@
             <%--For displaying Next link --%>
             <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
                 <li>
-                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage + 1}">next</a>
+                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage + 1}">${next}</a>
                 </li>
             </c:if>
 

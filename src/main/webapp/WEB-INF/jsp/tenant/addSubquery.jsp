@@ -1,24 +1,24 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: radof
-  Date: 14.10.2021
-  Time: 23:11
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set scope="session" var="previousQuery" value="index.jsp"/>
 
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.addSubquery.enterSubInfo" var="enterSubInfo"/>
+<fmt:message bundle="${locale}" key="locale.addSubquery.addAnotherSubquery" var="addAnotherSubquery"/>
+<fmt:message bundle="${locale}" key="locale.common.submit" var="submit"/>
+<fmt:message bundle="${locale}" key="locale.addSubquery.showMyRequests" var="showMyRequests"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.amountOfWorkInHours" var="amountOfWork"/>
+<fmt:message bundle="${locale}" key="locale.common.paintingWorks" var="paintingWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.concreteWorks" var="concreteWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.otherInformation" var="otherInformation"/>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>add subquery</title>
+    <title>Add subquery</title>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
@@ -46,29 +46,29 @@
 
 <c:if test="${requestScope.get('successMessageSubquery')==null}">
 <div class="container">
-    <h2>Please, enter subquerry information</h2>
+    <h2>${enterSubInfo}</h2>
 
     <form action="DispatcherServlet" method="post">
         <input type="hidden" name="command" value="add-subquery"/>
 
         <input type="hidden" name="workRequestId" value="${sessionScope.get('workRequest').requestID}"/>
 
-        <label for="amount">amount of work in hours<br></label>
+        <label for="amount">${amountOfWork}<br></label>
         <input id="amount" class="form-control" type="text" name="amount" required/>
         <br/>
-        <label for="information">other subquery information<br></label>
+        <label for="information">${otherInformation}<br></label>
         <input id="information" class="form-control" type="text" name="information" required/>
         <br/>
 
         <label for="workType"></label>
         <select name="workType" id="workType">
-            <option value="Малярные работы">Малярные работы</option>
-            <option value="Бетонные работы">Бетонные работы</option>
+            <option value="Малярные работы">${paintingWorks}</option>
+            <option value="Бетонные работы">${concreteWorks}</option>
             <option value="Благоустройство">Благоустройство</option>
 
         </select>
         <br>
-        <button type="submit" class="btn btn-primary">submit</button>
+        <button type="submit" class="btn btn-primary">${submit}</button>
     </form>
     </c:if>
 
@@ -78,8 +78,8 @@
     <c:remove var="successMessageSubquery" scope="request"/>
     <br><br>
 
-    <a href="DispatcherServlet?command=go-to-add-subquery" class="btn btn-info" role="button"> Add another subquery </a>
-    <a href="DispatcherServlet?command=show-all-tenant-requests" class="btn btn-info" role="button"> Show my requests </a>
+    <a href="DispatcherServlet?command=go-to-add-subquery" class="btn btn-info" role="button">${addAnotherSubquery}</a>
+    <a href="DispatcherServlet?command=show-all-tenant-requests" class="btn btn-info" role="button">${showMyRequests}</a>
 </c:if>
 
 </div>

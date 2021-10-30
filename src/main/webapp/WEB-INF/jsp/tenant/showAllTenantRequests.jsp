@@ -1,24 +1,24 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: radof
-  Date: 15.10.2021
-  Time: 18:51
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set scope="session" var="previousQuery" value="index.jsp"/>
-
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.showAllTenantRequests.yourRequests" var="yourRequests"/>
+<fmt:message bundle="${locale}" key="locale.showAllTenantRequests.cancelRequest" var="cancelRequest"/>
+<fmt:message bundle="${locale}" key="locale.common.fillingDate" var="fillingDate"/>
+<fmt:message bundle="${locale}" key="locale.common.plannedDate" var="plannedDate"/>
+<fmt:message bundle="${locale}" key="locale.common.subWorkType" var="subWorkType"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.status" var="status"/>
+<fmt:message bundle="${locale}" key="locale.common.cancel" var="cancel"/>
+<fmt:message bundle="${locale}" key="locale.common.next" var="next"/>
+<fmt:message bundle="${locale}" key="locale.common.previous" var="previous"/>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>show all requests</title>
+    <title>Show all requests</title>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
@@ -47,18 +47,16 @@
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-12 text-center mainContent">
-        <h1>Your requests</h1>
-
-
+        <h1>${yourRequests}</h1>
     <br>
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Filling date</th>
-            <th>Planned date</th>
-            <th>Status</th>
-            <th>Subqueries work type</th>
-            <th>Cancel request</th>
+            <th>${fillingDate}</th>
+            <th>${plannedDate}</th>
+            <th>${status}</th>
+            <th>${subWorkType}</th>
+            <th>${cancelRequest}</th>
 
         </tr>
         </thead>
@@ -73,7 +71,7 @@
                     |   ${subquery.workType}   |
                 </c:forEach>
                 </td>
-                <td> <a href="DispatcherServlet?command=update-request-status-tenant&delete=${request.requestID}" class="btn btn-info" role="button"> Cancel </a></td>
+                <td> <a href="DispatcherServlet?command=update-request-status-tenant&delete=${request.requestID}" class="btn btn-info" role="button"> ${cancel} </a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -106,7 +104,7 @@
         <ul class="pagination">
             <c:if test="${requestScope.currentPage > 1}">
                 <li>
-                    <a href="DispatcherServlet?command=show-all-tenant-requests&page=${requestScope.currentPage - 1}"> previous </a>
+                    <a href="DispatcherServlet?command=show-all-tenant-requests&page=${requestScope.currentPage - 1}"> ${previous} </a>
                 </li>
 
             </c:if>
@@ -128,7 +126,7 @@
             <%--For displaying Next link --%>
             <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
                 <li>
-                    <a href="DispatcherServlet?command=show-all-tenant-requests&page=${requestScope.currentPage + 1}">next</a>
+                    <a href="DispatcherServlet?command=show-all-tenant-requests&page=${requestScope.currentPage + 1}">${next}</a>
                 </li>
             </c:if>
 
@@ -137,10 +135,6 @@
     </div>
 </div>
 </div>
-
-
-
-
 
 <c:import url="../menu/footer.jsp"/>
 </body>

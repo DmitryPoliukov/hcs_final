@@ -46,7 +46,7 @@
         <input type="hidden" name="command" value="update-role"/>
 
         <label for="login">${login}<br></label>
-        <input id="login" class="form-control" type="text" name="login" required/>
+        <input id="login" class="form-control" type="text" name="${login}" required/>
         <br>
         <br>
         <h2>${chooseRole}</h2>

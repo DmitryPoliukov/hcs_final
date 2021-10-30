@@ -17,6 +17,8 @@
 <fmt:message bundle="${locale}" key="locale.common.tenantCity" var="tenantCity"/>
 <fmt:message bundle="${locale}" key="locale.common.tenantAddress" var="tenantAddress"/>
 <fmt:message bundle="${locale}" key="locale.dispatcherShowWorksPlan.updateStatus" var="updateStatus"/>
+<fmt:message bundle="${locale}" key="locale.employeeShowWorkPlan.date" var="date"/>
+<fmt:message bundle="${locale}" key="locale.dispatcherShowWorkPlan.closeWorkRequest" var="closeWorkRequest"/>
 
 <!DOCTYPE html>
 <html>
@@ -31,6 +33,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+<c:import url="../menu/menu.jsp"/>
 
 <c:if test="${requestScope.get('successMessage')!=null}">
     <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
@@ -41,7 +44,7 @@
     <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
-<c:import url="../menu/menu.jsp"/>
+
 
 <c:if test="${requestScope.get('workRequestList') == null}">
     <div class="container">
@@ -51,7 +54,7 @@
             <input type="hidden" name="command" value="dispatcher-work-plan"/>
 
             <input type="hidden" name="employeeId" value="${param.employeeId}"/>
-            <label for="plannedDate">date<br></label>
+            <label for="plannedDate">${date}<br></label>
             <input id="plannedDate" class="form-control" type="text" name="plannedDate" required/>
             <br>
             <br>
@@ -90,14 +93,14 @@
                 <td>${requestScope.workRequestList.get(i).fillingDate}</td>
                 <td>${requestScope.workRequestList.get(i).plannedDate}</td>
                 <td><c:forEach var="subquery" items="${requestScope.workRequestList.get(i).subqueryList}">
-                    ${subquery.workType} -- ${subquery.information} <br>
+                    ${subquery.workType} - ${subquery.information} <br>
                 </c:forEach>
                 </td>
                 <td>${requestScope.tenantList.get(i).name} ${requestScope.tenantList.get(i).surname}</td>
                 <td>${requestScope.tenantList.get(i).phone}</td>
                 <td>${requestScope.tenantInfoList.get(i).get(0)}</td>
                 <td>${requestScope.tenantInfoList.get(i).get(1)}</td>
-                <td><a href="DispatcherServlet?command=dispatcher-close-work-request&requestId=${requestScope.workRequestList.get(i).requestID}" class="btn btn-success" role="button">Close work request</a></td>
+                <td><a href="DispatcherServlet?command=dispatcher-close-work-request&requestId=${requestScope.workRequestList.get(i).requestID}" class="btn btn-success" role="button">${closeWorkRequest}</a></td>
             </tr>
         </c:forEach>
         </tbody>

@@ -3,6 +3,27 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.showAllEmployeeWorkPlan.employees" var="employees"/>
+<fmt:message bundle="${locale}" key="locale.showAllEmployeeWorkPlan.showEmployeesByWorkType" var="showEmployees"/>
+<fmt:message bundle="${locale}" key="locale.common.all" var="all"/>
+<fmt:message bundle="${locale}" key="locale.common.paintingWorks" var="paintingWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.concreteWorks" var="concreteWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.name" var="name"/>
+<fmt:message bundle="${locale}" key="locale.common.username" var="username"/>
+<fmt:message bundle="${locale}" key="locale.common.secondName" var="secondName"/>
+<fmt:message bundle="${locale}" key="locale.common.surname" var="surname"/>
+<fmt:message bundle="${locale}" key="locale.common.email" var="email"/>
+<fmt:message bundle="${locale}" key="locale.common.phone" var="phone"/>
+<fmt:message bundle="${locale}" key="locale.common.costPerPersonHour" var="costPerPersonHour"/>
+<fmt:message bundle="${locale}" key="locale.common.otherInformation" var="otherInformation"/>
+<fmt:message bundle="${locale}" key="locale.common.specialization" var="specialization"/>
+<fmt:message bundle="${locale}" key="locale.common.next" var="next"/>
+<fmt:message bundle="${locale}" key="locale.common.previous" var="previous"/>
+<fmt:message bundle="${locale}" key="locale.showAllEmployeeWorkPlan.CheckWorkPlan" var="checkWorkPlan"/>
+<fmt:message bundle="${locale}" key="locale.employeeShowWorkPlan.showButton" var="showButton"/>
+
+
+
 
 
 <!DOCTYPE html>
@@ -50,17 +71,17 @@
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-8 text-left mainContent">
-        <h1>Our employees</h1>
+        <h1>${employees}</h1>
 
         <div class="selectboxes">
             <div class="sortAwaits" style="width: 391px; float: left;margin: 0">
-                <span>Show employees by work type</span>
+                <span>${showEmployees}</span>
                 <label>
                     <select onchange="MakeSort(this);">
                         <option value="DispatcherServlet?command=all-employee-work-plan">-</option>
-                        <option value="DispatcherServlet?command=all-employee-work-plan">all</option>
-                        <option value="DispatcherServlet?command=all-employee-work-plan-by-type&type=Малярные работы">Малярные работы</option>
-                        <option value="DispatcherServlet?command=all-employee-work-plan-by-type&type=Бетонные работы">Бетонные работы</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan">${all}</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan-by-type&type=Малярные работы">${paintingWorks}</option>
+                        <option value="DispatcherServlet?command=all-employee-work-plan-by-type&type=Бетонные работы">${concreteWorks}</option>
 
 
                     </select>
@@ -84,16 +105,16 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Second name</th>
-            <th>Surname</th>
-            <th>email</th>
-            <th>Phone</th>
-            <th>Cost per person hour</th>
-            <th>Other information</th>
-            <th>Specialization</th>
-            <th>Check work plan</th>
+            <th>${username}</th>
+            <th>${name}</th>
+            <th>${secondName}</th>
+            <th>${surname}</th>
+            <th>${email}</th>
+            <th>${phone}</th>
+            <th>${costPerPersonHour}</th>
+            <th>${otherInformation}</th>
+            <th>${specialization}</th>
+            <th>${checkWorkPlan}</th>
         </tr>
         </thead>
         <tbody>
@@ -108,7 +129,7 @@
                 <td>${employee.valuePersonHour}</td>
                 <td>${employee.information}</td>
                 <td>${employee.employeeWorkTypeName} </td>
-                <td> <a href="DispatcherServlet?command=go-to-dispatcher-work-plan&employeeId=${employee.userId}" class="btn btn-success" role="button">Show work plan</a></td>
+                <td> <a href="DispatcherServlet?command=go-to-dispatcher-work-plan&employeeId=${employee.userId}" class="btn btn-success" role="button">${showButton}</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -121,7 +142,7 @@
         <ul class="pagination">
             <c:if test="${requestScope.currentPage > 1}">
                 <li>
-                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage - 1}"> previous </a>
+                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage - 1}">${previous}</a>
                 </li>
 
             </c:if>
@@ -144,7 +165,7 @@
             <%--For displaying Next link --%>
             <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
                 <li>
-                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage + 1}">next</a>
+                    <a href="DispatcherServlet?command=${param.command}&type=${param.type}&page=${requestScope.currentPage + 1}">${next}</a>
                 </li>
             </c:if>
 

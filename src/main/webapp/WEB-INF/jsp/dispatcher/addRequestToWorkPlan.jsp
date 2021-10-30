@@ -80,7 +80,7 @@
             </tbody>
         </table>
         <br>
-            <button type="submit" class="btn btn-primary">Assign</button>
+            <button type="submit" class="btn btn-primary">${assign}</button>
         </form>
     </div>
 </div>

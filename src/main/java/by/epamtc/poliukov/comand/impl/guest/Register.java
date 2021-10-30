@@ -27,7 +27,6 @@ public class Register implements Command {
     private static final String USER = "user";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR_1 = "Not unique login or email";
-    private static final String MESSAGE_OF_ERROR_2 = "User with such email or login is already exist";
     private static final String MESSAGE_OF_ERROR_3 = "Check input parameters";
 
     @Override
@@ -45,12 +44,7 @@ public class Register implements Command {
             if (user.getRole().equals("employee")) {
                 request.getRequestDispatcher(JSP_ADD_EMPLOYEE_INFO).forward(request, response);
             } else response.sendRedirect(previousQuery);
-
-        } catch (ServiceAuthorizationException e) {
-            logger.log(Level.INFO, e.getMessage(), e);
-            request.setAttribute(ERROR, MESSAGE_OF_ERROR_2);
-            request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
-        } catch (ServiceException e) {
+        } catch (ServiceException | ServiceAuthorizationException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR_3);
             request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);

@@ -1,24 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: radof
-  Date: 14.10.2021
-  Time: 21:47
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set scope="session" var="previousQuery" value="index.jsp"/>
-
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.addRequest.enterRequestInfo" var="enterRequestInfo"/>
+<fmt:message bundle="${locale}" key="locale.common.submit" var="submit"/>
+<fmt:message bundle="${locale}" key="locale.common.plannedDate" var="plannedDate"/>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>add work request</title>
+    <title>Add work request</title>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
@@ -39,34 +33,28 @@
 
 <c:import url="../menu/menu.jsp"/>
 
-
 <c:if test="${requestScope.get('errorMessage')!=null}">
     <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
     <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
 <div class="container">
-    <h2>Please, enter work request information</h2>
+    <h2>${enterRequestInfo}</h2>
 
     <c:if test="${requestScope.get('successMessage')==null}">
         <form action="DispatcherServlet" method="post">
             <input type="hidden" name="command" value="add-work-request"/>
 
-            <label for="plannedDate">planned date<br></label>
+            <label for="plannedDate">${plannedDate}<br></label>
             <input id="plannedDate" class="form-control" type="text" placeholder="DD.MM.YYYY" name="plannedDate" required/>
             <br/>
 
-            <button type="submit" class="btn btn-primary">submit</button>
+            <button type="submit" class="btn btn-primary">${submit}</button>
         </form>
     </c:if>
 
-
-
-
-
 </div>
 <c:import url="../menu/footer.jsp"/>
-
 
 </body>
 </html>

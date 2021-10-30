@@ -1,12 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set scope="session" var="previousQuery" value="index.jsp"/>
-
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.addEmployee.enterInfo" var="enterInfo"/>
+<fmt:message bundle="${locale}" key="locale.addEmployee.valuePersonHour" var="valuePersonHour"/>
+<fmt:message bundle="${locale}" key="locale.addEmployee.enterSpecialization" var="enterSpecialization"/>
+<fmt:message bundle="${locale}" key="locale.addEmployee.showNewWorkRequests" var="showNewWorkRequests"/>
+<fmt:message bundle="${locale}" key="locale.addEmployee.home" var="home"/>
+<fmt:message bundle="${locale}" key="locale.common.paintingWorks" var="paintingWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.concreteWorks" var="concreteWorks"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.information" var="information"/>
+<fmt:message bundle="${locale}" key="locale.common.submit" var="submit"/>
+
 
 <!DOCTYPE html>
 <html>
@@ -33,29 +39,27 @@
     <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
-
-
 <c:if test="${requestScope.get('successMessage')==null}">
 <div class="container">
-    <h2>Please, enter additional information</h2>
+    <h2>${enterInfo}</h2>
     <form action="DispatcherServlet" method="post">
         <input type="hidden" name="command" value="add-employee"/>
 
-        <label for="valuePersonHour">Value person hour<br></label>
+        <label for="valuePersonHour">${valuePersonHour}<br></label>
         <input id="valuePersonHour" class="form-control" type="text" name="valuePersonHour" required/>
         <br/>
-        <label for="information">information<br></label>
+        <label for="information">${information}<br></label>
         <input id="information" class="form-control" type="text" name="information" required/>
         <br/>
-<h3>Enter your specialization</h3>
+<h3>${enterSpecialization}</h3>
         <div class="form-check">
             <label class="form-check-label" for="check1">
-                <input type="checkbox" class="form-check-input" id="check1" name="workType" value="Малярные работы">Малярные работы
+                <input type="checkbox" class="form-check-input" id="check1" name="workType" value="Малярные работы">${paintingWorks}
             </label>
         </div>
         <div class="form-check">
             <label class="form-check-label" for="check2">
-                <input type="checkbox" class="form-check-input" id="check2" name="workType" value="Бетонные работы">Бетонные работы
+                <input type="checkbox" class="form-check-input" id="check2" name="workType" value="Бетонные работы">${concreteWorks}
             </label>
         </div>
         <div class="form-check">
@@ -64,7 +68,7 @@
             </label>
         </div>
 
-        <button type="submit" class="btn btn-primary">submit</button>
+        <button type="submit" class="btn btn-primary">${submit}</button>
     </form>
 </div>
 </c:if>
@@ -72,16 +76,14 @@
         <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
         <c:remove var="successMessage" scope="request"/>
 
-        <a href="DispatcherServlet?command=go-to-actual-requests-employee" class="btn btn-info" role="button"> Show all actual work requests</a>
-        <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-info" role="button"> Home</a>
-
+        <a href="DispatcherServlet?command=go-to-actual-requests-employee" class="btn btn-info" role="button">${showNewWorkRequests}</a>
+        <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-info" role="button">${home}</a>
 
     </c:if>
 
 <div class="footer">
     <jsp:include page="../menu/footer.jsp"/>
 </div>
-
 
 </body>
 </html>

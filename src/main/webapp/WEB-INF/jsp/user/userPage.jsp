@@ -1,11 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.userPage.profile" var="profile"/>
+<fmt:message bundle="${locale}" key="locale.common.name" var="name"/>
+<fmt:message bundle="${locale}" key="locale.common.secondName" var="secondName"/>
+<fmt:message bundle="${locale}" key="locale.common.surname" var="surname"/>
+<fmt:message bundle="${locale}" key="locale.common.email" var="email"/>
+<fmt:message bundle="${locale}" key="locale.common.phone" var="phone"/>
+<fmt:message bundle="${locale}" key="locale.common.username" var="username"/>
+<fmt:message bundle="${locale}" key="locale.addSubquery.showMyRequests" var="showMyRequests"/>
+<fmt:message bundle="${locale}" key="locale.userPage.role" var="role"/>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -37,7 +46,7 @@
 
     <div class="col-md-12 text-cente mainContent">
         <div>
-            <h1><c:out value="${user.login}"/> profile</h1>
+            <h1><c:out value="${user.login}"/> ${profile}</h1>
             <div class="col-md-12">
                 <c:if test="${not empty param.errorMessage}">
                     <h4 class="red"><c:out value="${param.errorMessage}"/></h4>
@@ -46,36 +55,36 @@
                     <table class="table table-striped">
                         <tbody>
                         <tr>
-                            <td>Login</td>
+                            <td>${username}</td>
                             <td>${user.login}</td>
 
                         </tr>
                         <tr>
-                            <td>Name</td>
+                            <td>${name}</td>
                             <td>${user.name}</td>
                         </tr>
                         <tr>
-                            <td>Second name</td>
+                            <td>${secondName}</td>
                             <td>${user.secondName}</td>
 
                         </tr>
                         <tr>
-                            <td>Surname</td>
+                            <td>${surname}</td>
                             <td>${user.surname}</td>
 
                         </tr>
                         <tr>
-                            <td>Email</td>
+                            <td>${email}</td>
                             <td>${user.email}</td>
 
                         </tr>
                         <tr>
-                            <td>Phone</td>
+                            <td>${phone}</td>
                             <td>${user.phone}</td>
 
                         </tr>
                         <tr>
-                            <td>Role</td>
+                            <td>${role}</td>
                             <td>${user.role}</td>
 
                         </tr>
@@ -90,7 +99,7 @@
 
 </div>
     <c:if test='${sessionScope.get("user").role eq "tenant"}'>
-        <a href="DispatcherServlet?command=show-all-tenant-requests" class="btn btn-info" role="button"> Show my requests </a>
+        <a href="DispatcherServlet?command=show-all-tenant-requests" class="btn btn-info" role="button"> ${showMyRequests}</a>
 
     </c:if>
 

@@ -53,6 +53,8 @@ public class CommandProvider {
         guestCommands.put(CommandList.ALL_EMPLOYEES, new AllEmployees());
         guestCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         guestCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
+        guestCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+
 
         adminCommands.put(CommandList.LOG_OUT, new Logout());
         adminCommands.put(CommandList.VIEW_USER, new ViewUser());
@@ -73,6 +75,8 @@ public class CommandProvider {
         userCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         userCommands.put(CommandList.GO_TO_ADD_EMPLOYEE, new GoToAddEmployee());
         userCommands.put(CommandList.ADD_EMPLOYEE, new AddEmployee());
+        userCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+
 
 
         tenantCommands.put(CommandList.VIEW_USER, new ViewUser());
@@ -88,6 +92,9 @@ public class CommandProvider {
         tenantCommands.put(CommandList.ADD_SUBQUERY, new AddSubquery());
         tenantCommands.put(CommandList.SHOW_ALL_TENANT_REQUESTS, new ShowAllTenantRequests());
         tenantCommands.put(CommandList.UPDATE_REQUEST_STATUS_TENANT, new UpdateRequestStatusTenant());
+        tenantCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+
+
 
         employeeCommands.put(CommandList.VIEW_USER, new ViewUser());
         employeeCommands.put(CommandList.LOG_OUT, new Logout());
@@ -101,6 +108,8 @@ public class CommandProvider {
         employeeCommands.put(CommandList.SHOW_WORK_PLAN, new ShowWorkPlan());
         employeeCommands.put(CommandList.GO_TO_ADD_EMPLOYEE, new GoToAddEmployee());
         employeeCommands.put(CommandList.ADD_EMPLOYEE, new AddEmployee());
+        employeeCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+
 
         dispatcherCommands.put(CommandList.LOGIN, new Login());
         dispatcherCommands.put(CommandList.LOG_OUT, new Logout());
@@ -118,6 +127,8 @@ public class CommandProvider {
         dispatcherCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
         dispatcherCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         dispatcherCommands.put(CommandList.DISPATCHER_CLOSE_WORK_REQUEST, new DispatcherCloseWorkRequest());
+        dispatcherCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+
 
 
 

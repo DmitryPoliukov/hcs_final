@@ -1,17 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set scope="session" var="previousQuery" value="index.jsp"/>
-
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.dispatcherShowWorksPlan.enterDate" var="enterDate"/>
+<fmt:message bundle="${locale}" key="locale.dispatcherShowWorksPlan.submit" var="submit"/>
+<fmt:message bundle="${locale}" key="locale.dispatcherShowWorksPlan.noRequests" var="noRequests"/>
+<fmt:message bundle="${locale}" key="locale.employeeShowWorkPlan.show" var="show"/>
+<fmt:message bundle="${locale}" key="locale.common.workRequestId" var="requestId"/>
+<fmt:message bundle="${locale}" key="locale.common.fillingDate" var="fillingDate"/>
+<fmt:message bundle="${locale}" key="locale.common.plannedDate" var="plannedDate"/>
+<fmt:message bundle="${locale}" key="locale.common.subInfo" var="subInfo"/>
+<fmt:message bundle="${locale}" key="locale.common.tenantName" var="tenantName"/>
+<fmt:message bundle="${locale}" key="locale.common.tenantPhone" var="tenantPhone"/>
+<fmt:message bundle="${locale}" key="locale.common.tenantCity" var="tenantCity"/>
+<fmt:message bundle="${locale}" key="locale.common.tenantAddress" var="tenantAddress"/>
+<fmt:message bundle="${locale}" key="locale.employeeShowWorkPlan.date" var="date"/>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>show work plan</title>
+    <title>Show work plan</title>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
@@ -34,42 +44,41 @@
 
 <c:if test="${requestScope.get('workRequestList') == null}">
 <div class="container">
-    <h2>Please, enter the date</h2>
+    <h2>${enterDate}</h2>
 
     <form action="DispatcherServlet" method="post">
         <input type="hidden" name="command" value="show-work-plan"/>
 
-        <label for="plannedDate">date<br></label>
+        <label for="plannedDate">${date}<br></label>
         <input id="plannedDate" class="form-control" type="text" placeholder="DD.MM.YYYY" name="plannedDate" required/>
-        <br/>
-
-        <button type="submit" class="btn btn-primary">Show work plan</button>
+        <br>
+        <button type="submit" class="btn btn-primary">${submit}</button>
     </form>
 
 </div>
 </c:if>
 
 <c:if test="${requestScope.get('workRequestList').size() == 0}">
-    <h2>No requests for this date</h2>
+    <h2>${noRequests}</h2>
 </c:if>
 
 <c:if test="${requestScope.get('workRequestList').size() > 0}">
 <div class="col-sm-12 text-center mainContent">
-    <h1>Your work plan </h1>
+    <h1>${show}</h1>
 
 
     <br>
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Work request id</th>
-            <th>Filling date</th>
-            <th>Planned date</th>
-            <th>Subqueries information</th>
-            <th>Tenant's name</th>
-            <th>Tenant's phone</th>
-            <th>Tenant's city</th>
-            <th>Tenant's address</th>
+            <th>${requestId}</th>
+            <th>${fillingDate}</th>
+            <th>${plannedDate}</th>
+            <th>${subInfo}</th>
+            <th>${tenantName}</th>
+            <th>${tenantPhone}</th>
+            <th>${tenantCity}</th>
+            <th>${tenantAddress}</th>
 
         </tr>
         </thead>
@@ -92,10 +101,7 @@
         </c:forEach>
         </tbody>
     </table>
-
-
 </c:if>
-
 
 <c:import url="../menu/footer.jsp"/>
 

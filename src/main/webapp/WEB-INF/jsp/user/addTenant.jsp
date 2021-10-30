@@ -1,12 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="user" class="by.epamtc.poliukov.entity.User" scope="request"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set scope="session" var="previousQuery" value="index.jsp"/>
-
 <fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.addEmployee.enterInfo" var="enterInfo"/>
+<fmt:message bundle="${locale}" key="locale.common.submit" var="submit"/>
+<fmt:message bundle="${locale}" key="locale.addTenant.city" var="city"/>
+<fmt:message bundle="${locale}" key="locale.addTenant.address" var="address"/>
+<fmt:message bundle="${locale}" key="locale.addTenant.continue" var="continue1"/>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -37,18 +40,18 @@
 
 <c:if test="${requestScope.get('successMessage')==null}">
 <div class="container">
-    <h2>Please, enter additional information</h2>
+    <h2>${enterInfo}</h2>
     <form action="DispatcherServlet" method="post">
         <input type="hidden" name="command" value="add-tenant"/>
 
-        <label for="city">city<br></label>
+        <label for="city">${city}<br></label>
         <input id="city" class="form-control" type="text" name="city" required/>
         <br/>
-        <label for="address">address<br></label>
+        <label for="address">${address}<br></label>
         <input id="address" class="form-control" type="text" name="address" required/>
         <br/>
 
-        <button type="submit" class="btn btn-primary">submit</button>
+        <button type="submit" class="btn btn-primary">${submit}</button>
     </form>
 </div>
 </c:if>
@@ -56,13 +59,12 @@
         <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
         <c:remove var="successMessage" scope="request"/>
 
-        <a href="DispatcherServlet?command=go-to-add-work-request" class="btn btn-info" role="button"> Continue </a>
+        <a href="DispatcherServlet?command=go-to-add-work-request" class="btn btn-info" role="button">${continue1}</a>
     </c:if>
 
 <div class="footer">
     <jsp:include page="../menu/footer.jsp"/>
 </div>
-
 
 </body>
 </html>

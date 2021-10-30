@@ -1,8 +1,20 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set scope="session" var="previousQuery" value="index.jsp"/>
+<fmt:setLocale value="${sessionScope.language}"/>
+<fmt:setBundle basename="locale" var="locale"/>
+<fmt:message bundle="${locale}" key="locale.menu.signUp" var="signUp"/>
+<fmt:message bundle="${locale}" key="locale.common.password" var="password"/>
+<fmt:message bundle="${locale}" key="locale.common.cancel" var="cancel"/>
+<fmt:message bundle="${locale}" key="locale.common.username" var="username"/>
+<fmt:message bundle="${locale}" key="locale.menu.signIn" var="signIn"/>
+<fmt:message bundle="${locale}" key="locale.menu.eUsername" var="eUsername"/>
+<fmt:message bundle="${locale}" key="locale.menu.eUsernameMax" var="eUsernameMax"/>
+<fmt:message bundle="${locale}" key="locale.menu.ePasswordMin" var="ePasswordMin"/>
+<fmt:message bundle="${locale}" key="locale.menu.ePassword" var="ePassword"/>
+<fmt:message bundle="${locale}" key="locale.menu.ePasswordMax" var="ePasswordMax"/>
+<fmt:message bundle="${locale}" key="locale.menu.eUsernameMin" var="eUsernameMin"/>
+
 
 <!DOCTYPE html>
 <html>
@@ -24,7 +36,6 @@
 
 </head>
 <body onload="active()">
-
 <script language="javascript">
     function active() {
         document.getElementById("index-page").className = "active";
@@ -53,24 +64,24 @@
                               onsubmit="return validateForm();">
                             <input type="hidden" name="command" value="login"/>
                             <div class="form-group">
-                                <label for="username" class="col-sm-5 control-label">username </label>
+                                <label for="username" class="col-sm-5 control-label">${username}</label>
                                 <span id="unameDemo" class="red"></span>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="username" placeholder="username"
+                                    <input type="text" class="form-control" id="username" placeholder="${username}"
                                            name="username" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="password3" class="col-sm-5 control-label">password</label>
+                                <label for="password3" class="col-sm-5 control-label">${password}</label>
                                 <span id="pswDemo" class="red"></span>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control" id="password3" placeholder="password"
+                                    <input type="password" class="form-control" id="password3" placeholder="${password}"
                                            name="pass" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-5 col-sm-6">
-                                    <button type="submit" class="btn btn-primary">Sign In</button>
+                                    <button type="submit" class="btn btn-primary">${signIn}</button>
                                 </div>
                             </div>
                         </form>
@@ -78,7 +89,7 @@
 
                     <div class="modal-footer">
                         <a href="${pageContext.request.contextPath}/index.jsp">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">${cancel}}</button>
                         </a>
                     </div>
                 </div>
@@ -97,15 +108,15 @@
         psw = document.forms["loginForm"]["pass"].value;
         const unamePattern = /[a-zA-Z_0-9]{3,16}/;
         if (!unamePattern.test(uname)) {
-            unameText = "Username should contain only latin symbols, digits and _";
+            unameText = "${eUsername}";
             document.getElementById("unameDemo").innerHTML = unameText;
             result = false;
         } else if (uname.length < 3) {
-            unameText = "Username should be at least 3 symbols.";
+            unameText = "${eUsernameMin}";
             document.getElementById("unameDemo").innerHTML = unameText;
             result = false;
         } else if (uname.length > 16) {
-            unameText = "Username should be less then 17 symbols.";
+            unameText = "${eUsernameMax}";
             document.getElementById("unameDemo").innerHTML = unameText;
             result = false;
         } else {
@@ -113,16 +124,16 @@
             document.getElementById("unameDemo").innerHTML = unameText;
         }
         const passPattern = /[a-zA-Z0-9_]{3,32}/;
-        if (psw.length < 6) {
-            pswText = "Password should be at least 4 symbols";
+        if (psw.length < 4) {
+            pswText = "${ePasswordMin}";
             document.getElementById("pswDemo").innerHTML = pswText;
             result = false;
         } else if (!passPattern.test(psw)) {
-            pswText = "Password should contain only latin symbols, digits and _";
+            pswText = "${ePassword}";
             document.getElementById("pswDemo").innerHTML = pswText;
             result = false;
-        } else if (psw.length > 32) {
-            pswText = "Password should be less then 32 symbols";
+        } else if (psw.length > 16) {
+            pswText = "${ePasswordMax}";
             document.getElementById("pswDemo").innerHTML = pswText;
             result = false;
         } else {
