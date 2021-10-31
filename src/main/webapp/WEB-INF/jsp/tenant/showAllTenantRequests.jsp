@@ -71,7 +71,9 @@
                     |   ${subquery.workType}   |
                 </c:forEach>
                 </td>
+                <c:if test="${request.requestStatus ne 'closed'}">
                 <td> <a href="DispatcherServlet?command=update-request-status-tenant&delete=${request.requestID}" class="btn btn-info" role="button"> ${cancel} </a></td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>

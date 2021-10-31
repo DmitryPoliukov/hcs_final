@@ -38,7 +38,6 @@ public class AddWorkRequest implements Command {
             workRequest = workRequestService.createWorkRequest(request);
             workRequest = workRequestService.addWorkRequest(workRequest);
             session.setAttribute(WORK_REQUEST, workRequest);
-            session.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
             response.sendRedirect(request.getContextPath() + JSP_PAGE_PATH);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);

@@ -26,10 +26,6 @@
 
 </head>
 <body>
-<c:if test="${requestScope.get('successMessage')!=null}">
-    <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
-    <c:remove var="successMessage" scope="request"/>
-</c:if>
 
 <c:import url="../menu/menu.jsp"/>
 

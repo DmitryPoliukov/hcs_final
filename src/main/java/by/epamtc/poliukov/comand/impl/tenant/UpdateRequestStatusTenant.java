@@ -1,14 +1,11 @@
 package by.epamtc.poliukov.comand.impl.tenant;
 
 import by.epamtc.poliukov.comand.Command;
-import by.epamtc.poliukov.comand.CommandHelper;
-import by.epamtc.poliukov.comand.impl.guest.EmployeesByType;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
-import by.epamtc.poliukov.service.UserService;
 import by.epamtc.poliukov.service.WorkRequestService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateRequestStatusTenant implements Command {
@@ -28,7 +24,7 @@ public class UpdateRequestStatusTenant implements Command {
     private static final String DELETE = "delete";
     private static final String USER = "user";
     private static final String REQUEST_ATTRIBUTE = "workRequestList";
-    private static final String CLOSE = "close";
+    private static final String CLOSED = "closed";
     private static final String SUCCESS = "deleteSuccessMessage";
     private static final String MESSAGE_OF_SUCCESS = "Work request canceled";
     private static final String ERROR = "errorMessage";
@@ -41,7 +37,7 @@ public class UpdateRequestStatusTenant implements Command {
         int requestId = Integer.parseInt(request.getParameter(DELETE));
         WorkRequestService workRequestService = ServiceFactory.getInstance().getWorkRequestService();
         try {
-            workRequestService.updateWorkRequestStatus(requestId, CLOSE);
+            workRequestService.updateWorkRequestStatus(requestId, CLOSED);
             HttpSession session = request.getSession(true);
             User user = (User) session.getAttribute(USER);
             String login = user.getLogin();

@@ -35,16 +35,12 @@
 
 <c:import url="../menu/menu.jsp"/>
 
-<c:if test="${sessionScope.get('successMessage')!=null}">
-    <h3 class="green"><c:out value="${sessionScope.get('successMessage')}"/></h3>
-    <c:remove var="successMessage" scope="session"/>
-</c:if>
 <c:if test="${requestScope.get('errorMessage')!=null}">
     <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
     <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
-<c:if test="${requestScope.get('successMessageSubquery')==null}">
+<c:if test="${sessionScope.get('successMessageSubquery')==null}">
 <div class="container">
     <h2>${enterSubInfo}</h2>
 
@@ -55,10 +51,10 @@
 
         <label for="amount">${amountOfWork}<br></label>
         <input id="amount" class="form-control" type="text" name="amount" required/>
-        <br/>
+        <br>
         <label for="information">${otherInformation}<br></label>
         <input id="information" class="form-control" type="text" name="information" required/>
-        <br/>
+        <br>
 
         <label for="workType"></label>
         <select name="workType" id="workType">
@@ -68,14 +64,15 @@
 
         </select>
         <br>
+        <br>
         <button type="submit" class="btn btn-primary">${submit}</button>
     </form>
     </c:if>
 
 
-<c:if test="${requestScope.get('successMessageSubquery')!=null}">
-    <h3 class="green"><c:out value="${requestScope.get('successMessageSubquery')}"/></h3>
-    <c:remove var="successMessageSubquery" scope="request"/>
+<c:if test="${sessionScope.get('successMessageSubquery')!=null}">
+    <h3 class="green"><c:out value="${sessionScope.get('successMessageSubquery')}"/></h3>
+    <c:remove var="successMessageSubquery" scope="session"/>
     <br><br>
 
     <a href="DispatcherServlet?command=go-to-add-subquery" class="btn btn-info" role="button">${addAnotherSubquery}</a>

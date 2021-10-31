@@ -19,7 +19,7 @@ import java.io.IOException;
 public class AddSubquery implements Command {
     private static final Logger logger = LogManager.getLogger(AddSubquery.class);
 
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/tenant/addSubquery.jsp";
+    private static final String JSP_PAGE_PATH = "/DispatcherServlet?command=go-to-add-subquery";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String WORK_REQUEST = "workRequest";
     private static final String SUCCESS_SUB = "successMessageSubquery";
@@ -39,8 +39,8 @@ public class AddSubquery implements Command {
         int requestId = workRequest.getRequestID();
         try {
             workRequestService.addSubqueries(subquery, requestId);
-            request.setAttribute(SUCCESS_SUB, MESSAGE_OF_SUCCESS);
-            request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+            session.setAttribute(SUCCESS_SUB, MESSAGE_OF_SUCCESS);
+            response.sendRedirect(request.getContextPath() + JSP_PAGE_PATH);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR);
