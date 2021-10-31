@@ -15,12 +15,29 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Home</title>
+    <style>
+        body {
+    background-image: url(${pageContext.request.contextPath}/img/back3.jpg);
+    background-size:100% 100%;
+    }
+
+    div.col-md-5 { font-size: 150%; }
+
+    </style>
 
 </head>
     <body>
     <jsp:include page="menu.jsp"/>
-    <img src="${pageContext.request.contextPath}/img/back3.jpg" alt="back3" height="87%" width="100%"/>
-
+  <%--  <img src="${pageContext.request.contextPath}/img/back3.jpg" alt="back3" height="70%" width="100%"/>
+--%>
+    <br>
+    <br>
+    <div class="container">
+    <div class="row">
+    <div class="col-md-7"></div>
+    <div class="col-md-5"><span class="text-center">${requestScope.get('mainInfo')}</span></div>
+    </div>
+    </div>
 
     <jsp:include page="footer.jsp"/>
 

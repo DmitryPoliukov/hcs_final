@@ -20,7 +20,6 @@
         document.getElementById("index-page").className = "active";
     }
 </script>
-
-<c:import url="WEB-INF/jsp/menu/main.jsp"/>
+<c:redirect url="/DispatcherServlet?command=main-page"/>
 </body>
 </html>
