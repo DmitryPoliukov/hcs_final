@@ -9,6 +9,7 @@ import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
 import by.epamtc.poliukov.service.UserService;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,17 +22,18 @@ import java.io.IOException;
 public class UpdateRole implements Command {
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/admin/updateRole.jsp";
     private static final Logger logger = LogManager.getLogger(UpdateRole.class);
-
+    private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String LOGIN = "login";
     private static final String ROLE = "role";
-
-
+    private static final String ERROR = "errorMessage";
+    private static final String MESSAGE_OF_ERROR = "Role not updated";
+    private static final String MESSAGE_OF_ERROR_1 = "Illegal login";
     private static final String SUCCESS = "successMessage";
     private static final String MESSAGE_OF_SUCCESS = "role updated to";
 
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         HttpSession session = request.getSession(true);
         String login = request.getParameter(LOGIN);
@@ -43,15 +45,13 @@ public class UpdateRole implements Command {
             session.setAttribute(ROLE, newRole);
             request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            logger.log(Level.ERROR, e.getMessage(), e);
+            request.setAttribute(ERROR, MESSAGE_OF_ERROR);
+            request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
         } catch (ServiceAuthorizationException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.INFO, " authorization error");
+            request.setAttribute(ERROR, MESSAGE_OF_ERROR_1);
+            request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         }
-
-
     }
 }

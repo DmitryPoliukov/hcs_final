@@ -135,6 +135,8 @@ public class CommandProvider {
         dispatcherCommands.put(CommandList.DISPATCHER_CLOSE_WORK_REQUEST, new DispatcherCloseWorkRequest());
         dispatcherCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
         dispatcherCommands.put(CommandList.MAIN_PAGE, new MainPage());
+        employeeCommands.put(CommandList.VIEW_USER, new ViewUser());
+
 
 
 

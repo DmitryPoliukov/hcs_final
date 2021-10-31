@@ -15,12 +15,10 @@ import java.io.IOException;
 
 public class DispatcherCloseWorkRequest implements Command {
     private static final Logger logger = LogManager.getLogger(DispatcherCloseWorkRequest.class);
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/dispatcher/dispatcherShowWorkPlan.jsp";
+    private static final String JSP_PAGE_PATH = "DispatcherServlet?command=all-employee-work-plan";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String REQUEST_ID = "requestId";
     private static final String CLOSED = "closed";
-    private static final String SUCCESS = "successMessage";
-    private static final String MESSAGE_OF_SUCCESS = "Work request status update to \"close\"";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "Work request status not updated";
 
@@ -31,7 +29,6 @@ public class DispatcherCloseWorkRequest implements Command {
         int requestId = Integer.parseInt(request.getParameter(REQUEST_ID));
         try {
             workRequestService.updateWorkRequestStatus(requestId, CLOSED);
-            request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
             request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);

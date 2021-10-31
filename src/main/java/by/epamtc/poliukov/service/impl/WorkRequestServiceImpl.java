@@ -310,6 +310,7 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         List<Subquery> subqueryList;
         try {
             workRequest = workRequestDao.getWorkRequestById(workRequestId);
+            workRequest.setRequestStatus(utilDao.takeRequestStatusNameByStatusId(Integer.parseInt(workRequest.getRequestStatus())));
             subqueryList = workRequestDao.getAllSubqueriesForRequest(workRequestId);
             for(Subquery subquery : subqueryList) {
                 subquery.setWorkType(utilDao.takeWorkTypeName(Integer.parseInt(subquery.getWorkType())));

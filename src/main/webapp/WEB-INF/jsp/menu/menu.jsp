@@ -78,17 +78,17 @@
                 <li> <a href="DispatcherServlet?command=go-to-update-role">${updateRoles}</a></li>
             </c:if>
             <c:if test='${sessionScope.get("user").role eq "employee"}'>
-                <li> <a href="DispatcherServlet?command=go-to-actual-requests-employee">${newRequests}</a></li>
+                <li> <a href="DispatcherServlet?command=actual-requests-all-types">${newRequests}</a></li>
                 <li> <a href="DispatcherServlet?command=go-to-show-work-plan">${workPlan}</a></li>
             </c:if>
 
             <c:if test='${sessionScope.get("user").role eq "dispatcher"}'>
-                <li> <a href="DispatcherServlet?command=go-to-all-employee-work-plan">${showWorkPlan}</a></li>
+                <li> <a href="DispatcherServlet?command=all-employee-work-plan">${showWorkPlan}</a></li>
                 <li> <a href="DispatcherServlet?command=go-to-actual-requests-employee">${assign}</a></li>
             </c:if>
         </c:if>
 
-    <li> <a href="DispatcherServlet?command=go-to-employee-by-type">${ourCommand}</a> </li>
+    <li> <a href="DispatcherServlet?command=all-employees">${ourCommand}</a> </li>
     </ul>
 
     </div>

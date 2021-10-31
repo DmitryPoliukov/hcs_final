@@ -12,6 +12,7 @@
 <fmt:message bundle="${locale}" key="locale.common.fillingDate" var="fillingDate"/>
 <fmt:message bundle="${locale}" key="locale.common.plannedDate" var="plannedDate"/>
 <fmt:message bundle="${locale}" key="locale.common.subInfo" var="subInfo"/>
+<fmt:message bundle="${locale}" key="locale.actualRequests.status" var="status"/>
 <fmt:message bundle="${locale}" key="locale.common.tenantName" var="tenantName"/>
 <fmt:message bundle="${locale}" key="locale.common.tenantPhone" var="tenantPhone"/>
 <fmt:message bundle="${locale}" key="locale.common.tenantCity" var="tenantCity"/>
@@ -78,6 +79,7 @@
             <th>${workRequestId}</th>
             <th>${fillingDate}</th>
             <th>${plannedDate}</th>
+            <th>${status}</th>
             <th>${subInfo}</th>
             <th>${tenantName}</th>
             <th>${tenantPhone}</th>
@@ -92,6 +94,7 @@
                 <td>${requestScope.workRequestList.get(i).requestID}</td>
                 <td>${requestScope.workRequestList.get(i).fillingDate}</td>
                 <td>${requestScope.workRequestList.get(i).plannedDate}</td>
+                <td>${requestScope.workRequestList.get(i).requestStatus}</td>
                 <td><c:forEach var="subquery" items="${requestScope.workRequestList.get(i).subqueryList}">
                     ${subquery.workType} - ${subquery.information} <br>
                 </c:forEach>
@@ -100,7 +103,11 @@
                 <td>${requestScope.tenantList.get(i).phone}</td>
                 <td>${requestScope.tenantInfoList.get(i).get(0)}</td>
                 <td>${requestScope.tenantInfoList.get(i).get(1)}</td>
-                <td><a href="DispatcherServlet?command=dispatcher-close-work-request&requestId=${requestScope.workRequestList.get(i).requestID}" class="btn btn-success" role="button">${closeWorkRequest}</a></td>
+                <c:if test="${requestScope.workRequestList.get(i).requestStatus ne 'closed'}">
+                <td><a href="DispatcherServlet?command=dispatcher-close-work-request&requestId=${requestScope.workRequestList.get(i).requestID}"
+                       class="btn btn-success" role="button">${closeWorkRequest}</a>
+                </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
