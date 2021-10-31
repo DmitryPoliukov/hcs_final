@@ -105,7 +105,8 @@
         <a data-toggle="modal" data-target="#register" href="#">
         <span class="glyphicon glyphicon-user"> </span>${signUp}</a></li>
         <li><a data-toggle="modal" data-target="#login" href="#">
-        <span class="glyphicon glyphicon-log-in" style="width: 30px; float: left;margin: 0"></span>${login1}</a></li>
+        <span class="glyphicon glyphicon-log-in" style="width: 30px; float: left;margin: 0"></span>${login1}</a>
+        </li>
     </c:if>
     <c:if test="${sessionScope.get('user') != null}">
         <li class="sign-up">
@@ -122,23 +123,24 @@
 
 
 
+
 <div id="login" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                <h4 class="modal-title">${signIn}</h4>
-            </div>
-            <div class="modal-body text-center">
-                <form name="loginForm" class="form-horizontal" method="post" action="DispatcherServlet" onsubmit="return validateForm();">
-                    <input type="hidden" name="command" value="login"/>
-                    <span id="unameDemo" class="red"></span>
-                    <div class="form-group">
-                        <label for="username" class="col-sm-5 control-label">${username}</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="username" placeholder="${username}"
-                                   name="username" required>
-                        </div>
+    <div class="modal-content">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+    <h4 class="modal-title">${signIn}</h4>
+    </div>
+    <div class="modal-body text-center">
+    <form name="loginForm" class="form-horizontal" method="post" action="DispatcherServlet" onsubmit="return validateForm();">
+    <input type="hidden" name="command" value="login"/>
+    <span id="unameDemo" class="red"></span>
+    <div class="form-group">
+    <label for="username" class="col-sm-5 control-label">${username}</label>
+    <div class="col-sm-6">
+    <input type="text" class="form-control" id="username" placeholder="${username}"
+    name="username" required>
+    </div>
                     </div>
                     <div class="form-group">
                         <label for="password3" class="col-sm-5 control-label">${password}</label>

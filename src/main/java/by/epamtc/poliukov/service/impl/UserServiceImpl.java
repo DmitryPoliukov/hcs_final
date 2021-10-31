@@ -382,5 +382,17 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-
+    @Override
+    public String takeMainInformation() throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        String information;
+        try {
+            information = utilDao.takeMainInformation();
+            logger.log(Level.INFO, "Take main information");
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to take main information", e);
+        }
+        return information;
+    }
 }

@@ -44,4 +44,6 @@ public interface UserService {
     boolean addEmployeeWorkType(int employeeId, String[] employeeWorkTypeName) throws ServiceException;
 
     User addEmployeeInfo(int userId, int valuePersonHour, String information) throws ServiceException;
+
+    String takeMainInformation() throws ServiceException;
 }

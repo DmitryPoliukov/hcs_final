@@ -54,6 +54,7 @@ public class CommandProvider {
         guestCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         guestCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
         guestCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+        guestCommands.put(CommandList.MAIN_PAGE, new MainPage());
 
 
         adminCommands.put(CommandList.LOG_OUT, new Logout());

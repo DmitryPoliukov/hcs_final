@@ -2,8 +2,6 @@ package by.epamtc.poliukov.controller;
 
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.entity.User;
-import by.epamtc.poliukov.exception.ServiceException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

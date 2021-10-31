@@ -38,8 +38,9 @@ public class AddWorkRequest implements Command {
             workRequest = workRequestService.createWorkRequest(request);
             workRequest = workRequestService.addWorkRequest(workRequest);
             session.setAttribute(WORK_REQUEST, workRequest);
-            request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
-            request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+            session.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
+            response.sendRedirect(request.getContextPath() + "/DispatcherServlet?command=go-to-add-subquery");
+            //request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR);

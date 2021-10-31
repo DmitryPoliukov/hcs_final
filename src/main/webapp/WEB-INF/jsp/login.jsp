@@ -41,6 +41,12 @@
         document.getElementById("index-page").className = "active";
     }
 </script>
+<c:import url="menu/menu.jsp"/>
+
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
+</c:if>
 <div class="container-fluid text-center wrapper">
     <div class="row content">
 

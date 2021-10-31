@@ -3,14 +3,12 @@ package by.epamtc.poliukov.dao.impl;
 import by.epamtc.poliukov.dao.ColumnName;
 import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
+import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +54,7 @@ public class UtilDaoImpl implements UtilDao {
 
     private final static String SQL_GET_REQUEST_BY_DATE_ID = "SELECT * FROM work_requests " +
             "WHERE filling_date = ? and tenant_user_id_fk = ?";
+    private final static String SQL_TAKE_MAIN_INFO = "SELECT * from about_us";
 
 
     @Override
@@ -299,6 +298,29 @@ public class UtilDaoImpl implements UtilDao {
             throw new DaoException("Registered sql exception in takeWorkRequestByFillingDateUserId", e);
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception");
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
+    @Override
+    public String takeMainInformation() throws DaoException {
+        Connection connection = null;
+        Statement st = null;
+        ResultSet rs;
+        String information = null;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.createStatement();
+            rs = st.executeQuery(SQL_TAKE_MAIN_INFO);
+            if (rs.next()) {
+                information = rs.getString(ColumnName.INFORMATION);
+            }
+            return information;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in take main information", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }

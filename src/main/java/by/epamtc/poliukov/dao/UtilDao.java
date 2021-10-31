@@ -23,6 +23,7 @@ public interface UtilDao {
 
     WorkRequest takeWorkRequestByFillingDateUserId(String fillingDate, int tenantId) throws DaoException;
 
+    String takeMainInformation() throws DaoException;
     String takeRoleNameByRoleId(int roleId) throws DaoException;
     Boolean takeEmployeeStatus(String login) throws DaoException;
 
