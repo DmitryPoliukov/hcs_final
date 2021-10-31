@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class AddWorkRequest implements Command {
     private static final Logger logger = LogManager.getLogger(AddWorkRequest.class);
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/tenant/addSubquery.jsp";
+    private static final String JSP_PAGE_PATH = "/DispatcherServlet?command=go-to-add-subquery";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String WORK_REQUEST = "workRequest";
     private static final String SUCCESS = "successMessage";
@@ -39,8 +39,7 @@ public class AddWorkRequest implements Command {
             workRequest = workRequestService.addWorkRequest(workRequest);
             session.setAttribute(WORK_REQUEST, workRequest);
             session.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
-            response.sendRedirect(request.getContextPath() + "/DispatcherServlet?command=go-to-add-subquery");
-            //request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+            response.sendRedirect(request.getContextPath() + JSP_PAGE_PATH);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR);

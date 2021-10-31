@@ -65,6 +65,7 @@ public class CommandProvider {
         adminCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         adminCommands.put(CommandList.GO_TO_EMPLOYEE_BY_TYPE, new GoToEmployeeByType());
         adminCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+        adminCommands.put(CommandList.MAIN_PAGE, new MainPage());
 
 
         userCommands.put(CommandList.VIEW_USER, new ViewUser());
@@ -77,6 +78,7 @@ public class CommandProvider {
         userCommands.put(CommandList.GO_TO_ADD_EMPLOYEE, new GoToAddEmployee());
         userCommands.put(CommandList.ADD_EMPLOYEE, new AddEmployee());
         userCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+        userCommands.put(CommandList.MAIN_PAGE, new MainPage());
 
 
 
@@ -94,6 +96,7 @@ public class CommandProvider {
         tenantCommands.put(CommandList.SHOW_ALL_TENANT_REQUESTS, new ShowAllTenantRequests());
         tenantCommands.put(CommandList.UPDATE_REQUEST_STATUS_TENANT, new UpdateRequestStatusTenant());
         tenantCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+        tenantCommands.put(CommandList.MAIN_PAGE, new MainPage());
 
 
 
@@ -110,6 +113,8 @@ public class CommandProvider {
         employeeCommands.put(CommandList.GO_TO_ADD_EMPLOYEE, new GoToAddEmployee());
         employeeCommands.put(CommandList.ADD_EMPLOYEE, new AddEmployee());
         employeeCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+        employeeCommands.put(CommandList.MAIN_PAGE, new MainPage());
+
 
 
         dispatcherCommands.put(CommandList.LOGIN, new Login());
@@ -129,6 +134,7 @@ public class CommandProvider {
         dispatcherCommands.put(CommandList.EMPLOYEES_BY_TYPE, new EmployeesByType());
         dispatcherCommands.put(CommandList.DISPATCHER_CLOSE_WORK_REQUEST, new DispatcherCloseWorkRequest());
         dispatcherCommands.put(CommandList.CHANGE_LANGUAGE, new ChangeLanguage());
+        dispatcherCommands.put(CommandList.MAIN_PAGE, new MainPage());
 
 
 

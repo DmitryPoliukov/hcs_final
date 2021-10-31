@@ -125,33 +125,33 @@
 
 
 <div id="login" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
     <div class="modal-content">
     <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
     <h4 class="modal-title">${signIn}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
     </div>
     <div class="modal-body text-center">
     <form name="loginForm" class="form-horizontal" method="post" action="DispatcherServlet" onsubmit="return validateForm();">
     <input type="hidden" name="command" value="login"/>
     <span id="unameDemo" class="red"></span>
     <div class="form-group">
-    <label for="username" class="col-sm-5 control-label">${username}</label>
-    <div class="col-sm-6">
+    <label for="username" class="col-4 control-label">${username}</label>
+    <div class="col-11">
     <input type="text" class="form-control" id="username" placeholder="${username}"
     name="username" required>
     </div>
                     </div>
                     <div class="form-group">
-                        <label for="password3" class="col-sm-5 control-label">${password}</label>
+                        <label for="password3" class="col-4 control-label">${password}</label>
                         <span id="pswDemo" class="red"></span>
-                        <div class="col-sm-6">
+                        <div class="col-11">
                             <input type="password" class="form-control" id="password3" placeholder="${password}"
                                    name="pass" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-5 col-sm-6">
+                        <div class="col-offset-4 col-11">
                             <button type="submit" class="btn btn-primary">${signIn}</button>
                         </div>
                     </div>
@@ -208,78 +208,79 @@
 </script>
 
 <div id="register" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
                 <h4 class="modal-title" id="myModalLabel">${register}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+
             </div>
             <div class="modal-body text-center">
                 <form name="registerForm" class="form-horizontal" method="post" action="DispatcherServlet"  onsubmit="return validateReg();">
                     <input type="hidden" name="command" value="register"/>
                     <div class="form-group">
-                        <label for="inputUsername" class="col-sm-3 control-label">${username}</label>
+                        <label for="inputUsername" class="col-4 control-label">${username}</label>
                         <span id="unameDemo2" class="red"></span>
-                        <div class="col-sm-7">
+                        <div class="col-11">
                             <input type="text" class="form-control" id="inputUsername" placeholder="${username}"
                                    name="login" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email" class="col-sm-3 control-label">${email}</label>
+                        <label for="email" class="col-10 control-label">${email}</label>
                         <span id="emailDemo2" class="red"></span>
-                        <div class="col-sm-7">
+                        <div class="col-11">
                             <input type="email" class="form-control" id="email" placeholder="${email}"
                                    name="email" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name" class="col-sm-3 control-label">${name}</label>
-                        <div class="col-sm-7">
+                        <label for="name" class="col-4 control-label">${name}</label>
+                        <div class="col-11">
                             <input type="text" class="form-control" id="name" placeholder="${name}"
                                    name="name" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="surname" class="col-sm-3 control-label">${surname}</label>
-                        <div class="col-sm-7">
+                        <label for="surname" class="col-4 control-label">${surname}</label>
+                        <div class="col-11">
                             <input type="text" class="form-control" id="surname" placeholder="${surname}"
                                    name="surname" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="second_name" class="col-sm-3 control-label">${secondName}</label>
-                        <div class="col-sm-7">
+                        <label for="second_name" class="col-4 control-label">${secondName}</label>
+                        <div class="col-11">
                             <input type="text" class="form-control" id="second_name" placeholder="${secondName}"
                                    name="second_name" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="phone" class="col-sm-3 control-label">${phone}</label>
-                        <div class="col-sm-7">
+                        <label for="phone" class="col-4 control-label">${phone}</label>
+                        <div class="col-11">
                             <input type="text" class="form-control" id="phone" placeholder="${phone}"
                                    name="phone" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-3 control-label">${password}</label>
+                        <label for="inputPassword3" class="col-5 control-label">${password}</label>
                         <span id="pswDemo2" class="red"></span>
-                        <div class="col-sm-7">
+                        <div class="col-11">
                             <input type="password" class="form-control" id="inputPassword3" placeholder="${password}"
                                    name="password" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword4" class="col-sm-3 control-label">${repeatPassword}</label>
-                        <div class="col-sm-7">
+                        <label for="inputPassword4" class="col-10 control-label">${repeatPassword}</label>
+                        <div class="col-11">
                             <input type="password" class="form-control" id="inputPassword4" placeholder="${repeatPassword}"
                                    name="password2" required>
                         </div>
                     </div>
-
+    <div class="modal-body text-left">
     <div class="form-check">
     <input class="form-check-input" type="radio" name="role_name" id="role_name1" value="tenant" checked>
     <label class="form-check-label" for="role_name1"> ${tenant} </label>
@@ -292,8 +293,9 @@
     <input class="form-check-input" type="radio" name="role_name" id="role_name3" value="user">
     <label class="form-check-label" for="role_name3"> ${user} </label>
     </div>
+    </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-7">
+                        <div class="col-offset-4 col-11">
                             <button type="submit" class="btn btn-primary">${register}</button>
                         </div>
                     </div>

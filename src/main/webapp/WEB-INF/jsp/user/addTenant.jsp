@@ -37,8 +37,6 @@
 </c:if>
 
 
-
-<c:if test="${requestScope.get('successMessage')==null}">
 <div class="container">
     <h2>${enterInfo}</h2>
     <form action="DispatcherServlet" method="post">
@@ -54,13 +52,6 @@
         <button type="submit" class="btn btn-primary">${submit}</button>
     </form>
 </div>
-</c:if>
-    <c:if test="${requestScope.get('successMessage')!=null}">
-        <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
-        <c:remove var="successMessage" scope="request"/>
-
-        <a href="DispatcherServlet?command=go-to-add-work-request" class="btn btn-info" role="button">${continue1}</a>
-    </c:if>
 
 <div class="footer">
     <jsp:include page="../menu/footer.jsp"/>

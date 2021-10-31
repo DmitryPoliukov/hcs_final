@@ -50,16 +50,17 @@
 <div class="container-fluid text-center wrapper">
     <div class="row content">
 
-        <div class="col-sm-6 text-left mainContent">
+        <div class="col-4 text-left mainContent">
 
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h4 class="modal-title">HCS</h4>
                         <a href="${pageContext.request.contextPath}/index.jsp">
                             <button type="button" class="close" data-dismiss="modal"
                                     aria-hidden="true">&times;  </button>
                         </a>
-                        <h4 class="modal-title">HCS</h4>
+
                     </div>
                     <c:if test="${requestScope.get('errorMessage')!=null}">
                         <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
@@ -70,23 +71,23 @@
                               onsubmit="return validateForm();">
                             <input type="hidden" name="command" value="login"/>
                             <div class="form-group">
-                                <label for="username" class="col-sm-5 control-label">${username}</label>
+                                <label for="username" class="col-4 control-label">${username}</label>
                                 <span id="unameDemo" class="red"></span>
-                                <div class="col-sm-6">
+                                <div class="col-11">
                                     <input type="text" class="form-control" id="username" placeholder="${username}"
                                            name="username" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="password3" class="col-sm-5 control-label">${password}</label>
+                                <label for="password3" class="col-4 control-label">${password}</label>
                                 <span id="pswDemo" class="red"></span>
-                                <div class="col-sm-6">
+                                <div class="col-11">
                                     <input type="password" class="form-control" id="password3" placeholder="${password}"
                                            name="pass" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-offset-5 col-sm-6">
+                                <div class="col-offset-4 col-11">
                                     <button type="submit" class="btn btn-primary">${signIn}</button>
                                 </div>
                             </div>

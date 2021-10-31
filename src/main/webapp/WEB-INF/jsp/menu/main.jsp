@@ -16,7 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Home</title>
     <style>
-        body {
+    body {
     background-image: url(${pageContext.request.contextPath}/img/back3.jpg);
     background-size:100% 100%;
     }
@@ -28,8 +28,6 @@
 </head>
     <body>
     <jsp:include page="menu.jsp"/>
-  <%--  <img src="${pageContext.request.contextPath}/img/back3.jpg" alt="back3" height="70%" width="100%"/>
---%>
     <br>
     <br>
     <div class="container">

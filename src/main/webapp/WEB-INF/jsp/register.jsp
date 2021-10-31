@@ -61,8 +61,8 @@
 
 <div class="container-fluid text-center wrapper">
     <div class="row content">
-        <div class="col-sm-8 text-left mainContent">
-            <div class="modal-dialog">
+        <div class="col-2 text-left mainContent">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <c:if test="${requestScope.get('errorMessage')!=null}">
                         <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
@@ -72,68 +72,69 @@
                         <form name="registerForm" class="form-horizontal" method="post" action="DispatcherServlet" onsubmit="return validateForm();">
                             <input type="hidden" name="command" value="register"/>
                             <div class="form-group">
-                                <label for="inputUsername" class="col-sm-3 control-label">${username}</label>
+                                <label for="inputUsername" class="col-4 control-label">${username}</label>
                                 <span id="unameDemo" class="red"></span>
-                                <div class="col-sm-7">
+                                <div class="col-11">
                                     <input type="text" class="form-control" id="inputUsername" placeholder="${username}"
                                            name="login" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="col-sm-3 control-label">${email}}</label>
+                                <label for="email" class="col-10 control-label">${email}}</label>
                                 <span id="emailDemo" class="red"></span>
-                                <div class="col-sm-7">
+                                <div class="col-11">
                                     <input type="email" class="form-control" id="email" placeholder="${email}"
                                            name="email" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="name" class="col-sm-3 control-label">${name}</label>
-                                <div class="col-sm-7">
+                                <label for="name" class="col-4 control-label">${name}</label>
+                                <div class="col-11">
                                     <input type="text" class="form-control" id="name" placeholder="${name}"
                                            name="name" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="surname" class="col-sm-3 control-label">${surname}</label>
-                                <div class="col-sm-7">
+                                <label for="surname" class="col-4 control-label">${surname}</label>
+                                <div class="col-11">
                                     <input type="text" class="form-control" id="surname" placeholder="${surname}"
                                            name="surname" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="second_name" class="col-sm-3 control-label">${secondName}</label>
-                                <div class="col-sm-7">
+                                <label for="second_name" class="col-4 control-label">${secondName}</label>
+                                <div class="col-11">
                                     <input type="text" class="form-control" id="second_name" placeholder="${secondName}"
                                            name="second_name" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="phone" class="col-sm-3 control-label">${phone}</label>
-                                <div class="col-sm-7">
+                                <label for="phone" class="col-4 control-label">${phone}</label>
+                                <div class="col-11">
                                     <input type="text" class="form-control" id="phone" placeholder="${phone}"
                                            name="phone" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-3 control-label">${password}</label>
+                                <label for="inputPassword3" class="col-2 control-label">${password}</label>
                                 <span id="pswDemo" class="red"></span>
-                                <div class="col-sm-7">
+                                <div class="col-9">
                                     <input type="password" class="form-control" id="inputPassword3" placeholder="${password}"
                                            name="password" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword4" class="col-sm-3 control-label">${repeatPassword}</label>
-                                <div class="col-sm-7">
+                                <label for="inputPassword4" class="col-10 control-label">${repeatPassword}</label>
+                                <div class="col-11">
                                     <input type="password" class="form-control" id="inputPassword4" placeholder="${repeatPassword}"
                                            name="password2" required>
                                 </div>
                             </div>
+                            <div class="modal-body text-left">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="role_name" id="role_name1" value="tenant" checked>
                                 <label class="form-check-label" for="role_name1">${tenant}</label>
@@ -146,9 +147,10 @@
                                 <input class="form-check-input" type="radio" name="role_name" id="role_name3" value="user">
                                 <label class="form-check-label" for="role_name3">${user}</label>
                             </div>
+                            </div>
 
                             <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-7">
+                                <div class="col-offset-4 col-11">
                                     <button type="submit" class="btn btn-primary">${register}</button>
                                 </div>
                             </div>

@@ -20,17 +20,13 @@ import java.io.IOException;
 public class AddTenant implements Command {
     private static final Logger logger = LogManager.getLogger(AddTenant.class);
 
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/user/addTenant.jsp";
+    private static final String JSP_PAGE_PATH = "/DispatcherServlet?command=go-to-add-work-request";
     private static final String USER = "user";
-    private static final String SUCCESS = "successMessage";
-    private static final String MESSAGE_OF_SUCCESS = "Tenant information added";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "Tenant information not added";
     private static final String MESSAGE_OF_ERROR_1 = "Wrong login";
     private static final String CITY = "city";
     private static final String ADDRESS = "address";
-
-
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,8 +41,7 @@ public class AddTenant implements Command {
             try {
                 user = userService.addTenantInfo(login, city, address);
                 session.setAttribute(USER, user);
-                request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
-                request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+                response.sendRedirect(request.getContextPath() + JSP_PAGE_PATH);
             } catch (ServiceAuthorizationException e) {
                 logger.log(Level.ERROR, " authorization error");
                 request.setAttribute(ERROR, MESSAGE_OF_ERROR_1);
