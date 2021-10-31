@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class Register implements Command {
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/guest/register.jsp";
-    private static final String JSP_ADD_EMPLOYEE_INFO = "WEB-INF/jsp/user/addEmployee.jsp";
+    private static final String JSP_ADD_EMPLOYEE_INFO = "/DispatcherServlet?command=go-to-add-employee";
     private static final Logger logger = LogManager.getLogger(Register.class);
 
     private static final String USER = "user";
@@ -42,7 +42,7 @@ public class Register implements Command {
             user = service.addUser(user);
             session.setAttribute(USER, user);
             if (user.getRole().equals("employee")) {
-                request.getRequestDispatcher(JSP_ADD_EMPLOYEE_INFO).forward(request, response);
+                response.sendRedirect(request.getContextPath() + JSP_ADD_EMPLOYEE_INFO);
             } else response.sendRedirect(previousQuery);
         } catch (ServiceException | ServiceAuthorizationException e) {
             logger.log(Level.ERROR, e.getMessage(), e);

@@ -21,7 +21,7 @@ import java.util.List;
 public class AddEmployee implements Command {
     private static final Logger logger = LogManager.getLogger(AddEmployee.class);
 
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/user/addEmployee.jsp";
+    private static final String JSP_PAGE_PATH = "/DispatcherServlet?command=go-to-add-employee";
     private static final String USER = "user";
     private static final String WORK_TYPE = "workType";
     private static final String VALUE_PERSON_HOUR = "valuePersonHour";
@@ -47,8 +47,8 @@ public class AddEmployee implements Command {
             userService.addEmployeeWorkType(userId, workTypes);
             user = userService.addEmployeeInfo(userId, valuePersonHour, information);
             session.setAttribute(USER, user);
-            request.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
-            request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+            session.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
+            response.sendRedirect(request.getContextPath() + JSP_PAGE_PATH);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR);

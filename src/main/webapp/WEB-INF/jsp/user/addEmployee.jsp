@@ -39,7 +39,7 @@
     <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
-<c:if test="${requestScope.get('successMessage')==null}">
+<c:if test="${sessionScope.get('successMessage')==null}">
 <div class="container">
     <h2>${enterInfo}</h2>
     <form action="DispatcherServlet" method="post">
@@ -72,9 +72,9 @@
     </form>
 </div>
 </c:if>
-    <c:if test="${requestScope.get('successMessage')!=null}">
-        <h3 class="green"><c:out value="${requestScope.get('successMessage')}"/></h3>
-        <c:remove var="successMessage" scope="request"/>
+    <c:if test="${sessionScope.get('successMessage')!=null}">
+        <h3 class="green"><c:out value="${sessionScope.get('successMessage')}"/></h3>
+        <c:remove var="successMessage" scope="session"/>
 
         <a href="DispatcherServlet?command=go-to-actual-requests-employee" class="btn btn-info" role="button">${showNewWorkRequests}</a>
         <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-info" role="button">${home}</a>
