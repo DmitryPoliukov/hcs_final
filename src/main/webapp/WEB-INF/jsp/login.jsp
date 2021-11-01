@@ -55,7 +55,7 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">HCS</h4>
+                        <h4 class="modal-title">${signIn}</h4>
                         <a href="${pageContext.request.contextPath}/index.jsp">
                             <button type="button" class="close" data-dismiss="modal"
                                     aria-hidden="true">&times;  </button>

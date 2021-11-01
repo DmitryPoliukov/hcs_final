@@ -39,7 +39,7 @@ public class WorksPlanServiceImpl implements WorksPlanService {
     }
 
     @Override
-    public List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException {
+    public List<Integer> getSubqueryIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorksPlanDao worksPlanDao= daoFactory.getWorksPlanDao();
         List<Integer> subqueriesIdByEmployeeIdDate;

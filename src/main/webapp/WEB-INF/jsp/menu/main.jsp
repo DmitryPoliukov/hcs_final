@@ -8,7 +8,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -20,12 +20,10 @@
     background-image: url(${pageContext.request.contextPath}/img/back3.jpg);
     background-size:100% 100%;
     }
-
     div.col-md-5 { font-size: 150%; }
-
     </style>
 
-</head>
+    </head>
     <body>
     <jsp:include page="menu.jsp"/>
     <br>

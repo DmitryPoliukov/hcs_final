@@ -1,7 +1,6 @@
 package by.epamtc.poliukov.comand.impl.employee;
 
 import by.epamtc.poliukov.comand.Command;
-import by.epamtc.poliukov.comand.impl.tenant.AddSubquery;
 import by.epamtc.poliukov.entity.Subquery;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
@@ -11,7 +10,6 @@ import by.epamtc.poliukov.service.ServiceFactory;
 import by.epamtc.poliukov.service.UserService;
 import by.epamtc.poliukov.service.WorkRequestService;
 import by.epamtc.poliukov.service.WorksPlanService;
-import by.epamtc.poliukov.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +34,7 @@ public class ShowWorkPlan implements Command {
     private static final String WORK_REQUEST_LIST = "workRequestList";
     private static final String TENANT_INFO_LIST = "tenantInfoList";
     private static final String TENANT_LIST = "tenantList";
-    private static final String FIRST_SUB = "firstSubquery";
+    private static final String SUB_LIST = "subqueryList";
 
 
 
@@ -51,6 +49,8 @@ public class ShowWorkPlan implements Command {
         List<WorkRequest> workRequestList = new ArrayList<>();
         List<List<String>> tenantInfoList = new ArrayList<>();
         List<User> tenants = new ArrayList<>();
+        List<Subquery> subqueryList = new ArrayList<>();
+        List<Integer> requestIdList = new ArrayList<>();
 
         User user = (User) session.getAttribute(USER);
         User tenant;
@@ -58,12 +58,19 @@ public class ShowWorkPlan implements Command {
         String plannedDate = request.getParameter(PLANNED_DATE);
 
         try {
-            subqueriesIdList = worksPlanService.getRequestsIdByEmployeeIdCompletionDate(userId, plannedDate);
-            int firstSubId = subqueriesIdList.get(0);
-            Subquery firstSub = workRequestService.getSubqueryBySubId(firstSubId);
+            subqueriesIdList = worksPlanService.getSubqueryIdByEmployeeIdCompletionDate(userId, plannedDate);
+            for (int subqueryId: subqueriesIdList) {
+                Subquery subquery = workRequestService.getSubqueryBySubId(subqueryId);
+                subqueryList.add(subquery);
+            }
             for (int subId: subqueriesIdList) {
                 int requestId = workRequestService.takeWorkRequestIdBySubqueryId(subId);
-                workRequestList.add(workRequestService.getWorkRequestById(requestId));
+                if (!requestIdList.contains(requestId)) {
+                    requestIdList.add(requestId);
+                }
+            }
+            for (int workRequestId : requestIdList){
+                workRequestList.add(workRequestService.getWorkRequestById(workRequestId));
             }
 
             for (WorkRequest workRequest : workRequestList) {
@@ -75,7 +82,7 @@ public class ShowWorkPlan implements Command {
             request.setAttribute(TENANT_LIST, tenants);
             request.setAttribute(WORK_REQUEST_LIST, workRequestList);
             request.setAttribute(TENANT_INFO_LIST, tenantInfoList);
-            request.setAttribute(FIRST_SUB, firstSub);
+            request.setAttribute(SUB_LIST, subqueryList);
             request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);

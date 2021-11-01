@@ -128,7 +128,8 @@
     <div class="modal-dialog modal-sm">
     <div class="modal-content">
     <div class="modal-header">
-    <h4 class="modal-title">${signIn}</h4>
+        <h4 class="modal-title w-100 text-center">${signIn}</h4>
+
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
     </div>
     <div class="modal-body text-center">
@@ -211,7 +212,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">${register}</h4>
+                <h4 class="modal-title w-100 text-center">${register}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
 
             </div>

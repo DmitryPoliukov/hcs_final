@@ -1,8 +1,6 @@
 package by.epamtc.poliukov.comand.impl.dispatcher;
 
 import by.epamtc.poliukov.comand.Command;
-import by.epamtc.poliukov.comand.impl.employee.ShowWorkPlan;
-import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.entity.Subquery;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
@@ -19,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +55,7 @@ public class DispatcherWorkPlan implements Command {
 
         try {
             employee = userService.getUserByUserId(employeeId);
-            subqueriesIdList = worksPlanService.getRequestsIdByEmployeeIdCompletionDate(employeeId, plannedDate);
+            subqueriesIdList = worksPlanService.getSubqueryIdByEmployeeIdCompletionDate(employeeId, plannedDate);
             int firstSubId = subqueriesIdList.get(0);
             Subquery firstSub = workRequestService.getSubqueryBySubId(firstSubId);
             for (int subId: subqueriesIdList) {

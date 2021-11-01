@@ -8,18 +8,6 @@ html {
 
 /* header */
 
-.icon{
-	padding-top: 30px;
-	text-align: center;
-	color: #f00;
-}
-
-.logo{
-	padding-top: 43px;
-	text-align: left;
-	color: #f00;
-}
-
 .menu {
 	font-size: 22px;
 	font-weight: 700;
@@ -68,7 +56,7 @@ html {
 
 body {
     background-size: 100% auto;
-    background: #19cb82 no-repeat fixed;
+    background: #a0c4b5 no-repeat fixed;
 }
 
 main {
@@ -83,12 +71,12 @@ ul, li {
 
 table {
 	text-align: center;
+	background: #98baab
 }
 
 button:active, button:focus {
 	outline: none;
 }
-
 
 .content {
 	padding-top: 40px;
@@ -145,15 +133,8 @@ button:active, button:focus {
 	position: absolute;
 	bottom: 0;
 	height: 100px;
+	background: #000;
 }
 
-.credits {
-	color: #de1717;
-	font-size: 16px;
-	font-weight: 700;
-	text-align: center;
-	width: 200px;
-	margin: 0 auto;
-	padding: 15px 0;
-}
+
 

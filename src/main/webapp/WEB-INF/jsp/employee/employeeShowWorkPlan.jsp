@@ -29,10 +29,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
 </head>
 <body>
 
@@ -89,7 +89,9 @@
             <td>${requestScope.workRequestList.get(i).requestID}</td>
             <td>${requestScope.workRequestList.get(i).fillingDate}</td>
             <td>${requestScope.workRequestList.get(i).plannedDate}</td>
-            <td>${requestScope.firstSubquery.workType} - ${requestScope.firstSubquery.information}</td>
+            <td><c:forEach var="subquery" items="${requestScope.subqueryList}">
+                ${subquery.workType} - ${subquery.information}<br>
+            </c:forEach></td>
             <td>${requestScope.tenantList.get(i).name} ${requestScope.tenantList.get(i).surname}</td>
             <td>${requestScope.tenantList.get(i).phone}</td>
             <td>${requestScope.tenantInfoList.get(i).get(0)}</td>
