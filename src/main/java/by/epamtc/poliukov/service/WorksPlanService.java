@@ -11,5 +11,5 @@ public interface WorksPlanService {
 
     List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException;
 
-    List<Integer> getEmployeeIdByRequestId(int workRequesId) throws ServiceException;
+   // List<Integer> getEmployeeIdByRequestId(int workRequesId) throws ServiceException;
 }

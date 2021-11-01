@@ -22,7 +22,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
     }
 
     private static final String SQL_ADD_WORK_REQUEST_TO_PLAN = "INSERT INTO works_plan " +
-        "(employee_user_id_fk, works_request_id_fk, subquery_id) VALUES (?, ?, ?)";
+        "(employee_user_id_fk, subquery_id) VALUES (?, ?)";
 
     private static final String SQL_GET_COMPLETION_DATE_BY_REQUEST_ID = "SELECT completion_date FROM works_plan " +
             "WHERE works_request_id_fk = ?";
@@ -30,13 +30,14 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
     private static final String SQL_GET_EMPLOYEES_ID_BY_REQUEST_ID = "SELECT employee_user_id_fk FROM works_plan " +
             "WHERE works_request_id_fk = ?";
 
-    private static final String SQL_GET_REQUESTS_ID_BY_EMPLOYEE_ID_COMPLETION_DATE = "SELECT works_request_id_fk FROM works_plan " +
-            "JOIN work_requests ON request_id = works_request_id_fk " +
+    private static final String SQL_GET_REQUESTS_ID_BY_EMPLOYEE_ID_COMPLETION_DATE = "SELECT subquery_id FROM works_plan " +
+            "JOIN subqueries ON sub_id = subquery_id" +
+            "JOIN work_requests ON sub_work_request_id_fk = request_id" +
             "WHERE employee_user_id_fk = ? AND planned_date = ?";
 
 
     @Override
-    public boolean addWorkRequestToPlan(int workRequestId, int subqueryId, int employeeId) throws DaoException {
+    public boolean addWorkRequestToPlan(int subqueryId, int employeeId) throws DaoException {
         boolean isAdded = true;
         Connection connection = null;
         PreparedStatement st = null;
@@ -44,8 +45,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_ADD_WORK_REQUEST_TO_PLAN);
             st.setInt(1, employeeId);
-            st.setInt(2, workRequestId);
-            st.setInt(3, subqueryId);
+            st.setInt(2, subqueryId);
             st.execute();
         } catch (SQLException e) {
             throw new DaoException("Registered sql exception in addWorkRequestToPlan ", e);
@@ -109,11 +109,11 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
     }
 
     @Override
-    public List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws DaoException {
+    public List<Integer> getSubqueryIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws DaoException {
         Connection connection = null;
         PreparedStatement st = null;
         ResultSet rs;
-        List<Integer> requestsIdList = new ArrayList<>();
+        List<Integer> subqueriesIdList = new ArrayList<>();
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             st = connection.prepareStatement(SQL_GET_REQUESTS_ID_BY_EMPLOYEE_ID_COMPLETION_DATE);
@@ -121,10 +121,10 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
             st.setString(2, completionDate);
             rs = st.executeQuery();
             while (rs.next()) {
-                int requestId = rs.getInt(ColumnName.WORKS_REQUEST_ID_FK);
-                requestsIdList.add(requestId);
+                int subId = rs.getInt(ColumnName.WORKS_REQUEST_ID_FK);
+                subqueriesIdList.add(subId);
             }
-            return requestsIdList;
+            return subqueriesIdList;
         } catch (ConnectionPoolException e) {
             throw new DaoException("Pool connection exception", e);
         } catch (SQLException e) {

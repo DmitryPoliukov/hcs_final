@@ -1,7 +1,6 @@
 package by.epamtc.poliukov.service.impl;
 
 import by.epamtc.poliukov.dao.DaoFactory;
-import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.dao.WorksPlanDao;
 import by.epamtc.poliukov.exception.DaoException;
@@ -13,9 +12,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorksPlanServiceImpl implements WorksPlanService {
@@ -34,14 +30,14 @@ public class WorksPlanServiceImpl implements WorksPlanService {
         boolean isAdd;
         try {
             workRequestDao.updateWorkRequestStatus(workRequestId, "2"); //workStatusId = 2  --  "In process"
-           isAdd = worksPlanDao.addWorkRequestToPlan(workRequestId, subqueryId, employeeId);
+           isAdd = worksPlanDao.addWorkRequestToPlan(subqueryId, employeeId);
             logger.log(Level.INFO, "update work request id = " + workRequestId + " status");
         } catch (DaoException e) {
             throw new ServiceException("Failed to add work request to plan", e);
         }
         return isAdd;
     }
-
+/*
     @Override
     public List<Integer> getEmployeeIdByRequestId(int workRequestId) throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
@@ -57,11 +53,13 @@ public class WorksPlanServiceImpl implements WorksPlanService {
         return employeesForRequest;
     }
 
+ */
+
     @Override
     public List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorksPlanDao worksPlanDao= daoFactory.getWorksPlanDao();
-        List<Integer> requestsIdByEmployeeIdDate;
+        List<Integer> subqueriesIdByEmployeeIdDate;
 
         if (!Validator.validateDate(completionDate)) {
             throw new IncorrectDateException("Incorrect planned date ");
@@ -69,12 +67,12 @@ public class WorksPlanServiceImpl implements WorksPlanService {
         completionDate = inputDateParsing(completionDate);
 
         try {
-            requestsIdByEmployeeIdDate = worksPlanDao.getRequestsIdByEmployeeIdCompletionDate(employeeId, completionDate);
+            subqueriesIdByEmployeeIdDate = worksPlanDao.getSubqueryIdByEmployeeIdCompletionDate(employeeId, completionDate);
             logger.log(Level.INFO, "Get request id by employee id and completion date");
         } catch (DaoException e) {
             throw new ServiceException("Failed to get request id by employee id and completion date", e);
         }
-        return requestsIdByEmployeeIdDate;
+        return subqueriesIdByEmployeeIdDate;
     }
     private String inputDateParsing(String inputDate) {
         String[] arr = inputDate.split("\\D");

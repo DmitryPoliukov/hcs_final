@@ -9,6 +9,12 @@
 <fmt:message bundle="${locale}" key="locale.addEmployee.showNewWorkRequests" var="showNewWorkRequests"/>
 <fmt:message bundle="${locale}" key="locale.addEmployee.home" var="home"/>
 <fmt:message bundle="${locale}" key="locale.common.paintingWorks" var="paintingWorks"/>
+<fmt:message bundle="${locale}" key="locale.common.improvementOfTheTerritory" var="improvementOfTheTerritory"/>
+<fmt:message bundle="${locale}" key="locale.common.plumbingWork" var="plumbingWork"/>
+<fmt:message bundle="${locale}" key="locale.common.electricInstallationWork" var="electricInstallationWork"/>
+<fmt:message bundle="${locale}" key="locale.common.floorWork" var="floorWork"/>
+<fmt:message bundle="${locale}" key="locale.common.plasteringWork" var="plasteringWork"/>
+<fmt:message bundle="${locale}" key="locale.common.carpenterServices" var="carpenterServices"/>
 <fmt:message bundle="${locale}" key="locale.common.concreteWorks" var="concreteWorks"/>
 <fmt:message bundle="${locale}" key="locale.actualRequests.information" var="information"/>
 <fmt:message bundle="${locale}" key="locale.common.submit" var="submit"/>
@@ -64,7 +70,32 @@
         </div>
         <div class="form-check">
             <label class="form-check-label" for="check3">
-                <input type="checkbox" class="form-check-input" id="check3" name="workType" value="Благоустройство">Благоустройство
+                <input type="checkbox" class="form-check-input" id="check3" name="workType" value="Благоустройство">${improvementOfTheTerritory}
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" for="check4">
+                <input type="checkbox" class="form-check-input" id="check4" name="workType" value="Сантехнические работы">${plumbingWork}
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" for="check5">
+                <input type="checkbox" class="form-check-input" id="check5" name="workType" value="Электромонтажные работы">${electricInstallationWork}
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" for="check6">
+                <input type="checkbox" class="form-check-input" id="check6" name="workType" value="Напольные работы">${floorWork}
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" for="check7">
+                <input type="checkbox" class="form-check-input" id="check7" name="workType" value="Штукатурные работы">${plasteringWork}
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" for="check8">
+                <input type="checkbox" class="form-check-input" id="check8" name="workType" value="Услуги столяра">${carpenterServices}
             </label>
         </div>
 
