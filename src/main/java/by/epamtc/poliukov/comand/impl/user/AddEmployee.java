@@ -44,8 +44,8 @@ public class AddEmployee implements Command {
         String information = request.getParameter(INFORMATION);
         String[] workTypes = request.getParameterValues(WORK_TYPE);
         try {
-            userService.addEmployeeWorkType(userId, workTypes);
             user = userService.addEmployeeInfo(userId, valuePersonHour, information);
+            userService.addEmployeeWorkType(userId, workTypes);
             session.setAttribute(USER, user);
             session.setAttribute(SUCCESS, MESSAGE_OF_SUCCESS);
             response.sendRedirect(request.getContextPath() + JSP_PAGE_PATH);

@@ -19,6 +19,12 @@
 <fmt:message bundle="${locale}" key="locale.common.tenantCity" var="tenantCity"/>
 <fmt:message bundle="${locale}" key="locale.common.tenantAddress" var="tenantAddress"/>
 <fmt:message bundle="${locale}" key="locale.actualRequests.assign" var="assign"/>
+<fmt:message bundle="${locale}" key="locale.common.improvementOfTheTerritory" var="improvementOfTheTerritory"/>
+<fmt:message bundle="${locale}" key="locale.common.plumbingWork" var="plumbingWork"/>
+<fmt:message bundle="${locale}" key="locale.common.electricInstallationWork" var="electricInstallationWork"/>
+<fmt:message bundle="${locale}" key="locale.common.floorWork" var="floorWork"/>
+<fmt:message bundle="${locale}" key="locale.common.plasteringWork" var="plasteringWork"/>
+<fmt:message bundle="${locale}" key="locale.common.carpenterServices" var="carpenterServices"/>
 
 
 
@@ -56,6 +62,12 @@
                         <option value="DispatcherServlet?command=actual-requests-all-types">${all}</option>
                         <option value="DispatcherServlet?command=actual-requests-employee&type=Малярные работы">${paintingWorks}</option>
                         <option value="DispatcherServlet?command=actual-requests-employee&type=Бетонные работы">${concreteWorks}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Благоустройство">${improvementOfTheTerritory}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Сантехнические работы">${plumbingWork}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Электромонтажные работы">${electricInstallationWork}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Напольные работы">${floorWork}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Штукатурные работы">${plasteringWork}</option>
+                        <option value="DispatcherServlet?command=actual-requests-employee&type=Услуги столяра">${carpenterServices}</option>
                     </select>
                 </label>
             </div>

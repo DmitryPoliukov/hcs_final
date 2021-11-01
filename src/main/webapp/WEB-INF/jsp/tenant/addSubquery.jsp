@@ -14,6 +14,12 @@
 <fmt:message bundle="${locale}" key="locale.common.concreteWorks" var="concreteWorks"/>
 <fmt:message bundle="${locale}" key="locale.common.otherInformation" var="otherInformation"/>
 
+<fmt:message bundle="${locale}" key="locale.common.improvementOfTheTerritory" var="improvementOfTheTerritory"/>
+<fmt:message bundle="${locale}" key="locale.common.plumbingWork" var="plumbingWork"/>
+<fmt:message bundle="${locale}" key="locale.common.electricInstallationWork" var="electricInstallationWork"/>
+<fmt:message bundle="${locale}" key="locale.common.floorWork" var="floorWork"/>
+<fmt:message bundle="${locale}" key="locale.common.plasteringWork" var="plasteringWork"/>
+<fmt:message bundle="${locale}" key="locale.common.carpenterServices" var="carpenterServices"/>
 
 <!DOCTYPE html>
 <html>
@@ -60,7 +66,12 @@
         <select name="workType" id="workType">
             <option value="Малярные работы">${paintingWorks}</option>
             <option value="Бетонные работы">${concreteWorks}</option>
-            <option value="Благоустройство">Благоустройство</option>
+            <option value="Благоустройство">${improvementOfTheTerritory}</option>
+            <option value="Сантехнические работы">${plumbingWork}</option>
+            <option value="Электромонтажные работы">${electricInstallationWork}</option>
+            <option value="Напольные работы">${floorWork}</option>
+            <option value="Штукатурные работы">${plasteringWork}</option>
+            <option value="Услуги столяра">${carpenterServices}</option>
 
         </select>
         <br>

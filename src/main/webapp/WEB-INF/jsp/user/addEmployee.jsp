@@ -107,7 +107,7 @@
         <h3 class="green"><c:out value="${sessionScope.get('successMessage')}"/></h3>
         <c:remove var="successMessage" scope="session"/>
 
-        <a href="DispatcherServlet?command=go-to-actual-requests-employee" class="btn btn-info" role="button">${showNewWorkRequests}</a>
+        <a href="DispatcherServlet?command=actual-requests-all-types" class="btn btn-info" role="button">${showNewWorkRequests}</a>
         <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-info" role="button">${home}</a>
 
     </c:if>
