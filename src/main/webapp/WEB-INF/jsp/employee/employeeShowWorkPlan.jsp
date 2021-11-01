@@ -89,10 +89,7 @@
             <td>${requestScope.workRequestList.get(i).requestID}</td>
             <td>${requestScope.workRequestList.get(i).fillingDate}</td>
             <td>${requestScope.workRequestList.get(i).plannedDate}</td>
-        <td><c:forEach var="subquery" items="${requestScope.workRequestList.get(i).subqueryList}">
-            ${subquery.workType} -- ${subquery.information} <br>
-            </c:forEach>
-        </td>
+            <td>${requestScope.firstSubquery.workType} - ${requestScope.firstSubquery.information}</td>
             <td>${requestScope.tenantList.get(i).name} ${requestScope.tenantList.get(i).surname}</td>
             <td>${requestScope.tenantList.get(i).phone}</td>
             <td>${requestScope.tenantInfoList.get(i).get(0)}</td>

@@ -3,6 +3,7 @@ package by.epamtc.poliukov.comand.impl.dispatcher;
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.comand.impl.employee.ShowWorkPlan;
 import by.epamtc.poliukov.dao.UtilDao;
+import by.epamtc.poliukov.entity.Subquery;
 import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.IncorrectDateException;
@@ -36,6 +37,7 @@ public class DispatcherWorkPlan implements Command {
     private static final String TENANT_LIST = "tenantList";
     private static final String EMPLOYEE_ID = "employeeId";
     private static final String EMPLOYEE = "employee";
+    private static final String FIRST_SUB = "firstSubquery";
 
 
     @Override
@@ -57,6 +59,8 @@ public class DispatcherWorkPlan implements Command {
         try {
             employee = userService.getUserByUserId(employeeId);
             subqueriesIdList = worksPlanService.getRequestsIdByEmployeeIdCompletionDate(employeeId, plannedDate);
+            int firstSubId = subqueriesIdList.get(0);
+            Subquery firstSub = workRequestService.getSubqueryBySubId(firstSubId);
             for (int subId: subqueriesIdList) {
                 int requestId = workRequestService.takeWorkRequestIdBySubqueryId(subId);
                 workRequestList.add(workRequestService.getWorkRequestById(requestId));
@@ -72,6 +76,7 @@ public class DispatcherWorkPlan implements Command {
             request.setAttribute(WORK_REQUEST_LIST, workRequestList);
             request.setAttribute(TENANT_INFO_LIST, tenantInfoList);
             request.setAttribute(EMPLOYEE, employee);
+            request.setAttribute(FIRST_SUB, firstSub);
 
             request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         } catch (ServiceException e) {

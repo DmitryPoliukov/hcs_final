@@ -20,6 +20,7 @@
 <fmt:message bundle="${locale}" key="locale.dispatcherShowWorksPlan.updateStatus" var="updateStatus"/>
 <fmt:message bundle="${locale}" key="locale.employeeShowWorkPlan.date" var="date"/>
 <fmt:message bundle="${locale}" key="locale.dispatcherShowWorkPlan.closeWorkRequest" var="closeWorkRequest"/>
+<fmt:message bundle="${locale}" key="locale.dispatcherShowWorksPlan.completeSubList" var="completeSubList"/>
 
 <!DOCTYPE html>
 <html>
@@ -81,6 +82,7 @@
             <th>${plannedDate}</th>
             <th>${status}</th>
             <th>${subInfo}</th>
+            <th>${completeSubList}</th>
             <th>${tenantName}</th>
             <th>${tenantPhone}</th>
             <th>${tenantCity}</th>
@@ -95,6 +97,7 @@
                 <td>${requestScope.workRequestList.get(i).fillingDate}</td>
                 <td>${requestScope.workRequestList.get(i).plannedDate}</td>
                 <td>${requestScope.workRequestList.get(i).requestStatus}</td>
+                <td>${requestScope.firstSubquery.workType} - ${requestScope.firstSubquery.information}</td>
                 <td><c:forEach var="subquery" items="${requestScope.workRequestList.get(i).subqueryList}">
                     ${subquery.workType} - ${subquery.information} <br>
                 </c:forEach>

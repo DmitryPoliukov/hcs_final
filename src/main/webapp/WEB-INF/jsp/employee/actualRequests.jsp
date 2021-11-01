@@ -90,7 +90,7 @@
         }
     </script>
     <br>
-<c:if test='${requestScope.actualRequests != null}'>
+<c:if test='${requestScope.actualRequests.size()!=0}'>
     <table class="table table-hover">
 
         <thead>
@@ -142,6 +142,7 @@
         </tbody>
     </table>
     <br>
+
 
     <style type="text/css">
         div.pagination {
@@ -200,6 +201,9 @@
     </div>
 </c:if>
 </div>
+<c:if test='${requestScope.actualRequests.size() == 0}'>
+    <H2>No work requests matching your query</H2>
+</c:if>
 <c:import url="../menu/footer.jsp"/>
 </body>
 </html>

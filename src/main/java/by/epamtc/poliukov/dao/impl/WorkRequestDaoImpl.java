@@ -66,6 +66,9 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
     private final static String SQL_GET_REQUEST_BY_REQUEST_ID = "SELECT * FROM work_requests " +
             "WHERE request_id = ?";
 
+    private final static String SQL_GET_SUBQUERIY_BY_SUB_ID = "SELECT * FROM subqueries " +
+            "WHERE sub_id = ?";
+
     private final static String AMOUNT = "amount";
 
     @Override
@@ -444,6 +447,33 @@ public class WorkRequestDaoImpl implements WorkRequestDao {
             throw new DaoException("Pool connection exception ", e);
         } catch (SQLException e) {
             throw new DaoException("Registered sql exception in getWorkRequestById", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
+    public Subquery getSubqueryBySubId(int subqueryId) throws DaoException {
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_SUBQUERIY_BY_SUB_ID);
+            st.setInt(1, subqueryId);
+            rs = st.executeQuery();
+            Subquery sub = new Subquery();
+            if (rs.next()) {
+                sub.setSubId(rs.getInt(ColumnName.SUB_ID));
+                sub.setAmountOfWorkInHours(rs.getInt(ColumnName.AMOUNT_OF_WORK_IN_HOURS));
+                sub.setInformation(rs.getString(ColumnName.INFORMATION));
+                sub.setMainRequestId(rs.getInt(ColumnName.SUB_WORK_REQUEST_ID_FK));
+                sub.setWorkType(rs.getString(ColumnName.SUB_WORK_TYPE_ID));
+            }
+            return sub;
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception ", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in getSubqueryBySubId", e);
         } finally {
             ConnectionPool.closeResource(connection, st);
         }
