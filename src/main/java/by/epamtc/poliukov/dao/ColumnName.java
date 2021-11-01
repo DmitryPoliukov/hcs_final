@@ -51,6 +51,8 @@ public final class ColumnName {
     public static final String EMPLOYEE_USER_ID_FK = "employee_user_id_fk";
     public static final String WORKS_REQUEST_ID_FK = "works_request_id_fk";
     public static final String COMPLETION_DATE = "completion_date";
+    public static final String SUBQUERY_ID = "subquery_id";
+
 
 
     public static final String AMOUNT_OF_WORK_IN_HOURS = "amount_of_work_in_hours";

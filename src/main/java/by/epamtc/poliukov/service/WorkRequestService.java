@@ -41,6 +41,8 @@ public interface WorkRequestService {
 
     WorkRequest getWorkRequestById(int workRequestId) throws ServiceException;
 
+    int takeWorkRequestIdBySubqueryId(int subqueryId) throws ServiceException;
+
 
 
 }

@@ -45,7 +45,7 @@ public class DispatcherWorkPlan implements Command {
         UserService userService = serviceFactory.getUserService();
         WorkRequestService workRequestService = serviceFactory.getWorkRequestService();
 
-        List<Integer> requestsIdList;
+        List<Integer> subqueriesIdList;
         List<WorkRequest> workRequestList = new ArrayList<>();
         List<List<String>> tenantInfoList = new ArrayList<>();
         List<User> tenants = new ArrayList<>();
@@ -56,10 +56,12 @@ public class DispatcherWorkPlan implements Command {
 
         try {
             employee = userService.getUserByUserId(employeeId);
-            requestsIdList = worksPlanService.getRequestsIdByEmployeeIdCompletionDate(employeeId, plannedDate);
-            for (int requestId : requestsIdList) {
+            subqueriesIdList = worksPlanService.getRequestsIdByEmployeeIdCompletionDate(employeeId, plannedDate);
+            for (int subId: subqueriesIdList) {
+                int requestId = workRequestService.takeWorkRequestIdBySubqueryId(subId);
                 workRequestList.add(workRequestService.getWorkRequestById(requestId));
             }
+
             for (WorkRequest workRequest : workRequestList) {
                 int tenantId = workRequest.getTenantUserId();
                 tenant = userService.getUserByUserId(tenantId);

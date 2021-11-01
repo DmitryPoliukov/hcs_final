@@ -27,4 +27,6 @@ public interface UtilDao {
     String takeRoleNameByRoleId(int roleId) throws DaoException;
     Boolean takeEmployeeStatus(String login) throws DaoException;
 
+    int takeWorkRequestIdBySubqueryId(int subqueryId) throws DaoException;
+
 }

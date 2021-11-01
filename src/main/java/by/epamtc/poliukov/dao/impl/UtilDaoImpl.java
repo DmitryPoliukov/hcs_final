@@ -55,7 +55,7 @@ public class UtilDaoImpl implements UtilDao {
     private final static String SQL_GET_REQUEST_BY_DATE_ID = "SELECT * FROM work_requests " +
             "WHERE filling_date = ? and tenant_user_id_fk = ?";
     private final static String SQL_TAKE_MAIN_INFO = "SELECT * from about_us";
-
+    private final static String SQL_GET_REQUEST_ID_BY_SUBQUERY_ID = "SELECT * FROM subqueries WHERE sub_id = ?";
 
     @Override
     public String takeRoleIdByRoleName(String role) throws DaoException {
@@ -321,6 +321,30 @@ public class UtilDaoImpl implements UtilDao {
             throw new DaoException("Pool connection exception", e);
         } catch (SQLException e) {
             throw new DaoException("Registered sql exception in take main information", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
+
+    @Override
+    public int takeWorkRequestIdBySubqueryId(int subqueryId) throws DaoException {
+        int workRequestId = -1;
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_REQUEST_ID_BY_SUBQUERY_ID);
+            st.setInt(1, subqueryId);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                workRequestId = rs.getInt(ColumnName.SUB_WORK_REQUEST_ID_FK);
+            }
+            return workRequestId;
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in takeWorkRequestIdBySubqueryId", e);
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception");
         } finally {
             ConnectionPool.closeResource(connection, st);
         }

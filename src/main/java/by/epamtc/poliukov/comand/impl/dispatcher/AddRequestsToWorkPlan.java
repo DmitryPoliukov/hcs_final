@@ -18,7 +18,7 @@ import java.io.IOException;
 public class AddRequestsToWorkPlan implements Command {
     private static final Logger logger = LogManager.getLogger(AddRequestsToWorkPlan.class);
 
-    private static final String JSP_PAGE_PATH = "WEB-INF/jsp/employee/actualRequests.jsp";
+    private static final String JSP_PAGE_PATH = "DispatcherServlet?command=actual-requests-all-types";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String REQUEST_ID = "requestId";
     private static final String SUBQUERY_ID = "subqueryId";

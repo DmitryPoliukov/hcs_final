@@ -321,5 +321,18 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         }
         return workRequest;
     }
+
+    @Override
+    public int takeWorkRequestIdBySubqueryId(int subqueryId) throws ServiceException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UtilDao utilDao = daoFactory.getUtilDao();
+        int workRequestId;
+        try {
+            workRequestId = utilDao.takeWorkRequestIdBySubqueryId(subqueryId);
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to get work request id by subquery id", e);
+        }
+        return workRequestId;
+    }
 }
 
