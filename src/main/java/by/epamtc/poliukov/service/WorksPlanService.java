@@ -11,4 +11,5 @@ public interface WorksPlanService {
 
     List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException;
 
+    boolean isFreeEmployeeOnDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException;
 }

@@ -1,10 +1,8 @@
 package by.epamtc.poliukov.dao.impl;
 
 import by.epamtc.poliukov.dao.ColumnName;
-import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.dao.WorksPlanDao;
 import by.epamtc.poliukov.dao.pool.ConnectionPool;
-import by.epamtc.poliukov.entity.User;
 import by.epamtc.poliukov.exception.ConnectionPoolException;
 import by.epamtc.poliukov.exception.DaoException;
 
@@ -24,7 +22,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
     private static final String SQL_ADD_WORK_REQUEST_TO_PLAN = "INSERT INTO works_plan " +
         "(employee_user_id_fk, subquery_id) VALUES (?, ?)";
 
-    private static final String SQL_GET_REQUESTS_ID_BY_EMPLOYEE_ID_COMPLETION_DATE = "SELECT subquery_id FROM works_plan " +
+    private static final String SQL_GET_SUBQUERY_ID_BY_EMPLOYEE_ID_COMPLETION_DATE = "SELECT subquery_id FROM works_plan " +
             "JOIN subqueries ON sub_id = subquery_id " +
             "JOIN work_requests ON sub_work_request_id_fk = request_id " +
             "WHERE employee_user_id_fk = ? AND planned_date = ?";
@@ -60,7 +58,7 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
         List<Integer> subqueriesIdList = new ArrayList<>();
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-            st = connection.prepareStatement(SQL_GET_REQUESTS_ID_BY_EMPLOYEE_ID_COMPLETION_DATE);
+            st = connection.prepareStatement(SQL_GET_SUBQUERY_ID_BY_EMPLOYEE_ID_COMPLETION_DATE);
             st.setInt(1, employeeId);
             st.setString(2, completionDate);
             rs = st.executeQuery();
@@ -78,5 +76,24 @@ public class WorksPlanDaoImpl implements WorksPlanDao {
         }
     }
 
-
+    @Override
+    public boolean isFreeEmployeeOnDate(int employeeId, String completionDate) throws DaoException {
+        Connection connection = null;
+        PreparedStatement st = null;
+        ResultSet rs;
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+            st = connection.prepareStatement(SQL_GET_SUBQUERY_ID_BY_EMPLOYEE_ID_COMPLETION_DATE);
+            st.setInt(1, employeeId);
+            st.setString(2, completionDate);
+            rs = st.executeQuery();
+            return !rs.next();
+        } catch (ConnectionPoolException e) {
+            throw new DaoException("Pool connection exception", e);
+        } catch (SQLException e) {
+            throw new DaoException("Registered sql exception in getEmployeeIdFromPlanByRequestId", e);
+        } finally {
+            ConnectionPool.closeResource(connection, st);
+        }
+    }
 }

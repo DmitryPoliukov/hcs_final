@@ -11,6 +11,7 @@ public interface WorksPlanDao {
 
     List<Integer> getSubqueryIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws DaoException;
 
+    boolean isFreeEmployeeOnDate(int employeeId, String completionDate) throws DaoException;
 
 
 }

@@ -37,23 +37,6 @@ public class WorksPlanServiceImpl implements WorksPlanService {
         }
         return isAdd;
     }
-/*
-    @Override
-    public List<Integer> getEmployeeIdByRequestId(int workRequestId) throws ServiceException {
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        WorksPlanDao worksPlanDao= daoFactory.getWorksPlanDao();
-        List<Integer> employeesForRequest;
-
-        try {
-            employeesForRequest = worksPlanDao.getEmployeeIdByRequestId(workRequestId);
-            logger.log(Level.INFO, "Get employees id for work request id = " + workRequestId);
-        } catch (DaoException e) {
-            throw new ServiceException("Failed to get employees ID by request ID", e);
-        }
-        return employeesForRequest;
-    }
-
- */
 
     @Override
     public List<Integer> getRequestsIdByEmployeeIdCompletionDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException {
@@ -81,5 +64,23 @@ public class WorksPlanServiceImpl implements WorksPlanService {
         return dateSB.toString();
     }
 
+    @Override
+    public boolean isFreeEmployeeOnDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException {
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        WorksPlanDao worksPlanDao= daoFactory.getWorksPlanDao();
+        List<Integer> subqueriesIdByEmployeeIdDate;
+        boolean isFreeEmployeeOnDate;
+        if (!Validator.validateDate(completionDate)) {
+            throw new IncorrectDateException("Incorrect planned date ");
+        }
+        completionDate = inputDateParsing(completionDate);
 
+        try {
+            isFreeEmployeeOnDate = worksPlanDao.isFreeEmployeeOnDate(employeeId, completionDate);
+            logger.log(Level.INFO, "Get information about is free employee on date");
+        } catch (DaoException e) {
+            throw new ServiceException("Failed to get information about is free employee on date", e);
+        }
+        return isFreeEmployeeOnDate;
+    }
 }
