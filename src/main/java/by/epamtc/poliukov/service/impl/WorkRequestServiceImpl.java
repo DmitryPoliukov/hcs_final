@@ -4,7 +4,7 @@ import by.epamtc.poliukov.dao.DaoFactory;
 import by.epamtc.poliukov.dao.UtilDao;
 import by.epamtc.poliukov.dao.WorkRequestDao;
 import by.epamtc.poliukov.entity.Subquery;
-import by.epamtc.poliukov.entity.User;
+
 import by.epamtc.poliukov.entity.WorkRequest;
 import by.epamtc.poliukov.exception.DaoException;
 import by.epamtc.poliukov.exception.IncorrectDateException;
@@ -16,18 +16,13 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static by.epamtc.poliukov.dao.ColumnName.*;
+
 
 
 
@@ -39,27 +34,19 @@ public class WorkRequestServiceImpl implements WorkRequestService {
     }
 
     private final Logger logger = LogManager.getLogger(WorkRequestServiceImpl.class);
-    private static final String USER = "user";
-    private static final String WORK_REQUEST_ID = "workRequestId";
-    private static final String AMOUNT = "amount";
-    private static final String WORK_TYPE = "workType";
 
 
-    public WorkRequest createWorkRequest (HttpServletRequest request) throws IncorrectDateException {
+
+    public WorkRequest createWorkRequest (int tenantId, String inputPlannedDate) throws IncorrectDateException {
+        if (!Validator.validateDate(inputPlannedDate)) {
+            throw new IncorrectDateException("Incorrect planned date ");
+        }
         LocalDateTime dateNow = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.M.yyyy HH:mm:ss");
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         String fillingDateDB = dateNow.format(formatter); // to DB
         String fillingDate = dateNow.format(formatter2);
 
-        HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute(USER);
-        int tenantId = user.getUserId();
-        String inputPlannedDate = request.getParameter("plannedDate");
-
-        if (!Validator.validateDate(inputPlannedDate)) {
-           throw new IncorrectDateException("Incorrect planned date ");
-        }
         String plannedDate = inputDateParsing(inputPlannedDate);
         LocalDate parsedPlannedDate = LocalDate.parse(plannedDate, formatter2);
         LocalDate parsedFillingDate = LocalDate.parse(fillingDate,formatter2);
@@ -75,12 +62,11 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         return workRequest;
     }
 
-    public Subquery createSubquery (HttpServletRequest request) {
-        int workRequestID = Integer.parseInt(request.getParameter(WORK_REQUEST_ID));
-        int amountOfWorkInHours = Integer.parseInt(request.getParameter(AMOUNT));
-        String information = request.getParameter(INFORMATION);
-        String workType = request.getParameter(WORK_TYPE);
-
+    public Subquery createSubquery (int workRequestID, int amountOfWorkInHours, String information, String workType) throws IncorrectDateException {
+        if (!Validator.validate(workRequestID, amountOfWorkInHours) ||
+                !Validator.validate(information, workType)) {
+            throw new IncorrectDateException("Incorrect planned date ");
+        }
         Subquery subquery = new Subquery();
         subquery.setMainRequestId(workRequestID);
         subquery.setAmountOfWorkInHours(amountOfWorkInHours);
@@ -89,7 +75,6 @@ public class WorkRequestServiceImpl implements WorkRequestService {
         logger.log(Level.INFO,  "Subquery for requstID = " + workRequestID + "created");
         return subquery;
     }
-
 
 
     @Override

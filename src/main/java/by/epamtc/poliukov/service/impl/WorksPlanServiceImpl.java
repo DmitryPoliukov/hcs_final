@@ -68,7 +68,6 @@ public class WorksPlanServiceImpl implements WorksPlanService {
     public boolean isFreeEmployeeOnDate(int employeeId, String completionDate) throws ServiceException, IncorrectDateException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         WorksPlanDao worksPlanDao= daoFactory.getWorksPlanDao();
-        List<Integer> subqueriesIdByEmployeeIdDate;
         boolean isFreeEmployeeOnDate;
         if (!Validator.validateDate(completionDate)) {
             throw new IncorrectDateException("Incorrect planned date ");

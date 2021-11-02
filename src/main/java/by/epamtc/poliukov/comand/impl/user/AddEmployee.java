@@ -2,6 +2,7 @@ package by.epamtc.poliukov.comand.impl.user;
 
 import by.epamtc.poliukov.comand.Command;
 import by.epamtc.poliukov.entity.User;
+import by.epamtc.poliukov.exception.IncorrectDateException;
 import by.epamtc.poliukov.exception.ServiceAuthorizationException;
 import by.epamtc.poliukov.exception.ServiceException;
 import by.epamtc.poliukov.service.ServiceFactory;
@@ -30,6 +31,7 @@ public class AddEmployee implements Command {
     private static final String MESSAGE_OF_SUCCESS = "Employee information added";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "Employee information not added";
+    private static final String MESSAGE_OF_ERROR_2 = "Check input data";
 
 
 
@@ -52,6 +54,10 @@ public class AddEmployee implements Command {
         } catch (ServiceException e) {
             logger.log(Level.ERROR, e.getMessage(), e);
             request.setAttribute(ERROR, MESSAGE_OF_ERROR);
+            request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
+        } catch (IncorrectDateException e) {
+            logger.log(Level.ERROR, e.getMessage(), e);
+            request.setAttribute(ERROR, MESSAGE_OF_ERROR_2);
             request.getRequestDispatcher(JSP_PAGE_PATH).forward(request, response);
         }
 

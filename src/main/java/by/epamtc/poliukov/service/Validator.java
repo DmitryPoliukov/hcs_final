@@ -28,6 +28,15 @@ public class Validator {
         return true;
     }
 
+    public static boolean validate(int... data) {
+        for (int arg : data) {
+            if (arg < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public static boolean validateNumber(String data) {
         Matcher matcher;

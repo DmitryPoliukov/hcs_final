@@ -15,9 +15,9 @@ import java.util.List;
 
 public interface WorkRequestService {
 
-    WorkRequest createWorkRequest (HttpServletRequest request) throws IOException, IncorrectDateException;
+    WorkRequest createWorkRequest (int tenantId, String inputPlannedDate) throws IOException, IncorrectDateException;
 
-    Subquery createSubquery (HttpServletRequest request);
+    Subquery createSubquery (int workRequestID, int amountOfWorkInHours, String information, String workType) throws IncorrectDateException;
 
     WorkRequest addWorkRequest(WorkRequest request) throws ServiceException;
 

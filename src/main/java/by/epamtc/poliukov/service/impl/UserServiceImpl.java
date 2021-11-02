@@ -3,12 +3,8 @@ package by.epamtc.poliukov.service.impl;
 import by.epamtc.poliukov.dao.DaoFactory;
 import by.epamtc.poliukov.dao.UserDao;
 import by.epamtc.poliukov.dao.UtilDao;
-import by.epamtc.poliukov.dao.impl.UtilDaoImpl;
 import by.epamtc.poliukov.entity.User;
-import by.epamtc.poliukov.exception.DaoException;
-import by.epamtc.poliukov.exception.NotUniqueLoginEmailException;
-import by.epamtc.poliukov.exception.ServiceAuthorizationException;
-import by.epamtc.poliukov.exception.ServiceException;
+import by.epamtc.poliukov.exception.*;
 import by.epamtc.poliukov.service.PasswordEncryption;
 import by.epamtc.poliukov.service.UserService;
 import by.epamtc.poliukov.service.Validator;
@@ -16,12 +12,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static by.epamtc.poliukov.dao.ColumnName.*;
 
 public class UserServiceImpl implements UserService {
     private UserServiceImpl(){}
@@ -37,7 +30,8 @@ public class UserServiceImpl implements UserService {
         if (!Validator.validate(login, email) ||
                 !Validator.validateLogin(login) ||
                 !Validator.validatePassword(password, password2) ||
-                !Validator.validateEmail(email)) {
+                !Validator.validateEmail(email) ||
+                !Validator.validate(name, secondName, surName, phone, role)) {
             throw new ServiceAuthorizationException("Check input parameters");
         }
         try {
@@ -87,8 +81,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addTenantInfo(String login, String city, String address) throws ServiceException, ServiceAuthorizationException {
-        if (!Validator.validateLogin(login)) {
-            throw new ServiceAuthorizationException("Check login");
+        if (!Validator.validateLogin(login) ||
+                !Validator.validate(city, address)) {
+            throw new ServiceAuthorizationException("Check input parameters");
         }
         User user;
         DaoFactory daoFactory = DaoFactory.getInstance();
@@ -355,7 +350,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addEmployeeInfo(int employeeId, int valuePersonHour, String information) throws ServiceException {
+    public User addEmployeeInfo(int employeeId, int valuePersonHour, String information) throws ServiceException, IncorrectDateException {
+        if (!Validator.validate(information) ||
+                !Validator.validate(valuePersonHour)) {
+            throw new IncorrectDateException("Check input parameters");
+        }
         DaoFactory daoFactory = DaoFactory.getInstance();
         UserDao dao = daoFactory.getUserDao();
         UtilDao utilDao = daoFactory.getUtilDao();
