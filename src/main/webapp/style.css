@@ -1,140 +1,121 @@
 @charset "utf-8";
+/* CSS Document */
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0;
+	border-radius: 5px;
+	min-height: 7%;
+}
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+	height: 100%;
+}
+/* Set gray background color and 100% height */
+.sidenav {
+	padding-top: 20px;
+	background-color: #f1f1f1;
+	height: 100%;
+}
 
-	/* Specification*/
+img{border:0;}
+.clear{clear:both}
+/*wrapper and container*/
+#wrapper{
+	width:1100px;
+	background-color: #f1f1f1;
+	margin:0 auto;
+}
+
+#container{
+	margin:0 auto;
+	width:1030px;
+	background-color:#ebe8d9;
+	height:auto;
+}
+
+/* Set black background color, white text and some padding */
+footer {
+	background-color: #555;
+	color: white;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+	.sidenav {
+		height: auto;
+		padding: 15px;
+	}
+
+	.row.content {
+		height: auto;
+	}
+}
+
+.green{
+	color: #4ebc2f;
+	background-color: transparent;
+}
+.red{
+	color: #c02537;
+	background-color: transparent;
+}
+body > div.container-fluid.text-center > div > div.col-sm-8.text-left > div.col-sm-9.text-left > a.edit{
+	color: #ff5b62;
+}
+body > div.container-fluid.text-center > div > div.col-sm-8.text-left > div.col-sm-9.text-left > a.edit:hover{
+	color: #ff182f;
+}
+.edit{
+	color: #ff5b62;
+}
+.edit:hover{
+	color: #ff182f;
+}
+.selectboxes {
+
+	padding: 10px 0 4px 20px;
+}
+select {
+	-webkit-appearance: menulist;
+	box-sizing: border-box;
+	align-items: center;
+	white-space: pre;
+	-webkit-rtl-ordering: logical;
+	color: black;
+	background-color: white;
+	cursor: default;
+	border-width: 1px;
+	border-style: solid;
+	border-color: initial;
+	border-image: initial;
+}
+
+.selectboxes select {
+	width: 163px;
+	font-family: tahoma, verdana, "trebuchet ms", serif;
+	font-size: 12px;
+	margin-bottom: 9px;
+	padding: 4px 2px;
+}
+.clear {
+	height: 1px;
+	overflow: hidden;
+	clear: left;
+}
+
 html {
 	position: relative;
 	min-height: 100%;
 }
-
-/* header */
-
-.menu {
-	font-size: 22px;
-	font-weight: 700;
-	color: #000;
+.footer {
+	position: relative;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	min-height: 7%;
+	background-color: #555;
 }
-
-.menu__item {
-	margin-right: 15px;
-}
-
-.form__btn {
-	background: #000;
-	color: #1c31bd;
-	font-size: 16px;
-	font-weight: 700;
-	border-radius: 5px;
-	width: 125px;
-	border: 0;
-	cursor: pointer;
-	outline: none;
-	padding:0 10px 0;
-}
-
-.button {
-	width: auto;
-	margin-top:15px;
-	font-size: 25px;
-}
-
-.button_md {
-	width: auto;
-	margin-top:15px;
-	font-size: 20px;
-	margin: 3px 15px;
-}
-
-/* nav bar */
-
-.form__btn_menu {
-	margin: 3px 15px;
-	width: auto;
-}
-
-
-/* main */
-
-body {
-    background-size: 100% auto;
-    background: #a0c4b5 no-repeat fixed;
-}
-
-main {
-	padding-bottom: 200px;
-}
-
-ul, li {
-	display: block;
-	padding: 0;
+#child{
+	padding: 1%;
 	margin: 0;
 }
-
-table {
-	text-align: center;
-	background: #98baab
-}
-
-button:active, button:focus {
-	outline: none;
-}
-
-.content {
-	padding-top: 40px;
-}
-
-.center {
-	text-align: center;
-
-}
-
-.left {
-	padding-left: 15px;
-	text-align: left;
-}
-
-.right {
-	padding-right: 50px;
-	text-align: right;
-}
-
-.shadowed {
-	background-color: rgba(78, 9, 9, 0.35);
-	border-radius: 5px;
-	display: inline;
-	padding-left: 7px;
-	padding-right: 7px;
-}
-
-.form {
-	background-color: rgba(31, 76, 58, 0.75);
-	padding:10px;
-}
-
-.form__input {
-	background: #19cb82;
-	font-size: 20px;
-	border-radius: 5px;
-	width: 300px;
-	padding: 5px 0;
-	border: 0;
-	padding-left: 20px;
-}
-
-.form__input_l {
-	width: 500px;
-	height: auto;
-}
-
-
-
-/* footer */
-
-.footer {
-	position: absolute;
-	bottom: 0;
-	height: 100px;
-	background: #000;
-}
-
-
-

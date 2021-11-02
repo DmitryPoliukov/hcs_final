@@ -11,7 +11,8 @@ import java.util.List;
 
 public interface UserService {
 
-    User createUser(HttpServletRequest request) throws ServiceAuthorizationException, NotUniqueLoginEmailException;
+    User createUser(String login, byte[] password,byte[] password2, String email, String name,
+                    String secondName, String surName, String phone, String role) throws ServiceAuthorizationException, NotUniqueLoginEmailException;
 
     User addUser(User user) throws ServiceException, ServiceAuthorizationException;
 

@@ -13,6 +13,7 @@
 <fmt:message bundle="${locale}" key="locale.common.cancel" var="cancel"/>
 <fmt:message bundle="${locale}" key="locale.common.next" var="next"/>
 <fmt:message bundle="${locale}" key="locale.common.previous" var="previous"/>
+<fmt:message bundle="${locale}" key="locale.showAllTenantRequests.noRequests" var="noRequests"/>
 
 
 <!DOCTYPE html>
@@ -44,6 +45,11 @@
     <c:remove var="errorMessage" scope="request"/>
 </c:if>
 
+<c:if test="${requestScope.workRequestList.size()==0}">
+    <h2 class="text-center">${noRequests}</h2>
+</c:if>
+
+<c:if test="${requestScope.workRequestList.size()!=0}">
 <div class="container-fluid text-center wrapper">
     <br class="row content">
     <div class="col-sm-12 text-center mainContent">
@@ -137,6 +143,7 @@
     </div>
 </div>
 </div>
+</c:if>
 
 <c:import url="../menu/footer.jsp"/>
 </body>

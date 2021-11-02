@@ -43,7 +43,7 @@ public class ConnectionPool {
                 isInit = true;
                 logger.info("Success connection pool init");
             } catch (ClassNotFoundException | SQLException e) {
-                //log
+                logger.catching(e);
                 System.out.println("Unsuccess connection pool init");
             }
         } else {

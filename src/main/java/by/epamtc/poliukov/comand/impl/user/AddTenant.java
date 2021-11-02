@@ -20,7 +20,7 @@ import java.io.IOException;
 public class AddTenant implements Command {
     private static final Logger logger = LogManager.getLogger(AddTenant.class);
 
-    private static final String JSP_PAGE_PATH = "/DispatcherServlet?command=go-to-add-work-request";
+    private static final String JSP_PAGE_PATH = "/DispatcherServlet?command=main-page";
     private static final String USER = "user";
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR = "Tenant information not added";

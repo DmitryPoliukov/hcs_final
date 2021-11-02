@@ -23,7 +23,6 @@
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial scale=1">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Optional JavaScript -->
@@ -43,10 +42,8 @@
 </script>
 <c:import url="menu/menu.jsp"/>
 
-<c:if test="${requestScope.get('errorMessage')!=null}">
-    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
-    <c:remove var="errorMessage" scope="request"/>
-</c:if>
+
+<c:if test="${requestScope.get('errorMessage')==null}">
 <div class="container-fluid text-center wrapper">
     <div class="row content">
 
@@ -150,5 +147,10 @@
         return result;
     }
 </script>
+</c:if>
+<c:if test="${requestScope.get('errorMessage')!=null}">
+    <h4 class="red text-center"><c:out value="${requestScope.get('errorMessage')}"/></h4>
+    <c:remove var="errorMessage" scope="request"/>
+</c:if>
 </body>
 </html>

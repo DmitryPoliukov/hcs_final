@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.epamtc.poliukov.dao.ColumnName.*;
+import static by.epamtc.poliukov.dao.ColumnName.PASSWORD;
+
 
 public class Register implements Command {
     private static final String JSP_PAGE_PATH = "WEB-INF/jsp/guest/register.jsp";
@@ -29,6 +32,7 @@ public class Register implements Command {
     private static final String ERROR = "errorMessage";
     private static final String MESSAGE_OF_ERROR_1 = "Not unique login or email";
     private static final String MESSAGE_OF_ERROR_3 = "Check input parameters";
+    private static final String PASSWORD2 = "password2";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +41,18 @@ public class Register implements Command {
         UserService userService = serviceFactory.getUserService();
         User user;
         try {
-            user = userService.createUser(request);
+            String login = request.getParameter(USERNAME);
+            String email = request.getParameter(EMAIL);
+            String name = request.getParameter(NAME);
+            String secondName = request.getParameter(SECOND_NAME);
+            String surName = request.getParameter(SURNAME);
+            String phone = request.getParameter(PHONE);
+            String role = request.getParameter(ROLE_NAME);
+
+            byte[] password = request.getParameter(PASSWORD).getBytes();
+            byte[] password2 = request.getParameter(PASSWORD2).getBytes();
+            user = userService.createUser(login, password, password2, email, name, secondName,
+                    surName, phone, role);
             String previousQuery = CommandHelper.getPreviousQuery(request);
             UserService service = ServiceFactory.getInstance().getUserService();
             user = service.addUser(user);

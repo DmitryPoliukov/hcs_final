@@ -32,18 +32,8 @@ public class UserServiceImpl implements UserService {
 
     private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-    public User createUser(HttpServletRequest request) throws ServiceAuthorizationException, NotUniqueLoginEmailException {
-        String login = request.getParameter(USERNAME);
-        String email = request.getParameter(EMAIL);
-        String name = request.getParameter(NAME);
-        String secondName = request.getParameter(SECOND_NAME);
-        String surName = request.getParameter(SURNAME);
-        String phone = request.getParameter(PHONE);
-        String role = request.getParameter(ROLE_NAME);
-
-        byte[] password = request.getParameter(PASSWORD).getBytes();
-        byte[] password2 = request.getParameter("password2").getBytes();
-
+    public User createUser(String login, byte[] password,byte[] password2, String email, String name,
+                           String secondName, String surName, String phone, String role) throws ServiceAuthorizationException, NotUniqueLoginEmailException {
         if (!Validator.validate(login, email) ||
                 !Validator.validateLogin(login) ||
                 !Validator.validatePassword(password, password2) ||
@@ -269,7 +259,7 @@ public class UserServiceImpl implements UserService {
         User user;
         try {
             user = dao.getUserByLogin(login);
-            logger.log(Level.INFO, "Get user " + user.getLogin());
+            logger.log(Level.INFO, "Get user by login");
         } catch (DaoException e) {
             throw new ServiceException("Failed to get user by login", e);
         }
